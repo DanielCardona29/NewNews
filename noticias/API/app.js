@@ -81,7 +81,6 @@ app.get('/news/user/?:id', (req, res) => {
     });
 });
 
-
 //Atraer una noticia por id
 //Atraer una noticia por id /news/detail/3
 app.get('/news/detail/?:id', (req, res) => {
@@ -117,7 +116,6 @@ app.put('/news/update/:id', (req, res) => {
     }
 });
 
-
 //Envia una noticia
 //Este es un ejemplo la solicitud /news/set/1
 app.post('/news/set/', (req, res) => {
@@ -149,6 +147,71 @@ app.delete('/news/delete/:id', (req, res) => {
 
 //-------------------Estas son las rutas CRUD de los USUARIOS--------------------------------------------------------------------------------/////
 
+
+//validar la existencia del correo de un usuario en la base de datos
+app.get('/users/validationemail/?:email', (req, res) => {
+    const { email } = req.params;
+
+    const sql = `SELECT id FROM users WHERE email = '${email}'`;
+    connection.query(sql, (error, results) => {
+        if (error) console.log(error);
+        if (results.length > 0) {
+            res.json({ value: true });
+        } else {
+            res.send({ value: false })
+        }
+    });
+});
+
+//validar la existencia del usuario en la base de datos
+app.get('/users/validationuser/?:user', (req, res) => {
+    const { user } = req.params;
+
+    const sql = `SELECT id FROM users WHERE user = '${user}'`;
+    connection.query(sql, (error, results) => {
+        if (error) console.log(error);
+        if (results.length > 0) {
+            res.json({ value: true });
+        } else {
+            res.send({ value: false })
+        }
+    });
+});
+
+//validar el ingreso de los usuarios
+//Ejemplo de una consulta users/validationlogin/user/password
+app.get('/users/validationlogin/?:user/?:pass', (req, res) => {
+    const { pass, user } = req.params;
+    const sql = `SELECT id, access FROM users WHERE user = '${user}' and pass ='${pass}'`;
+    connection.query(sql, (error, results) => {
+    
+        if (error) console.log(error);
+        if (results.length > 0) {
+
+            let data = JSON.stringify(results);
+            data = JSON.parse(data);
+            if (data[0].access === "true") {
+                
+                res.json({
+                    results,
+                    access: true,
+                    value: true
+                });
+
+            } else {
+                
+                res.json({
+                    access: false,
+                    value: true
+                });
+
+            }
+        } else {
+            res.send({ value: false })
+        }
+    });
+});
+
 //Recuperar lista de usuarios
 app.get('/users', (req, res) => {
     const sql = 'SELECT id, user, email, access FROM users';
@@ -179,6 +242,7 @@ app.get('/users/?:id', (req, res) => {
 //Creando un usuario nuevo
 app.post('/users', (req, res) => {
     const { user, pass, email, access } = req.body;
+    console.log(req.body);
     if (user && pass && email) {
         let sql = `INSERT INTO users SET ?`;
         const usersOBJ = {
