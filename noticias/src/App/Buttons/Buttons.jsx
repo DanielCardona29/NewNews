@@ -23,7 +23,10 @@ const Button = (props) => {
             onSubmit={props.submit}
             name={props.name}
             id={props.id}
-            className={props.classType}>{props.content}</button>;
+            className={props.classType}
+            hidden={props.hiddenType}
+            >{props.content}
+            </button>;
 
     } else if (props.type === 'a') {
 
