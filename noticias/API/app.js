@@ -228,7 +228,7 @@ app.get('/users', (req, res) => {
 //recuperrar un Usuario por ID
 app.get('/users/?:id', (req, res) => {
     const { id } = req.params;
-    const sql = `SELECT id, user, email, access FROM users WHERE id = '${id}'`;
+    const sql = `SELECT user, email, access FROM users WHERE id = '${id}'`;
     connection.query(sql, (error, results) => {
         if (error) console.log(error);
         if (results.length > 0) {

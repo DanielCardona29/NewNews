@@ -8,36 +8,52 @@ import "../Styles/Principales/Home.scss";
 import { useState } from "react";
 
 const Home = (props) => {
-  const [formState, setFormState] = useState(false);
 
-  const form = () => (formState ? <InsForm /> : <LoginForm />);
 
-  const handleChange = () => (formState ? setFormState(false) : setFormState (true))
+
+  const [formState, setFormState] = useState({
+    value: false,
+    name: "inscribirse",
+  });
+
+  const handleChange = () => {
+    formState.value
+      ? setFormState({ value: false, name: "inscribirse" })
+      : setFormState({ value: true, name: "ingresar" });
+  };
+
+  const form = () =>
+    formState.value ? (
+      <InsForm action={handleChange} />
+    ) : (
+      <LoginForm action={handleChange} />
+    );
 
   const formulario = form();
-
   const Home = (
-    <div>
+    <div className="home">
       <div className="wrapper">
         <div className="title">
           <h1>New News</h1>
         </div>
+
         <div className="content">
           <div className="noticia">
             <NewP />
           </div>
-          <div className="form">{formulario}</div>
-
-          <div className="changer">
-            <Button
-              type={"button"}
-              content={"Siguiente"}
-              classType={"Mybtn btn4"}
-              click={() => handleChange()}
-              id={"ButtonNext"}
-              name={"ButtonNext"}
-              hiddenType={false}
-            />
+          <div className="form">
+            <div className="formualrio">{formulario}</div>
+            <div className="buttonIns">
+              <Button
+                type={"button"}
+                content={formState.name}
+                classType={"Mybtn btn2"}
+                click={() => handleChange()}
+                id={"Registrarse"}
+                name={"Registrarse"}
+                hiddenType={false}
+              />
+            </div>
           </div>
         </div>
       </div>

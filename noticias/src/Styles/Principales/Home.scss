@@ -1,0 +1,50 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.content {
+  display: flex;
+  height: 80%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.content > .noticia {
+  width: 50%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.content > .form {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.buttonIns {
+  margin-top: 15px;
+}
+
+
+.formualrio{
+    width: 100%;
+}
+
+.headerContent{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: #cccccc;
+  border-radius: 6px;
+}

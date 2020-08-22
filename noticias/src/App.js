@@ -10,7 +10,9 @@ import {
 
 
 // import InsForm from './App/Forms/insForm.jsx';
-import Home from './Pages/Home.jsx'
+import Home from './Pages/Home.jsx';
+import Principal from './Pages/Principal.jsx';
+import ErrorPage from './Pages/ErrorPage.jsx';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path='/home' exact component={Principal} />
+          <Route component={ErrorPage} />
         </Switch>
       </Router>
 

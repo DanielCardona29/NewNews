@@ -1,21 +1,39 @@
-.invali{
-    border: 1px solid red !important;
+.invali {
+  border: 1px solid red !important;
 }
 
-.vali{
-    border: 1px solid green;
+.vali {
+  border: 1px solid green;
 }
 
-.incoPass{
-    display: none;
-    color: red;
+.incoPass {
+  display: none;
+  color: red;
 }
 
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.buttons > .Mybtn {
+
+        margin-left: 5px;
+    
+}
+
+
+form{
+  width: 80%;
 }
