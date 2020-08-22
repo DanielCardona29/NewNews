@@ -5,19 +5,21 @@ const Header = (props) => {
 
     const HeaderLogin = (
         <div className="header">
-            <div className="title">
-                <h2>New News</h2>
+            <div className="infoContent">
+                <h3>New News</h3>
             </div>
-            <div className="userInfo">
+            <div className="infoContent">
                 <div className="userName">
                     <label>{props.userName}</label>
                 </div>
             </div>
-            <div className="config">
-
-            </div>
-            <div className="salir">
-            
+            <div className="infoContent">
+                <div className="icon buttonAction">
+                    <div className="config"></div>
+                </div>
+                <div className="icon buttonAction">
+                    <div className="salir"></div>
+                </div>
             </div>
         </div>
     );

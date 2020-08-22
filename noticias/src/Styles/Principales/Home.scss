@@ -36,9 +36,32 @@
   margin-top: 15px;
 }
 
+.header{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
 
 .formualrio{
     width: 100%;
+}
+
+.infoContent{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoContent:nth-child(3){
+  align-items: initial;
+}
+
+.container-fluid{
+     padding-right: 0px !important; 
+     padding-left: 0px !important;
 }
 
 .headerContent{
@@ -47,4 +70,28 @@
   justify-content: center;
   background: #cccccc;
   border-radius: 6px;
+}
+.buttonAction:active{
+  transform: scale(1.1);
+}
+.icon{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.icon>div{
+  max-width: 50px;
+  max-height: 50px;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.config{
+  background-image: url('../../images/iconos/svg/settings-3.svg');
+}
+
+.salir{
+  background-image: url('../../images/iconos/svg/exit-2.svg');
 }
