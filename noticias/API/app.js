@@ -6,6 +6,7 @@ const _ = require('underscore');
 const fs = require('fs');
 const PORT = process.env.PORT || 5000;
 const uniqid = require('uniqid');
+const { json } = require('body-parser');
 
 app.use(bodyParser.json());
 //MySqul
@@ -145,6 +146,47 @@ app.delete('/news/delete/:id', (req, res) => {
     });
 })
 
+
+
+//Obtener las estadisticas de una noticia
+app.get('/news/stats/:id', (req, res) => {
+    const { id } = req.params;
+
+    const sql = `SELECT likes, views, dislikes FROM stats WHERE  newsid = '${id}'`;
+    connection.query(sql, (error, results) => {
+        if (error) console.log(error);
+
+        if (results.length > 0) {
+            let likes = 0;
+            let dislikes = 0;
+            let views = 0;
+            results.forEach(element => {
+                likes = element.likes + likes;
+                dislikes = element.dislikes + dislikes;
+                views= element.views + views;
+            });
+
+            const statsOBj = {
+                likes: likes,
+                dislikes: dislikes,
+                views: views
+            }
+
+            res.json({ ...statsOBj, value: true });
+        } else {
+            return 0;
+        }
+
+    });
+
+
+
+    
+    // res.send(JSON.stringify(statsOBj)
+
+})
+
+
 //-------------------Estas son las rutas CRUD de los USUARIOS--------------------------------------------------------------------------------/////
 
 
@@ -184,14 +226,14 @@ app.get('/users/validationlogin/?:user/?:pass', (req, res) => {
     const { pass, user } = req.params;
     const sql = `SELECT id, access FROM users WHERE user = '${user}' and pass ='${pass}'`;
     connection.query(sql, (error, results) => {
-    
+
         if (error) console.log(error);
         if (results.length > 0) {
 
             let data = JSON.stringify(results);
             data = JSON.parse(data);
             if (data[0].access === "true") {
-                
+
                 res.json({
                     results,
                     access: true,
@@ -199,7 +241,7 @@ app.get('/users/validationlogin/?:user/?:pass', (req, res) => {
                 });
 
             } else {
-                
+
                 res.json({
                     access: false,
                     value: true

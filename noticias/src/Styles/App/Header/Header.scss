@@ -6,6 +6,7 @@ $font: "Barlow Semi Condensed", sans-serif;
     font-family: $font;
     position: fixed;
     top: 0px;
+    z-index: 999;
 }
 
 .infoContent {
@@ -87,7 +88,7 @@ $font: "Barlow Semi Condensed", sans-serif;
 .configBar {
     display: flex;
     width: 100%;
-    height: 94vh;
+    height: 100%;
     transition: 0.5s;
     animation: deCeroAcien 0.5s;
 
@@ -122,8 +123,9 @@ ul{
 }
 
 .fuera{
-    position: absolute;
+    position: fixed;
     top: 36px;
+    z-index: 1000;
 }
 
 @keyframes close {

@@ -39,10 +39,6 @@ const Header = (props) => {
 
     }
 
-    if(!Menu){
-        $('#fuera').css("display", "none");
-    }
-
 
     
     const HeaderLogin = (
