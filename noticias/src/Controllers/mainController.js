@@ -1,4 +1,3 @@
-import { wait } from "@testing-library/react";
 
 class MainControlle {
 

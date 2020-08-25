@@ -1,7 +1,148 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap");
 
-$font: 'Barlow Semi Condensed', sans-serif;
+$font: "Barlow Semi Condensed", sans-serif;
 
-.header{
+.header {
     font-family: $font;
+    position: fixed;
+    top: 0px;
+}
+
+.infoContent {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoContent:nth-child(3) {
+    align-items: initial;
+}
+
+.container-fluid {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+
+.headerContent {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+}
+.buttonAction {
+    cursor: pointer;
+    user-select: none;
+}
+.buttonAction:hover{
+    transform: scale(1.1);
+}
+.buttonAction:active {
+    transform: scale(1);
+}
+.icon {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.icon > div {
+    max-width: 30px;
+    max-height: 30px;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.config {
+    background-image: url("../../../images/iconos/svg/controls-4.svg");
+}
+
+
+.Link {
+    text-decoration: none;
+    color: black;
+}
+
+.lateralA {
+    background-color: black;
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+}
+
+.lateralB {
+    background-color: #ffffff;
+    width: 350px;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+
+
+.configBar {
+    display: flex;
+    width: 100%;
+    height: 94vh;
+    transition: 0.5s;
+    animation: deCeroAcien 0.5s;
+
+    
+}
+
+
+.classClose{
+    animation: close 0.3s;
+
+}
+
+
+.Configwrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    font-family: $font;
+}
+
+ul{
+    list-style: none;
+}
+
+.dentro{
+    position: relative;
+    top: 3px;
+}
+
+.fuera{
+    position: absolute;
+    top: 36px;
+}
+
+@keyframes close {
+    0%{
+        width: 350px;
+        opacity: 1;
+    }
+    100%{
+        width: 0px;
+        opacity: 0;
+    }
+}
+
+
+@keyframes deCeroAcien {
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 100%;
+    }
 }

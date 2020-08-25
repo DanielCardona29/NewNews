@@ -5,11 +5,13 @@ class NewsController {
     let url = `http://localhost:5000/news/`;
     let data = await fetch(url);
     const response = await data.json();
-    data = {
-      datos: await response.results,
-      value: response.value,
-      size: await response.results.length
-    }
+
+    if (response.value)
+      data = {
+        datos: await response.results,
+        value: response.value,
+        size: await response.results.length
+      }
     return data;
   }
 

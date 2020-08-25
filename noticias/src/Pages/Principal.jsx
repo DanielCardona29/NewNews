@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
+import NewsList from '../App/NewsList/NewsList';
 
 
 import MainController from '../Controllers/mainController.js';
@@ -37,11 +38,18 @@ class Principal extends React.Component {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-                    <div className="headerContent">
-                        <Header userName ={this.state.user}/>
+
+                    <Header userName={this.state.user} Ok={this.state.ok} />
+
+
+                    <div className="contenidoWrapper">
+                        <div className="recientes">
+                            <NewsList />
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div >
         );
 
         try {

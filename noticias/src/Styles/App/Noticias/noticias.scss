@@ -81,3 +81,12 @@
 .textp::-webkit-scrollbar-thumb:active {
   background-color: #999999;
 }
+
+
+.contenidoWrapper{
+  position: absolute;
+  top: 36px;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+}
