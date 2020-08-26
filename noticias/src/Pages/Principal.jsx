@@ -43,9 +43,17 @@ class Principal extends React.Component {
 
 
                     <div className="contenidoWrapper">
-                        <div className="recientes">
-                            <NewsList />
-
+                        <div className="wrapperListContent">
+                            <h2>Ultimas subidas</h2>
+                            <NewsList id={'lista1'} search={'LastTen'}/>
+                        </div>
+                        <div className="wrapperListContent">
+                            <h2>Mas populares</h2>
+                            <NewsList id={'lista2'} search={'BestPopulars'}/>
+                        </div>
+                        <div className="wrapperListContent">
+                            <h2>Mejores calificadas</h2>
+                            <NewsList id={'lista3'} search={'BestCalification'} />
                         </div>
                     </div>
                 </div>

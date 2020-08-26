@@ -7,6 +7,7 @@ const fs = require('fs');
 const PORT = process.env.PORT || 5000;
 const uniqid = require('uniqid');
 const { json } = require('body-parser');
+const { result } = require('underscore');
 
 app.use(bodyParser.json());
 //MySqul
@@ -53,13 +54,175 @@ app.get('/', (req, res) => {
 
 //-------------------Estas son las rutas CRUD de los NEWS--------------------------------------------------------------------------------/////
 
+//Obtener las estadisticas likes, dislikes, views de una noticia
+app.get('/news/stats/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT likes, views, dislikes FROM stats WHERE  newsid = '${id}'`;
+    connection.query(sql, (error, results) => {
+
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            let likes = 0;
+            let dislikes = 0;
+            let views = 0;
+            results.forEach(element => {
+                likes = element.likes + likes;
+                dislikes = element.dislikes + dislikes;
+                views = element.views + views;
+            });
+
+            const statsOBj = {
+                likes: likes,
+                dislikes: dislikes,
+                views: views
+            }
+
+            res.json({ ...statsOBj });
+        } else {
+
+            const statsOBj = {
+                likes: 0,
+                dislikes: 0,
+                views: 0
+            }
+
+            res.json({ ...statsOBj });
+        }
+
+    });
+})
+
+//Obtener los comentarios de una noticia
+app.get('/news/comments/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT * FROM coments WHERE idnewcoment = '${id}'`
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            const response = {
+                value: true,
+                coments: results.length,
+                results: results
+            }
+            res.json({ response })
+        } else {
+            const response = {
+                value: true,
+                coments: 0,
+                results: []
+            }
+            res.json({ response })
+        }
+    })
+});
+
+//Obtener las 10 ultimas noticias registradas
+app.get('/news/ult/news', (req, res) => {
+    const sql = ' SELECT * FROM news ORDER BY date DESC LIMIT 10';
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ results, value: true });
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+//Obtener las diez noticias mas populares
+app.get('/news/best/popular/news', (req, res) => {
+    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes FROM news, (SELECT newsid, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid`;
+
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            let dataRow = [];
+
+            results.forEach(element => {
+                dataRow = [
+                    ...dataRow,
+                    {
+                        id: element.id,
+                        title: element.title,
+                        content: element.content,
+                        img: element.img,
+                        date: element.date,
+                        userid: element.userid,
+                        stats: {
+                            views: element.views,
+                            likes: element.likes,
+                            dislikes: element.dislikes
+                        }
+
+                    }
+                ]
+            })
+
+            res.json({ results: dataRow, value: true })
+
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+//Obtener las noticias mejor calificadas
+app.get('/news/best/calificaties/news', (req, res) => {
+    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid ORDER BY stats.popularity DESC`;
+
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            let dataRow = [];
+
+            results.forEach(element => {
+                dataRow = [
+                    ...dataRow,
+                    {
+                        id: element.id,
+                        title: element.title,
+                        content: element.content,
+                        img: element.img,
+                        date: element.date,
+                        userid: element.userid,
+                        stats: {
+                            views: element.views,
+                            likes: element.likes,
+                            dislikes: element.dislikes
+                        }
+
+                    }
+                ]
+            })
+
+            res.json({ results: dataRow, value: true })
+
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+
 
 //Recuperar lista de noticias
 app.get('/news', (req, res) => {
     const sql = ' SELECT * FROM news ORDER BY date DESC';
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ results, value: true });
         } else {
             res.json({ value: false })
@@ -73,8 +236,10 @@ app.get('/news/user/?:id', (req, res) => {
     const { id } = req.params;
     const sql = `SELECT * FROM news WHERE userid = (SELECT id FROM users WHERE id = '${id}')`;
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ results, value: true });
         } else {
             res.json({ value: false })
@@ -88,8 +253,10 @@ app.get('/news/detail/?:id', (req, res) => {
     const { id } = req.params;
     const sql = `SELECT * FROM news WHERE id = '${id}'`;
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ results, value: true });
         } else {
             res.json({ value: false })
@@ -148,43 +315,7 @@ app.delete('/news/delete/:id', (req, res) => {
 
 
 
-//Obtener las estadisticas de una noticia
-app.get('/news/stats/:id', (req, res) => {
-    const { id } = req.params;
 
-    const sql = `SELECT likes, views, dislikes FROM stats WHERE  newsid = '${id}'`;
-    connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-
-        if (results.length > 0) {
-            let likes = 0;
-            let dislikes = 0;
-            let views = 0;
-            results.forEach(element => {
-                likes = element.likes + likes;
-                dislikes = element.dislikes + dislikes;
-                views= element.views + views;
-            });
-
-            const statsOBj = {
-                likes: likes,
-                dislikes: dislikes,
-                views: views
-            }
-
-            res.json({ ...statsOBj, value: true });
-        } else {
-            return 0;
-        }
-
-    });
-
-
-
-    
-    // res.send(JSON.stringify(statsOBj)
-
-})
 
 
 //-------------------Estas son las rutas CRUD de los USUARIOS--------------------------------------------------------------------------------/////
@@ -196,8 +327,10 @@ app.get('/users/validationemail/?:email', (req, res) => {
 
     const sql = `SELECT id FROM users WHERE email = '${email}'`;
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ value: true });
         } else {
             res.send({ value: false })
@@ -211,8 +344,10 @@ app.get('/users/validationuser/?:user', (req, res) => {
 
     const sql = `SELECT id FROM users WHERE user = '${user}'`;
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ value: true });
         } else {
             res.send({ value: false })
@@ -227,8 +362,10 @@ app.get('/users/validationlogin/?:user/?:pass', (req, res) => {
     const sql = `SELECT id, access FROM users WHERE user = '${user}' and pass ='${pass}'`;
     connection.query(sql, (error, results) => {
 
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
 
             let data = JSON.stringify(results);
             data = JSON.parse(data);
@@ -258,8 +395,10 @@ app.get('/users/validationlogin/?:user/?:pass', (req, res) => {
 app.get('/users', (req, res) => {
     const sql = 'SELECT id, user, email, access FROM users';
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json(results);
         } else {
             res.json({ value: false })
@@ -272,8 +411,10 @@ app.get('/users/?:id', (req, res) => {
     const { id } = req.params;
     const sql = `SELECT user, email, access FROM users WHERE id = '${id}'`;
     connection.query(sql, (error, results) => {
-        if (error) console.log(error);
-        if (results.length > 0) {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
             res.json({ results, value: true });
         } else {
             res.send({ value: false })

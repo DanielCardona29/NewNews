@@ -39,6 +39,14 @@ const Header = (props) => {
 
     }
 
+    //Ocultar o no el menu lateral
+    if(!Menu){
+        $('#fuera').css('display','none')
+    }else{
+        $('#fuera').css('display','block')
+
+    }
+
 
     
     const HeaderLogin = (
