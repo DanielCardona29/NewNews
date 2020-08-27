@@ -4,7 +4,7 @@ import NewsController from "./NewsController.js";
 import Button from "../Buttons/Buttons.jsx";
 import "../../Styles/App/Noticias/noticias.scss";
 import ErrorPage from "../../Pages/ErrorPage.jsx";
-
+import Loader from '../../App/Loader/Loader.jsx';
 //Importamos el controlador de noticias
 const controller = new NewsController();
 
@@ -75,7 +75,8 @@ const NewP = (props) => {
     const noData = (
       <div className="container">
         <div className="wrapper">
-          <h3>Lo lamentamos, no hay noticias para mostrar</h3>
+        
+        <Loader content = {'noticia'}/>
         </div>
       </div>
     );

@@ -6,8 +6,6 @@ const _ = require('underscore');
 const fs = require('fs');
 const PORT = process.env.PORT || 5000;
 const uniqid = require('uniqid');
-const { json } = require('body-parser');
-const { result } = require('underscore');
 
 app.use(bodyParser.json());
 //MySqul
