@@ -74,7 +74,6 @@ class NewsController {
                 comentarios: comentario.response.coments
             }
         }
-        console.log(data);
         return data
     }
 
@@ -91,7 +90,6 @@ class NewsController {
                 comentarios: comentario.response.coments
             }
         }
-        console.log(data);
         return data
     }
 }

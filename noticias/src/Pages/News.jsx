@@ -29,40 +29,42 @@ class NewsPage extends React.Component {
             });
 
         //Ahora extraemos la noticia y la ponemos en el estado
-        let NewDetail  = await fetch(`http://localhost:5000/news/detail/${this.props.match.params.id}`);
+        let NewDetail = await fetch(`http://localhost:5000/news/detail/${this.props.match.params.id}`);
         let response = await NewDetail.json();
-        if(response.value){
+        if (response.value) {
             this.setState({
                 ...this.state,
                 NewElement: response.results[0]
             })
-        }else{
+        } else {
             this.setState({
                 ...this.state,
                 NewElement: false
             })
         }
-       
-        
-        
-        
+
+
+
+
     }
     render() {
-        const Page = (
-            <div className="container-fluid">
-                <div className="wrapper">
 
-                    <Header userName={this.state.user} Ok={this.state.ok} />
-
-
-                    <div className="contenidoWrapper">
-                        
-                    </div>
-                </div>
-            </div >
-        );
 
         try {
+            const Page = (
+                <div className="container-fluid">
+                    <div className="wrapper">
+
+                        <Header userName={this.state.user} Ok={this.state.ok} />
+
+
+                        <div className="contenidoWrapper">
+
+                        </div>
+                    </div>
+                </div >
+            );
+            
             if (this.state.ok) {
 
                 return Page;

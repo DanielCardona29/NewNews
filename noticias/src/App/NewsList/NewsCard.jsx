@@ -1,14 +1,27 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import $ from 'jquery';
 
 //Importamos los estilos 
 import '../../Styles/App/NewsList/CardsList.scss'
+//Importramos la clase controladora
+import StatsController from '../../Controllers/statsController.js';
 
+const Controller = new StatsController();
 
 const NewsCard = (props) => {
+    //este estado se encargara de saber si un usario ya vio esta noticia o no
+    const [saw, setSaw] = useState(false)
+
+    //esta funcion se encargara de enviar la visita a la base de datos
+    const cardClick = async () => {
+        
+        const userid = sessionStorage.getItem('userid');
+        await Controller.SendVisit(props.id, userid).then(response => {console.log(response);})
+    }
+
 
     const card = (
-        <div className="card">
+        <div className="card" id={`card${props.id}`} onClick={() => cardClick()}>
             <div className="card-image" style={{ backgroundImage: `url(${props.image})` }}></div>
             <div className="card-text">
                 <span className="date">{props.date}</span>
@@ -34,9 +47,14 @@ const NewsCard = (props) => {
                 </div>
 
             </div>
-        </div>);
+        </div>
+    );
 
-    setTimeout(() => { document.getElementById(`content${props.clave}`).innerHTML = props.content }, 100)
+
+    setTimeout(() => {
+        document.getElementById(`content${props.clave}`).innerHTML = props.content;
+
+    }, 100)
 
     return card
 }

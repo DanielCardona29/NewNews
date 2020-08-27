@@ -52,71 +52,6 @@ app.get('/', (req, res) => {
 
 //-------------------Estas son las rutas CRUD de los NEWS--------------------------------------------------------------------------------/////
 
-//Obtener las estadisticas likes, dislikes, views de una noticia
-app.get('/news/stats/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `SELECT likes, views, dislikes FROM stats WHERE  newsid = '${id}'`;
-    connection.query(sql, (error, results) => {
-
-        if (error) {
-            console.log(`Hubo un error en la base de datos`);
-            res.json({ value: false })
-        } else if (results.length > 0) {
-            let likes = 0;
-            let dislikes = 0;
-            let views = 0;
-            results.forEach(element => {
-                likes = element.likes + likes;
-                dislikes = element.dislikes + dislikes;
-                views = element.views + views;
-            });
-
-            const statsOBj = {
-                likes: likes,
-                dislikes: dislikes,
-                views: views
-            }
-
-            res.json({ ...statsOBj });
-        } else {
-
-            const statsOBj = {
-                likes: 0,
-                dislikes: 0,
-                views: 0
-            }
-
-            res.json({ ...statsOBj });
-        }
-
-    });
-})
-
-//Obtener los comentarios de una noticia
-app.get('/news/comments/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `SELECT * FROM coments WHERE idnewcoment = '${id}'`
-    connection.query(sql, (error, results) => {
-        if (error) {
-            console.log(`Hubo un error en la base de datos`);
-            res.json({ value: false })
-        } else if (results.length > 0) {
-            const response = {
-                value: true,
-                coments: results.length,
-                results: results
-            }
-            res.json({ response })
-        } else {
-            const response = {
-                value: true,
-                coments: 0,
-                results: []
-            }
-            res.json({ response })
-        }
-    })
-});
 
 //Obtener las 10 ultimas noticias registradas
 app.get('/news/ult/news', (req, res) => {
@@ -172,44 +107,6 @@ app.get('/news/best/popular/news', (req, res) => {
     });
 });
 
-//Obtener las noticias mejor calificadas
-app.get('/news/best/calificaties/news', (req, res) => {
-    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid ORDER BY stats.popularity DESC`;
-
-    connection.query(sql, (error, results) => {
-        if (error) {
-            console.log(`Hubo un error en la base de datos`);
-            res.json({ value: false })
-        } else if (results.length > 0) {
-            let dataRow = [];
-
-            results.forEach(element => {
-                dataRow = [
-                    ...dataRow,
-                    {
-                        id: element.id,
-                        title: element.title,
-                        content: element.content,
-                        img: element.img,
-                        date: element.date,
-                        userid: element.userid,
-                        stats: {
-                            views: element.views,
-                            likes: element.likes,
-                            dislikes: element.dislikes
-                        }
-
-                    }
-                ]
-            })
-
-            res.json({ results: dataRow, value: true })
-
-        } else {
-            res.json({ value: false })
-        }
-    });
-});
 
 
 
@@ -300,6 +197,9 @@ app.post('/news/set/', (req, res) => {
         });
     }
 });
+
+
+
 
 //Eliminar una noticia
 //este es un ejemplo de la solicitud /news/delete/1
@@ -465,3 +365,160 @@ app.delete('/users/:id', (req, res) => {
         (error) ? console.log(error) : res.json({ value: true });
     });
 })
+
+// -----------------------------CONTROLADOR DE ESTADISTCAS
+//Obtener las estadisticas likes, dislikes, views de una noticia
+app.get('/news/stats/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT likes, views, dislikes FROM stats WHERE  newsid = '${id}'`;
+    connection.query(sql, (error, results) => {
+
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            let likes = 0;
+            let dislikes = 0;
+            let views = 0;
+            results.forEach(element => {
+                likes = element.likes + likes;
+                dislikes = element.dislikes + dislikes;
+                views = element.views + views;
+            });
+
+            const statsOBj = {
+                likes: likes,
+                dislikes: dislikes,
+                views: views
+            }
+
+            res.json({ ...statsOBj });
+        } else {
+
+            const statsOBj = {
+                likes: 0,
+                dislikes: 0,
+                views: 0
+            }
+
+            res.json({ ...statsOBj });
+        }
+
+    });
+})
+
+//Obtener los comentarios de una noticia
+app.get('/news/comments/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT * FROM coments WHERE idnewcoment = '${id}'`
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            const response = {
+                value: true,
+                coments: results.length,
+                results: results
+            }
+            res.json({ response })
+        } else {
+            const response = {
+                value: true,
+                coments: 0,
+                results: []
+            }
+            res.json({ response })
+        }
+    })
+});
+
+//Obtener las noticias mejor calificadas
+app.get('/news/best/calificaties/news', (req, res) => {
+    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid ORDER BY stats.popularity DESC`;
+
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            let dataRow = [];
+
+            results.forEach(element => {
+                dataRow = [
+                    ...dataRow,
+                    {
+                        id: element.id,
+                        title: element.title,
+                        content: element.content,
+                        img: element.img,
+                        date: element.date,
+                        userid: element.userid,
+                        stats: {
+                            views: element.views,
+                            likes: element.likes,
+                            dislikes: element.dislikes
+                        }
+
+                    }
+                ]
+            })
+
+            res.json({ results: dataRow, value: true })
+
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+//Consultar si un usuario ya tiene una visita registrada en una noticia
+app.get('/news/visit/consult/?:newsid/?:userid', (req, res) => {
+    const { newsid, userid } = req.params;
+    console.log(req.body);
+    if (newsid && userid) {
+        const sql = `SELECT userid FROM stats WHERE userid = '${userid}' AND newsid = ${newsid}`;
+        connection.query(sql, (error, results) => {
+            if (error) {
+                console.log(`Hubo un error en la base de datos ${error}`);
+                res.json({ value: false })
+            } else if (results.length > 0) {
+
+                res.json({ value: true });
+            } else {
+                res.json({ value: false })
+            }
+        });
+    } else {
+        res.json({ value: false });
+    }
+})
+
+//Agregar la visita de un usuario a las estadisiticas.
+app.post('/news/visit/', (req, res) => {
+    const { newsid, userid } = req.body;
+    console.log(req.params);
+    if (newsid && userid) {
+        const sqlObject = {
+            likes: 0,
+            dislikes: 0,
+            views: 1,
+            newsid: newsid,
+            userid: userid
+        }
+        const sql = 'INSERT INTO stats SET ?';
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar una visita ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true });
+            }
+        })
+
+    } else {
+        res.json({ value: false });
+    }
+})
+
+

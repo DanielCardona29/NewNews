@@ -13,6 +13,15 @@ class MainControlle {
         return element;
     }
 
+    newsConsult = async (id) => {
+        const url = `http://localhost:5000/news/detail/${id}`
+        const element = await fetch(url)
+            .then(element => {
+                return element;
+            })
+        return element;
+    }
+
     //Verificamos si un usuario se logueado correctamente
     userVerifi = async (access) => {
         //Sacamos el id del sessionStorage
