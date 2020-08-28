@@ -6,6 +6,7 @@ import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
 import NewsList from '../App/NewsList/NewsList';
+import Footer from '../App/Footer/Footer.jsx';
 
 
 import MainController from '../Controllers/mainController.js';
@@ -56,6 +57,7 @@ class Principal extends React.Component {
                             <NewsList id={'lista3'} search={'BestCalification'} />
                         </div>
                     </div>
+                    <Footer />
                 </div>
             </div >
         );

@@ -44,7 +44,6 @@ const Header = (props) => {
         $('#fuera').css('display','none')
     }else{
         $('#fuera').css('display','block')
-
     }
 
 
@@ -67,7 +66,7 @@ const Header = (props) => {
 
                 </div>
             </div>
-            <div className="configBar fuera" id="fuera">
+            <div className="configBar fuera" id="fuera" >
 
                 {(() => {
                     if (Menu) {

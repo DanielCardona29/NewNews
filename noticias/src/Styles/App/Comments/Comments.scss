@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@300&display=swap");
+$font: "Barlow", sans-serif;
+
+.comments {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comentarios {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: $font;
+}
+.infoCommets {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.infoCommets > h1 {
+    display: flex;
+    justify-content: center;
+}
+.infoCommets > label {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+}
+.comentariosContent {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comentariosContent > ul {
+    width: 95%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.comentariosContent > ul > li {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    -webkit-box-shadow: 9px -4px 19px -16px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 9px -4px 19px -16px rgba(0, 0, 0, 0.75);
+    box-shadow: 9px -4px 19px -16px rgba(0, 0, 0, 0.75);
+    justify-content: center;
+}
+.commentWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 0.5px solid black;
+    border-radius: 8px;
+}
+.userCommetInfo {
+    width: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.userCommetInfo > label {
+    font-weight: bold;
+}
+.CommentContent {
+    width: 100%;
+    height: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.oscuro {
+    background-color: #ccc;
+}
+.CommentStats {
+    width: 100%;
+    height: auto;
+    display: flex;
+    margin-left: 30px;
+    margin-bottom: 15px;
+    justify-content: right;
+}
+
+.CommentStats>label{
+    margin-left: 10px;
+}
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.like {
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background: red;
+}
+
+.like:before,
+.like:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: red;
+}
+
+.like:before,
+.like:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: red;
+    position: absolute;
+}
+
+.like:before {
+    top: 0;
+    left: -10px;
+}
+
+.like:after {
+    top: -10px;
+}
+
+.dislike {
+    background-image: url(../../../images/iconos/svg/dislike-1.svg);
+}

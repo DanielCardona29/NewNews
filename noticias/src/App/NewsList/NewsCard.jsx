@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import $ from 'jquery';
+import React from 'react';
 
 //Importamos los estilos 
 import '../../Styles/App/NewsList/CardsList.scss'
@@ -10,7 +9,6 @@ const Controller = new StatsController();
 
 const NewsCard = (props) => {
     //este estado se encargara de saber si un usario ya vio esta noticia o no
-    const [saw, setSaw] = useState(false)
 
     //esta funcion se encargara de enviar la visita a la base de datos
     const cardClick = async () => {

@@ -32,7 +32,7 @@ const Home = (props) => {
   const formulario = form();
   const Home = (
     <div className="home">
-      <div className="wrapper">
+      <div className="wrapperPrincipal">
         <div className="title">
           <h1>New News</h1>
         </div>

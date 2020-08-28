@@ -407,31 +407,7 @@ app.get('/news/stats/:id', (req, res) => {
     });
 })
 
-//Obtener los comentarios de una noticia
-app.get('/news/comments/:id', (req, res) => {
-    const { id } = req.params;
-    const sql = `SELECT * FROM coments WHERE idnewcoment = '${id}'`
-    connection.query(sql, (error, results) => {
-        if (error) {
-            console.log(`Hubo un error en la base de datos`);
-            res.json({ value: false })
-        } else if (results.length > 0) {
-            const response = {
-                value: true,
-                coments: results.length,
-                results: results
-            }
-            res.json({ response })
-        } else {
-            const response = {
-                value: true,
-                coments: 0,
-                results: []
-            }
-            res.json({ response })
-        }
-    })
-});
+
 
 //Obtener las noticias mejor calificadas
 app.get('/news/best/calificaties/news', (req, res) => {
@@ -521,4 +497,117 @@ app.post('/news/visit/', (req, res) => {
     }
 })
 
+// -------------------- Metodo crud de los comentarios --------------------------------------------
 
+
+//Obtener los comentarios de una noticia
+app.get('/news/comments/:id', (req, res) => {
+    const { id } = req.params;
+    const sql = `SELECT * FROM coments WHERE idnewcoment = '${id}'`
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            const response = {
+                value: true,
+                coments: results.length,
+                results: results
+            }
+            res.json({ response })
+        } else {
+            const response = {
+                value: true,
+                coments: 0,
+                results: []
+            }
+            res.json({ response })
+        }
+    })
+});
+
+//Obtener los likes que tiene un comentario
+app.get('/news/comments/likes/:commentid/:newsid/', (req, res) => {
+    const { newsid, commentid } = req.params;
+    console.log(req.params);
+    let sql = `SELECT SUM(likeCom) as likes FROM comentslikes WHERE commentid = '${commentid}' AND newsid = '${newsid}'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Error al extraer los likes del comentario ${commentid} de la noticia ${newsid} Error: ${error}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true, likes: results[0].likes })
+        } else {
+            res.json({ value: false })
+        }
+    });
+})
+//Consultar si un usuario tiene un like registrado en un comentario
+app.get('/news/comments/likes/:commentid/:newsid/:userid', (req, res) => {
+    const { newsid, commentid, userid } = req.params;
+    console.log(req.params);
+    let sql = `SELECT userid FROM comentslikes WHERE newsid='${newsid}' AND userid='${userid}' AND commentid= '${commentid}'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Error al saber si un usuario tiene un like registrado ${commentid} de la noticia ${newsid} Error: ${error}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true})
+        } else {
+            res.json({ value: false })
+        }
+    });
+})
+
+//Enviar un like de un usuario nuevo
+app.post('/news/comments/likes/', (req, res) => {
+    const { newsid, userid, commentid } = req.body;
+    if (newsid && userid && commentid) {
+        const sqlObject = {
+            likeCom: 1,
+            userid: userid,
+            commentid: commentid,
+            newsid: newsid,
+        }
+        const sql = 'INSERT INTO comentslikes SET ?';
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar un like ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true });
+            }
+        });
+
+    } else {
+        res.json({ value: false });
+    }
+})
+
+//Eliminar un like actualizando su estado
+app.put('/news/comments/likes/', (req, res) => {
+    const { newsid, userid, commentid, data } = req.body;
+
+    console.log(req.body);
+    if (newsid && userid && commentid) {
+        const sqlObject = {
+            likeCom: data,
+            userid: userid,
+            commentid: commentid,
+            newsid: newsid,
+        }
+
+        const sql = `UPDATE comentslikes SET ? WHERE newsid='${newsid}' AND userid='${userid}' AND commentid= '${commentid}'`;
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al actualizar un like ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true });
+            }
+        });
+
+    } else {
+        res.json({ value: false });
+    }
+})

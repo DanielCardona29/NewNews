@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import NewsController from "./NewsController.js";
+import NewsController from "../../Controllers/NewsController.js";
 import Button from "../Buttons/Buttons.jsx";
 import "../../Styles/App/Noticias/noticias.scss";
 import ErrorPage from "../../Pages/ErrorPage.jsx";
@@ -35,25 +35,25 @@ const NewP = (props) => {
     };
     //este es el mensaje que se reentorna cuando tengamos los datos.
     const isData = (
-      <div className="contentNews">
-        <div className="wrapper">
-          <div className="image" style={style}></div>
-          <div className="datos">
-            <label className="label">
-              <span className="negrita">Fecha de creación: </span>{" "}
+      <div className="contentNewsPrincipal">
+        <div className="wrapperPrincipal">
+          <div className="imagePrincipal" style={style}></div>
+          <div className="datosPrincipal">
+            <label className="labelPrincipal">
+              <span className="negritaPrincipal">Fecha de creación: </span>{" "}
               {noticias.date}
             </label>
             <label className="label">
-              <span className="negrita">Autor: </span>
+              <span className="negritaPrincipal">Autor: </span>
               {autor}
             </label>
           </div>
 
-          <div className="contenido">
-            <div className="title">
+          <div className="contenidoPrincipal">
+            <div className="titlePrincipal">
               <h3>{noticias.title}</h3>
             </div>
-            <div className="texto" id="texto"></div>
+            <div className="textoPrincipal" id="texto"></div>
           </div>
 
           <div style={{ margin: "10px 0px 0 0" }}>
@@ -74,7 +74,7 @@ const NewP = (props) => {
     //Este es el mensaje que se reentorna en caso de que no tengamos datos
     const noData = (
       <div className="container">
-        <div className="wrapper">
+        <div className="wrapperPrincipal">
         
         <Loader content = {'noticia'}/>
         </div>
