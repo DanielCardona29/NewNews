@@ -134,6 +134,49 @@ $font: "Barlow", sans-serif;
     top: -10px;
 }
 
-.dislike {
-    background-image: url(../../../images/iconos/svg/dislike-1.svg);
+
+
+
+
+
+
+
+
+
+
+
+
+.dontLike {
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background: black;
+}
+
+.dontLike:before,
+.dontLike:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+}
+
+.dontLike:before,
+.dontLike:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+    position: absolute;
+}
+
+.dontLike:before {
+    top: 0;
+    left: -10px;
+}
+
+.dontLike:after {
+    top: -10px;
 }

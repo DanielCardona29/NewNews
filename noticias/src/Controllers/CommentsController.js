@@ -17,7 +17,9 @@ class CommController {
         let url = `http://localhost:5000/news/comments/likes/${commentid}/${newsid}/${userid}`
         let consult = await fetch(url);
         let response = await consult.json()
+        console.log(response);
         return response.value;
+
     }
 
     //Enviar un nuevo like
@@ -36,8 +38,7 @@ class CommController {
                 'Content-Type': 'application/json'
             }
         });
-        const response = consulta.json();
-        console.log(consulta);
+        const response = await consulta.json();
         return response.value;
     }
 
@@ -81,7 +82,6 @@ class CommController {
 
     }
 
-
     //Enviar un like de un comentario
     LikeController = async (commentid, newsid, userid, dataState) => {
         //Antes de enviar un like o quitar un like tenemos que saber si existe en la base un registro de ello en la base de datos;
@@ -90,12 +90,10 @@ class CommController {
         if (LikeConsultUser) {
             //Lo actualizamos
             const LikeUpdater = await this.LikeUpdater(commentid, newsid, userid, dataState);
-            console.log(`este es el like updater`);
             return LikeUpdater;
         } else {
             //Si no existe, creamos uno nuevo
             const LikeSetter = await this.LikeSetter(commentid, newsid, userid);
-            console.log(`este es el Like Setter ${LikeSetter}`);
             return LikeSetter;
         }
 

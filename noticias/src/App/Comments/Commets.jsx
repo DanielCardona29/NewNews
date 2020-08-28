@@ -12,24 +12,31 @@ const CommentsController = new CommController();
 const Commets = (props) => {
     const [commets, setComments] = useState({
         Commets: [],
-        CommetsNum: 0
+        CommetsNum: 0,
+        isLiked: false
     })
+    //El estado del like de un usuario
     //Extraemos los comentarios de la base de datos
     useEffect(() => {
         const Comments = async () => {
             const data = await Controller.CommetsGetter(props.newid);
             let CommentsOBJ = [];
+            const userid = sessionStorage.getItem('userid')
             if (data.response.value) {
                 for (let i = 0; i < data.response.results.length; i++) {
                     let autor = await Controller.ExtractAutor(data.response.results[i].idusercoment);
                     let Likes = await CommentsController.CommetsLikes(data.response.results[i].id, props.newid);
-
+                    let isLiked = await CommentsController.LikeConsultUser(data.response.results[i].id, props.newid, userid);
+                    console.log(`numero de likes ${Likes}
+                    isLiked ${isLiked}
+                    `);
                     CommentsOBJ = [
                         ...CommentsOBJ,
                         {
                             comentario: data.response.results[i],
                             likes: Likes,
-                            autor: autor
+                            autor: autor,
+                            isLiked: isLiked
                         }
                     ]
                 }
@@ -39,17 +46,14 @@ const Commets = (props) => {
                     CommetsNum: CommentsOBJ.length
                 })
             }
-
-
         }
         Comments();
     }, [])
 
     const handleLiker = async (commentid) => {
         const userid = sessionStorage.getItem('userid');
-        console.log(commentid);
         const consulta = await CommentsController.LikeController(commentid, props.newid, userid, false);
-        console.log(consulta);
+
     }
 
 
@@ -66,7 +70,7 @@ const Commets = (props) => {
                         commets.Commets.map((item, key) => {
 
                             if (key % 2 === 0) {
-                                
+
                                 let comment = (
                                     <li key={key}>
                                         <div className="commentWrapper oscuro">
@@ -77,11 +81,22 @@ const Commets = (props) => {
                                             <div className="CommentContent">
                                                 <p>{item.comentario.content}</p>
                                             </div>
+                                            {
+                                                (() => {
+                                                    if (item.isLiked) {
+                                                        return <div className="CommentStats">
+                                                            <div className="like" onClick={() => handleLiker(item.comentario.id)}></div>
+                                                            <label>{item.likes}</label>
+                                                        </div>
+                                                    } else {
+                                                        return <div className="CommentStats">
+                                                            <div className="dontLike" onClick={() => handleLiker(item.comentario.id)}></div>
+                                                            <label>{item.likes}</label>
+                                                        </div>
+                                                    }
+                                                })()
+                                            }
 
-                                            <div className="CommentStats">
-                                                <div className="like" onClick= { () => handleLiker(item.comentario.id)}></div>
-                                                <label>{item.likes}</label>
-                                            </div>
 
                                         </div>
                                     </li>

@@ -496,7 +496,6 @@ app.post('/news/visit/', (req, res) => {
         res.json({ value: false });
     }
 })
-
 // -------------------- Metodo crud de los comentarios --------------------------------------------
 
 
@@ -544,15 +543,31 @@ app.get('/news/comments/likes/:commentid/:newsid/', (req, res) => {
 })
 //Consultar si un usuario tiene un like registrado en un comentario
 app.get('/news/comments/likes/:commentid/:newsid/:userid', (req, res) => {
+    //obtenemos los valores de los parametros 
     const { newsid, commentid, userid } = req.params;
-    console.log(req.params);
-    let sql = `SELECT userid FROM comentslikes WHERE newsid='${newsid}' AND userid='${userid}' AND commentid= '${commentid}'`;
+    //Construimos la consulta
+    let sql = `SELECT likeCom, userid FROM comentslikes WHERE newsid='${newsid}' AND userid='${userid}' AND commentid= '${commentid}'`;
+    //hacemos la conexion
     connection.query(sql, (error, results) => {
         if (error) {
             console.log(`Error al saber si un usuario tiene un like registrado ${commentid} de la noticia ${newsid} Error: ${error}`);
             res.json({ value: false })
         } else if (results.length > 0) {
-            res.json({ value: true})
+            //Si todo sale bien deberiamos de tener un valor
+            //Construimos un objeto para manejar ese resultado
+            let resultsOBJ = {};
+
+            //Ahora recorremos todo ese resultado para inicializar nuestro valor de nuestro objeto
+            results.forEach(element => {
+                resultsOBJ = { isLiked: element.likeCom }
+            })
+            //Si el resultado es mayor a 0 entonces damos como respuesta un true
+            if (resultsOBJ.isLiked > 0){
+                res.json({ value: true })
+            }else{
+                //En caso de que sea 0 damos como respuesta un false
+                res.json({ value: false })
+            }
         } else {
             res.json({ value: false })
         }
@@ -587,7 +602,6 @@ app.post('/news/comments/likes/', (req, res) => {
 //Eliminar un like actualizando su estado
 app.put('/news/comments/likes/', (req, res) => {
     const { newsid, userid, commentid, data } = req.body;
-
     console.log(req.body);
     if (newsid && userid && commentid) {
         const sqlObject = {
