@@ -8,6 +8,7 @@ import '../../Styles/App/Comments/Comments.scss';
 import Commet from './Comment.jsx';
 import WriteAComment from './WriteACommet';
 import Loader from '../Loader/Loader.jsx';
+import MainController from '../../Controllers/mainController.js'
 
 class Commets extends React.Component {
 
@@ -15,6 +16,8 @@ class Commets extends React.Component {
         super(props);
         this.Controller = new NewsController();
         this.CommentsController = new CommController();
+        this.MainController = new MainController();
+
         this.state = {
             Commets: [],
             CommetsNum: 0,
@@ -73,6 +76,9 @@ class Commets extends React.Component {
                     }
                 })
             if (comment.value) {
+                let user = await this.MainController.userConsult();
+                let userResponse = await user.json()
+                
                 await this.CommentsController.ExtractID(comment.response)
                     .then(value => {
                         console.log(value);
@@ -81,7 +87,7 @@ class Commets extends React.Component {
                                 ...this.state,
                                 Commets: [
                                     {
-                                        autor: { autor: 'a', value: true },
+                                        autor: { autor: userResponse.results[0].user, value: true },
                                         comentario: {
                                             ...comment.response,
                                             id: value.id,
