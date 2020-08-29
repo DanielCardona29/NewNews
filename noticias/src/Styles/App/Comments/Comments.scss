@@ -72,6 +72,7 @@ $font: "Barlow", sans-serif;
 }
 .userCommetInfo > label {
     font-weight: bold;
+    margin-right: 15px;
 }
 .CommentContent {
     width: 100%;
@@ -134,18 +135,6 @@ $font: "Barlow", sans-serif;
     top: -10px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .dontLike {
     width: 18px;
     height: 18px;
@@ -179,4 +168,15 @@ $font: "Barlow", sans-serif;
 
 .dontLike:after {
     top: -10px;
+}
+
+
+.CommetWriter{
+    width: 100%;
+}
+.wirterContent{
+    width: 90%;
+}
+.CommetWriter{
+    width: 100%;
 }

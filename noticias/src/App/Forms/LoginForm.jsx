@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
         if (user.access) {
           //si tenemos accesos enviamos el id del usuairo al sesion starage
           sessionStorage.setItem("userid", user.results[0].id);
-          return {value: true};
+          return { value: true };
         } else {
           //En caso de que no tengamos aceso reentornamos falso
           return { identy: "access", value: false };

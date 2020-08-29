@@ -17,7 +17,6 @@ class CommController {
         let url = `http://localhost:5000/news/comments/likes/${commentid}/${newsid}/${userid}`
         let consult = await fetch(url);
         let response = await consult.json()
-        console.log(response);
         return response.value;
 
     }
@@ -87,7 +86,7 @@ class CommController {
         //Antes de enviar un like o quitar un like tenemos que saber si existe en la base un registro de ello en la base de datos;
         let LikeConsultUser = await this.LikeConsultUser(commentid, newsid, userid);
         //Si el Like existe
-        if (LikeConsultUser) {
+        if (LikeConsultUser || LikeConsultUser === 0) {
             //Lo actualizamos
             const LikeUpdater = await this.LikeUpdater(commentid, newsid, userid, dataState);
             return LikeUpdater;
@@ -96,7 +95,38 @@ class CommController {
             const LikeSetter = await this.LikeSetter(commentid, newsid, userid);
             return LikeSetter;
         }
+    }
 
+    SettACommet = async (content, idnewcoment, idusercoment, Punt) => {
+        const url = 'http://localhost:5000/news/comment/';
+        const data = {
+            content: content,
+            idnewcoment: idnewcoment,
+            idusercoment: idusercoment,
+            Punt: Punt,
+        }
+        const consulta = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const response = await consulta.json();
+        return response;
+    }
+
+    ExtractID = async (coment) => {
+        let url = `http://localhost:5000/news/comment/id/`;
+        const consulta = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(coment),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const response = await consulta.json();
+        return response;
     }
 
 }

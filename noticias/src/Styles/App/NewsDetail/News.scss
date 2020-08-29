@@ -6,7 +6,7 @@
 }
 
 .newTitle{
-    margin-top: 30px;
+    margin-top: 50px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30,4 +30,13 @@
 .newContenido{
     width: 95%;
     height: auto;
+}
+
+.loaderCenter{
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
 }

@@ -5,136 +5,150 @@ import NewsController from '../../Controllers/NewsController.js';
 //Importamos el controlador de comentarios
 import CommController from '../../Controllers/CommentsController.js';
 import '../../Styles/App/Comments/Comments.scss';
+import Commet from './Comment.jsx';
+import WriteAComment from './WriteACommet';
+import Loader from '../Loader/Loader.jsx';
 
-const Controller = new NewsController();
-const CommentsController = new CommController();
+class Commets extends React.Component {
 
-const Commets = (props) => {
-    const [commets, setComments] = useState({
-        Commets: [],
-        CommetsNum: 0,
-        isLiked: false
-    })
-    //El estado del like de un usuario
-    //Extraemos los comentarios de la base de datos
-    useEffect(() => {
-        const Comments = async () => {
-            const data = await Controller.CommetsGetter(props.newid);
-            let CommentsOBJ = [];
-            const userid = sessionStorage.getItem('userid')
-            if (data.response.value) {
-                for (let i = 0; i < data.response.results.length; i++) {
-                    let autor = await Controller.ExtractAutor(data.response.results[i].idusercoment);
-                    let Likes = await CommentsController.CommetsLikes(data.response.results[i].id, props.newid);
-                    let isLiked = await CommentsController.LikeConsultUser(data.response.results[i].id, props.newid, userid);
-                    console.log(`numero de likes ${Likes}
-                    isLiked ${isLiked}
-                    `);
-                    CommentsOBJ = [
-                        ...CommentsOBJ,
-                        {
-                            comentario: data.response.results[i],
-                            likes: Likes,
-                            autor: autor,
-                            isLiked: isLiked
-                        }
-                    ]
-                }
-
-                setComments({
-                    Commets: CommentsOBJ,
-                    CommetsNum: CommentsOBJ.length
-                })
+    constructor(props) {
+        super(props);
+        this.Controller = new NewsController();
+        this.CommentsController = new CommController();
+        this.state = {
+            Commets: [],
+            CommetsNum: 0,
+            form: {
+                Coment: '',
+                selectPuntu: '1'
             }
         }
-        Comments();
-    }, [])
-
-    const handleLiker = async (commentid) => {
-        const userid = sessionStorage.getItem('userid');
-        const consulta = await CommentsController.LikeController(commentid, props.newid, userid, false);
-
     }
 
-
-
-    const Comentarios = (
-        <div className="comentarios">
-            <div className="infoCommets">
-                <h1>Comentarios</h1>
-                <label className="label">Hay {commets.CommetsNum} comentarios</label>
-            </div>
-            <div className="comentariosContent">
-                <ul>
+    //El estado del like de un usuario
+    //Extraemos los comentarios de la base de datos
+    async componentDidMount() {
+        const data = await this.Controller.CommetsGetter(this.props.newid);
+        let CommentsOBJ = [];
+        const userid = sessionStorage.getItem('userid')
+        if (data.response.value) {
+            for (let i = 0; i < data.response.results.length; i++) {
+                let autor = await this.Controller.ExtractAutor(data.response.results[i].idusercoment);
+                let Likes = await this.CommentsController.CommetsLikes(data.response.results[i].id, this.props.newid);
+                let isLiked = await this.CommentsController.LikeConsultUser(data.response.results[i].id, this.props.newid, userid);
+                CommentsOBJ = [
+                    ...CommentsOBJ,
                     {
-                        commets.Commets.map((item, key) => {
-
-                            if (key % 2 === 0) {
-
-                                let comment = (
-                                    <li key={key}>
-                                        <div className="commentWrapper oscuro">
-                                            <div className="userCommetInfo">
-                                                usuario: <label className="label">{item.autor.autor}</label>
-                                            </div>
-
-                                            <div className="CommentContent">
-                                                <p>{item.comentario.content}</p>
-                                            </div>
-                                            {
-                                                (() => {
-                                                    if (item.isLiked) {
-                                                        return <div className="CommentStats">
-                                                            <div className="like" onClick={() => handleLiker(item.comentario.id)}></div>
-                                                            <label>{item.likes}</label>
-                                                        </div>
-                                                    } else {
-                                                        return <div className="CommentStats">
-                                                            <div className="dontLike" onClick={() => handleLiker(item.comentario.id)}></div>
-                                                            <label>{item.likes}</label>
-                                                        </div>
-                                                    }
-                                                })()
-                                            }
-
-
-                                        </div>
-                                    </li>
-                                );
-                                return comment;
-
-                            } else {
-                                let comment = (
-                                    <li key={key}>
-                                        <div className="commentWrapper">
-                                            <div className="userCommetInfo">
-                                                usuario: <label className="label">{item.autor.autor}</label>
-                                            </div>
-
-                                            <div className="CommentContent">
-                                                <p>{item.comentario.content}</p>
-                                            </div>
-
-                                            <div className="CommentStats">
-                                                <div className="like"></div>
-                                                <label>{item.likes}</label>
-                                            </div>
-
-                                        </div>
-                                    </li>
-                                );
-                                return comment;
-
-                            }
-
-                        })
+                        comentario: data.response.results[i],
+                        likes: Likes,
+                        autor: autor,
+                        isLiked: isLiked
                     }
-                </ul>
-            </div>
-        </div>
-    );
+                ]
+            }
+            this.setState({
+                Commets: CommentsOBJ,
+                CommetsNum: CommentsOBJ.length
+            })
+        }
+    }
 
-    return Comentarios;
+    //
+    handleChange = e => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                [e.target.name]: e.target.value,
+            },
+        });
+    }
+
+    SubmitComment = async () => {
+        if (this.state.form.Coment.trim() !== '') {
+            const userid = sessionStorage.getItem('userid');
+            let comment = await this.CommentsController.SettACommet(this.state.form.Coment, this.props.newid, userid, this.state.form.selectPuntu)
+                .then(value => {
+                    if (value) {
+                        return value
+                    }
+                })
+            if (comment.value) {
+                await this.CommentsController.ExtractID(comment.response)
+                    .then(value => {
+                        console.log(value);
+                        if (value.value) {
+                            this.setState({
+                                ...this.state,
+                                Commets: [
+                                    {
+                                        autor: { autor: 'a', value: true },
+                                        comentario: {
+                                            ...comment.response,
+                                            id: value.id,
+                                        },
+                                        isLiked: false,
+                                        likes: 0
+                                    },
+                                    ...this.state.Commets,
+                                ],
+
+                                form: {
+                                    Coment: '',
+                                    selectPuntu: '1'
+                                }
+                            })
+                        }
+                    })
+            }
+
+
+        }
+    }
+
+    render() {
+
+
+        const Comentarios = (
+            <div className="comentarios">
+                <div className="infoCommets">
+                    <h1>Comentarios</h1>
+                    <label className="label">Hay {this.state.CommetsNum} comentarios</label>
+                </div>
+                <div className="wirterContent">
+                    <WriteAComment newid={this.props.newid} handleChange={() => this.handleChange} SubmitComment={() => this.SubmitComment} valueSelect={this.state.form.selectPuntu} valueTextArea={this.state.form.Coment} />
+                </div>
+                <div className="comentariosContent">
+                    <ul>
+                        {
+                            //(props.comentario.id)
+                            this.state.Commets.map((item, key) => {
+                                const lista = (
+                                    <li key={key}>
+                                        <Commet autor={item.autor}
+                                            newID={this.props.newid}
+                                            isLiked={item.isLiked}
+                                            keyNum={key}
+                                            comentario={item.comentario}
+                                            likes={item.likes}
+                                        />
+                                    </li>
+                                );
+                                return lista;
+                            })
+                        }
+                    </ul>
+                </div>
+            </div>
+        );
+
+        if(this.state.Commets.length > 0){
+            return Comentarios;
+        }else{
+            return <Loader content={'comentarios'} />
+        }
+
+    }
 }
+
 
 export default Commets;
