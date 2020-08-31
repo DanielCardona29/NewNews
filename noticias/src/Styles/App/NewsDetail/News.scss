@@ -1,42 +1,71 @@
-.contenidoWrapper{
+.contenidoWrapper {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.newTitle{
+.newTitle {
     margin-top: 50px;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.newImagen{
+.newImagen {
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
     width: 100%;
     height: 400px;
 }
-.newData{
+.newData {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.newData>label:nth-child(2){
+.newData > label:nth-child(2) {
     margin-left: 30px;
 }
 
-.newContenido{
+.newContenido {
     width: 95%;
     height: auto;
 }
 
-.loaderCenter{
+.loaderCenter {
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
     display: flex;
+}
 
+.likeDisliked {
+    top: 51px;
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.likeDisliked > div {
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.likeDisliked > .IconConten {
+    width: 32px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.dislikedNoActive {
+    background-image: url(../../../images/iconos/svg/disgusto.svg);
+}
+.dislikedActive {
+    background-image: url(../../../images/iconos/svg/disgusto-d.svg);
+}
+.likeNoActive{
+    background-image: url(../../../images/iconos/svg/corazon.svg);
 }

@@ -118,7 +118,6 @@ class NewsController {
     return data;
   }
 
-
   NewsController = async (contador) => {
 
     const noticia = await this.ExtractNews()
@@ -161,6 +160,95 @@ class NewsController {
         };
       });
     return element;
+  }
+
+  //Envair un like a la base de datos
+  settAlike = async (newsid) => {
+    const url = 'http://localhost:5000/news/likes/sett';
+    const userid = sessionStorage.getItem('userid')
+    const data = {
+      newsid: newsid,
+      userid: userid,
+    }
+    const consulta = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const response = await consulta.json();
+    return response.value;
+  }
+
+  //Quitar un like
+  deleteAlike = async (newsid) => {
+    const url = 'http://localhost:5000/news/likes/nosett';
+    const userid = sessionStorage.getItem('userid')
+    const data = {
+      newsid: newsid,
+      userid: userid,
+    }
+    const consulta = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const response = await consulta.json();
+    return response.value;
+  }
+
+  //Envair un dislike a la base de datos
+  settAdislike = async (newsid) => {
+    const url = 'http://localhost:5000/news/dislikes/sett';
+    const userid = sessionStorage.getItem('userid')
+    const data = {
+      newsid: newsid,
+      userid: userid,
+    }
+    const consulta = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const response = await consulta.json();
+    return response.value;
+  }
+
+  //Quitar un dislike
+  deleteAdislike = async (newsid) => {
+    const url = 'http://localhost:5000/news/dislikes/nosett';
+    const userid = sessionStorage.getItem('userid')
+    const data = {
+      newsid: newsid,
+      userid: userid,
+    }
+    const consulta = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const response = await consulta.json();
+    return response.value;
+  }
+
+  //Obtener si una noticia tiene un like o un dislike
+  getLikeorDislikeToNews = async (newsid) => {
+    const userid = sessionStorage.getItem('userid');
+    const url = `http://localhost:5000/news/likes/${newsid}/${userid}`
+    let consulta = await fetch(url);
+    let response = await consulta.json();
+    if (response.value) {
+      return response.results;
+    } else {
+      return false;
+    }
   }
 
 }

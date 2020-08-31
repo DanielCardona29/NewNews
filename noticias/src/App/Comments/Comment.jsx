@@ -79,8 +79,8 @@ const Comment = (props) => {
             <div className="commentWrapper">
                 <div className="userCommetInfo">
                     usuario: <label className="label">{props.autor.autor}</label>
-        Puntuación: <label className="label">{props.comentario.Punt}</label>
-        hace: <label className="label">{time()} dias</label>
+                    Puntuación: <label className="label">{props.comentario.Punt}</label>
+                    hace: <label className="label">{time()} dias</label>
                 </div>
                 <div className="CommentContent">
                     <p>{props.comentario.content}</p>

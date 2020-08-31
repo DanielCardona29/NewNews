@@ -6,6 +6,7 @@ const _ = require('underscore');
 const fs = require('fs');
 const PORT = process.env.PORT || 5000;
 const uniqid = require('uniqid');
+const { lastIndexOf } = require('underscore');
 
 app.use(bodyParser.json());
 //MySqul
@@ -407,8 +408,6 @@ app.get('/news/stats/:id', (req, res) => {
     });
 })
 
-
-
 //Obtener las noticias mejor calificadas
 app.get('/news/best/calificaties/news', (req, res) => {
     const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid ORDER BY stats.popularity DESC`;
@@ -496,6 +495,115 @@ app.post('/news/visit/', (req, res) => {
         res.json({ value: false });
     }
 })
+
+
+//Consultar si una noticia tiene un like o un dislike asociado
+app.get('/news/likes/?:newsid/?:userid', (req, res) => {
+    const { newsid, userid } = req.params;
+    const sql = `SELECT likes, dislikes FROM stats WHERE newsid = '${newsid}' AND userid = '${userid}'`;
+    console.log(sql);
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hay un error en la base de datos al cosultar las noticias de la siguiente noticia ${newsid} := ${error}`);
+            res.json({ value: false });
+        } else {
+            if (results.length > 0) {
+                res.json({ results: results[0], value: true })
+            } else {
+                res.json({ value: false })
+            }
+        }
+    })
+});
+
+//Enviar un like a una noticia
+app.post('/news/likes/sett', (req, res) => {
+    const { newsid, userid } = req.body;
+    if (userid && newsid) {
+        const sqlObject = {
+            likes: 1,
+            dislikes: 0,
+        }
+        //esta es la consulta
+        let sql = `UPDATE stats SET ? WHERE newsid = '${newsid}' AND userid ='${userid}'`
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar un like en la noticia ${newsid}: ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true })
+            }
+        });
+    } else {
+        res.json({ value: false })
+    }
+});
+//Quitar un like
+app.post('/news/likes/nosett', (req, res) => {
+    const { newsid, userid } = req.body;
+    if (userid && newsid) {
+        const sqlObject = {
+            likes: 0,
+        }
+        //esta es la consulta
+        let sql = `UPDATE stats SET ? WHERE newsid = '${newsid}' AND userid ='${userid}'`
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar un like en la noticia ${newsid}: ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true })
+            }
+        });
+    } else {
+        res.json({ value: false })
+    }
+});
+//Enviar un dislike
+app.post('/news/dislikes/sett', (req, res) => {
+    const { newsid, userid } = req.body;
+    if (userid && newsid) {
+        const sqlObject = {
+            likes: 0,
+            dislikes: 1,
+        }
+        //esta es la consulta
+        let sql = `UPDATE stats SET ? WHERE newsid = '${newsid}' AND userid ='${userid}'`
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar un like en la noticia ${newsid}: ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true })
+            }
+        });
+    } else {
+        res.json({ value: false })
+    }
+});
+//Quitar un dislike
+app.post('/news/dislikes/nosett', (req, res) => {
+    const { newsid, userid } = req.body;
+    if (userid && newsid) {
+        const sqlObject = {
+            dislikes: 0,
+        }
+        //esta es la consulta
+        let sql = `UPDATE stats SET ? WHERE newsid = '${newsid}' AND userid ='${userid}'`
+        connection.query(sql, sqlObject, error => {
+            if (error) {
+                console.log(`Hay un error al insertar un like en la noticia ${newsid}: ${error}`);
+                res.json({ value: false });
+            } else {
+                res.json({ value: true })
+            }
+        });
+    } else {
+        res.json({ value: false })
+    }
+});
+
+
 // -------------------- Metodo crud de los comentarios --------------------------------------------
 
 //Obtener los comentarios de una noticia
@@ -526,7 +634,6 @@ app.get('/news/comments/:id', (req, res) => {
 //Obtener los likes que tiene un comentario
 app.get('/news/comments/likes/:commentid/:newsid/', (req, res) => {
     const { newsid, commentid } = req.params;
-    console.log(req.params);
     let sql = `SELECT SUM(likeCom) as likes FROM comentslikes WHERE commentid = '${commentid}' AND newsid = '${newsid}'`;
     connection.query(sql, (error, results) => {
         if (error) {
@@ -560,9 +667,9 @@ app.get('/news/comments/likes/:commentid/:newsid/:userid', (req, res) => {
                 resultsOBJ = { isLiked: element.likeCom }
             })
             //Si el resultado es mayor a 0 entonces damos como respuesta un true
-            if (resultsOBJ.isLiked > 0){
+            if (resultsOBJ.isLiked > 0) {
                 res.json({ value: true })
-            }else{
+            } else {
                 //En caso de que sea 0 damos como respuesta un false
                 res.json({ value: 0 })
             }

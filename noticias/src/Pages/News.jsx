@@ -16,7 +16,9 @@ class NewsPage extends React.Component {
         super(props);
         this.state = {
             ok: true,
-            NewElement: false
+            NewElement: false,
+            isNewLiked: false,
+            isNewDisliked: false
         }
         this.Controller = new MainController();;
         this.NewsController = new NewsController();;
@@ -45,20 +47,91 @@ class NewsPage extends React.Component {
                 NewElement: false
             })
         }
+
+        //Saber si la noticia tiene un like o un dislike
+        await this.NewsController.getLikeorDislikeToNews(this.props.match.params.id)
+            .then(data => {
+                console.log(data);
+                if (data.likes > 0) {
+                    this.setState({
+                        isNewLiked: true,
+                        isNewDisliked: false
+                    })
+                } else if (data.dislikes > 0) {
+                    this.setState({
+                        isNewLiked: false,
+                        isNewDisliked: true
+                    })
+                }
+            })
+
     }
 
+    //Controllador de likes de una new enviar o quitar
+    LikeController = async () => {
+        if (!this.state.isNewLiked) {
+            //Si la noticia no tiene el Like del usuario entonces le enviamos el like
+            await this.NewsController.settAlike(this.props.match.params.id)
+                .then(data => {
+                    console.log(data);
+                    if (data) {
+                        this.setState({
+                            isNewLiked: true,
+                            isNewDisliked: false
+                        })
+                    }
+                    return data;
+                });
+        } else {
+            //Si la noticia tiene un like entonces se lo borramos 
+            await this.NewsController.deleteAlike(this.props.match.params.id)
+                .then(data => {
+                    console.log(data);
+                    if (data) {
+                        this.setState({
+                            isNewLiked: false,
+                        })
+                    }
+                })
+        }
+    }
+    //Controllador de likes de una new enviar o quitar
+    DislikeController = async () => {
+        if (!this.state.isNewDisliked) {
+            //Si la noticia no tiene el Like del usuario entonces le enviamos el like
+            await this.NewsController.settAdislike(this.props.match.params.id)
+                .then(data => {
+                    if (data) {
+                        this.setState({
+                            isNewLiked: false,
+                            isNewDisliked: true
+                        })
+                    }
+                })
+        } else {
+            //Si la noticia tiene un like entonces se lo borramos 
+            await this.NewsController.deleteAdislike(this.props.match.params.id)
+                .then(data => {
+                    if (data) {
+                        console.log(data);
+                        this.setState({
+                            isNewDisliked: false
+                        })
+                    }
+                })
+        }
+    }
 
     render() {
-
 
         try {
             const imgStyle = {
                 backgroundImage: `url('${this.state.NewElement.img}')`,
             }
             const loading = (
-            <div className="loaderCenter">
-                <Loader />
-            </div>
+                <div className="loaderCenter">
+                    <Loader />
+                </div>
             );
 
             const Page = (
@@ -66,6 +139,26 @@ class NewsPage extends React.Component {
                     <div className="wrapper">
                         <Header userName={this.state.user} Ok={this.state.ok} />
                         <div className="contenidoWrapper">
+                            {
+                                (() => {
+                                    if (this.state.isNewLiked) {
+                                        return <div className="likeDisliked">
+                                            <div className="like" onClick={() => this.LikeController()}></div>
+                                            <div className="dislikedNoActive IconConten" onClick={() => this.DislikeController()}></div>
+                                        </div>
+                                    } else if (this.state.isNewDisliked) {
+                                        return <div className="likeDisliked">
+                                            <div className="likeNoActive IconConten" onClick={() => this.LikeController()}></div>
+                                            <div className="dislikedActive IconConten" onClick={() => this.DislikeController()}></div>
+                                        </div>
+                                    } else {
+                                        return <div className="likeDisliked">
+                                            <div className="likeNoActive IconConten" onClick={() => this.LikeController()}></div>
+                                            <div className="dislikedNoActive IconConten" onClick={() => this.DislikeController()}></div>
+                                        </div>
+                                    }
+                                })()
+                            }
                             <div className="newTitle">
                                 <h2>{this.state.NewElement.title}</h2>
                             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 //Importamos el controlador de noticias
 import NewsController from '../../Controllers/NewsController.js';
@@ -24,13 +24,15 @@ class Commets extends React.Component {
             form: {
                 Coment: '',
                 selectPuntu: '1'
-            }
+            },
+            isLoading: false
         }
     }
 
     //El estado del like de un usuario
     //Extraemos los comentarios de la base de datos
     async componentDidMount() {
+        this.setState({isLoading: true})
         const data = await this.Controller.CommetsGetter(this.props.newid);
         let CommentsOBJ = [];
         const userid = sessionStorage.getItem('userid')
@@ -54,6 +56,8 @@ class Commets extends React.Component {
                 CommetsNum: CommentsOBJ.length
             })
         }
+
+        this.setState({isLoading: false})
     }
 
     //
@@ -147,7 +151,7 @@ class Commets extends React.Component {
             </div>
         );
 
-        if(this.state.Commets.length > 0){
+        if(!this.state.isLoading){
             return Comentarios;
         }else{
             return <Loader content={'comentarios'} />
