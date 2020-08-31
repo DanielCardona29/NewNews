@@ -2,7 +2,7 @@ class CommController {
 
     //Extraer el numero de likes de un commentario
     CommetsLikes = async (commentid, newsid) => {
-        const url = `http://localhost:5000/news/comments/likes/${commentid}/${newsid}`;
+        const url = `http://localhost:5000/comments/get/likes/${commentid}/${newsid}`;
         let consult = await fetch(url);
         let data = await consult.json();
         if (data.value && data.likes !== null) {
@@ -14,7 +14,7 @@ class CommController {
 
     //Consult Like setter
     LikeConsultUser = async (commentid, newsid, userid) => {
-        let url = `http://localhost:5000/news/comments/likes/${commentid}/${newsid}/${userid}`
+        let url = `http://localhost:5000/comments/get/likes/${commentid}/${newsid}/${userid}`
         let consult = await fetch(url);
         let response = await consult.json()
         return response.value;
@@ -23,7 +23,7 @@ class CommController {
 
     //Enviar un nuevo like
     LikeSetter = async (commentid, newsid, userid) => {
-        const url = 'http://localhost:5000/news/comments/likes/';
+        const url = 'http://localhost:5000/comments/post/likes/';
         const data = {
             newsid: newsid,
             userid: userid,
@@ -43,7 +43,7 @@ class CommController {
 
     //Actualizar el estado del Like en la base de datos
     LikeUpdater = async (commentid, newsid, userid, dataState) => {
-        const url = 'http://localhost:5000/news/comments/likes/';
+        const url = 'http://localhost:5000/comments/put/likes/';
         if (dataState) {
             const data = {
                 newsid: newsid,
@@ -98,7 +98,7 @@ class CommController {
     }
 
     SettACommet = async (content, idnewcoment, idusercoment, Punt) => {
-        const url = 'http://localhost:5000/news/comment/';
+        const url = 'http://localhost:5000/comments/post/';
         const data = {
             content: content,
             idnewcoment: idnewcoment,
@@ -117,7 +117,7 @@ class CommController {
     }
 
     ExtractID = async (coment) => {
-        let url = `http://localhost:5000/news/comment/id/`;
+        let url = `http://localhost:5000/comments/post/id/`;
         const consulta = await fetch(url, {
             method: 'POST',
             body: JSON.stringify(coment),

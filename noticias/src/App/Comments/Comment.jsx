@@ -28,18 +28,11 @@ const Comment = (props) => {
     }
 
     const time = () => {
-
         let fechaInicio = new Date(props.comentario.date).getTime();
         let fechaFin = new Date(getDate()).getTime();
         let diff = fechaInicio - fechaFin;
-        if (Math.abs(diff / (1000 * 60 * 60 * 24)) < 1) {
-            const date = Math.abs(diff / (1000 * 60 * 60 * 24)).toFixed(2);
-            return date
-        } else {
-            const date = Math.abs(diff / (1000 * 60 * 60 * 24)).toFixed();
-            return date
-        }
-
+        const date = Math.abs(diff / (1000 * 60 * 60 * 24)).toFixed(2);
+        return date
     }
 
 

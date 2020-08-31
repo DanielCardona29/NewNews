@@ -7,8 +7,10 @@ import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import MainController from '../Controllers/mainController.js';
 import NewsController from '../Controllers/NewsController.js';
+import StatsController from '../Controllers/statsController.js';
 import '../Styles/App/NewsDetail/News.scss';
 import Commets from '../App/Comments/Commets.jsx';
+
 
 class NewsPage extends React.Component {
 
@@ -20,8 +22,9 @@ class NewsPage extends React.Component {
             isNewLiked: false,
             isNewDisliked: false
         }
-        this.Controller = new MainController();;
-        this.NewsController = new NewsController();;
+        this.Controller = new MainController();
+        this.NewsController = new NewsController();
+        this.statsController = new StatsController();
     }
 
     async componentDidMount() {
@@ -49,7 +52,7 @@ class NewsPage extends React.Component {
         }
 
         //Saber si la noticia tiene un like o un dislike
-        await this.NewsController.getLikeorDislikeToNews(this.props.match.params.id)
+        await this.statsController.getLikeorDislikeToNews(this.props.match.params.id)
             .then(data => {
                 console.log(data);
                 if (data.likes > 0) {
@@ -71,7 +74,7 @@ class NewsPage extends React.Component {
     LikeController = async () => {
         if (!this.state.isNewLiked) {
             //Si la noticia no tiene el Like del usuario entonces le enviamos el like
-            await this.NewsController.settAlike(this.props.match.params.id)
+            await this.statsController.settAlike(this.props.match.params.id)
                 .then(data => {
                     console.log(data);
                     if (data) {
@@ -84,7 +87,7 @@ class NewsPage extends React.Component {
                 });
         } else {
             //Si la noticia tiene un like entonces se lo borramos 
-            await this.NewsController.deleteAlike(this.props.match.params.id)
+            await this.statsController.deleteAlike(this.props.match.params.id)
                 .then(data => {
                     console.log(data);
                     if (data) {
@@ -99,7 +102,7 @@ class NewsPage extends React.Component {
     DislikeController = async () => {
         if (!this.state.isNewDisliked) {
             //Si la noticia no tiene el Like del usuario entonces le enviamos el like
-            await this.NewsController.settAdislike(this.props.match.params.id)
+            await this.statsController.settAdislike(this.props.match.params.id)
                 .then(data => {
                     if (data) {
                         this.setState({
@@ -110,7 +113,7 @@ class NewsPage extends React.Component {
                 })
         } else {
             //Si la noticia tiene un like entonces se lo borramos 
-            await this.NewsController.deleteAdislike(this.props.match.params.id)
+            await this.statsController.deleteAdislike(this.props.match.params.id)
                 .then(data => {
                     if (data) {
                         console.log(data);

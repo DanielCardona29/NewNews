@@ -5,8 +5,10 @@ import Button from "../Buttons/Buttons.jsx";
 import "../../Styles/App/Noticias/noticias.scss";
 import ErrorPage from "../../Pages/ErrorPage.jsx";
 import Loader from '../../App/Loader/Loader.jsx';
+import StatsController from '../../Controllers/statsController.js';
 //Importamos el controlador de noticias
 const controller = new NewsController();
+const statsController = new StatsController()
 
 const NewP = (props) => {
   //Creamos un estado apara determinar la noticia que se mostrara en pantalla
