@@ -129,6 +129,30 @@ class CommController {
         return response;
     }
 
+    deleteLikesForComments = async (id) => {
+
+    }
+
+    deleteComment = async (id) => {
+
+        const url = `http://localhost:5000/comments/delete/likes/${id}`
+        const consulta = await fetch(url, {
+            method: 'DELETE',
+        });
+        const response = await consulta.json();
+
+        if (response.value) {
+            const url1 = `http://localhost:5000/comments/delete/${id}`
+            const consulta = await fetch(url1, {
+                method: 'DELETE',
+            });
+            const response = await consulta.json();
+            return response.value
+        } else {
+            return false;
+        }
+    }
+
 }
 
 export default CommController;

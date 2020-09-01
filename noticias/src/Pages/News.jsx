@@ -54,7 +54,6 @@ class NewsPage extends React.Component {
         //Saber si la noticia tiene un like o un dislike
         await this.statsController.getLikeorDislikeToNews(this.props.match.params.id)
             .then(data => {
-                console.log(data);
                 if (data.likes > 0) {
                     this.setState({
                         isNewLiked: true,

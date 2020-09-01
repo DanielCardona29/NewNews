@@ -1,5 +1,4 @@
 import React from 'react';
-
 //Importamos el controlador de noticias
 import NewsController from '../../Controllers/NewsController.js';
 //Importamos el controlador de comentarios
@@ -9,6 +8,7 @@ import Commet from './Comment.jsx';
 import WriteAComment from './WriteACommet';
 import Loader from '../Loader/Loader.jsx';
 import MainController from '../../Controllers/mainController.js'
+import swal from 'sweetalert';
 
 class Commets extends React.Component {
 
@@ -32,7 +32,7 @@ class Commets extends React.Component {
     //El estado del like de un usuario
     //Extraemos los comentarios de la base de datos
     async componentDidMount() {
-        this.setState({isLoading: true})
+        this.setState({ isLoading: true })
         const data = await this.Controller.CommetsGetter(this.props.newid);
         let CommentsOBJ = [];
         const userid = sessionStorage.getItem('userid')
@@ -47,7 +47,8 @@ class Commets extends React.Component {
                         comentario: data.response.results[i],
                         likes: Likes,
                         autor: autor,
-                        isLiked: isLiked
+                        isLiked: isLiked,
+                        CommentPositon: i
                     }
                 ]
             }
@@ -57,7 +58,7 @@ class Commets extends React.Component {
             })
         }
 
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false })
     }
 
     //
@@ -82,13 +83,13 @@ class Commets extends React.Component {
             if (comment.value) {
                 let user = await this.MainController.userConsult();
                 let userResponse = await user.json()
-                
+
                 await this.CommentsController.ExtractID(comment.response)
                     .then(value => {
                         console.log(value);
                         if (value.value) {
                             this.setState({
-                                ...this.state,
+                                CommetsNum: this.state.CommetsNum + 1,
                                 Commets: [
                                     {
                                         autor: { autor: userResponse.results[0].user, value: true },
@@ -115,6 +116,59 @@ class Commets extends React.Component {
         }
     }
 
+    HasBedeleteComment = async (id, Position) => {
+        console.log(Position);
+        swal({
+            title: "¿Estas seguro?",
+            text: "Deseas eliminar este comentario",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    this.CommentsController.deleteComment(id)
+                        .then(value => {
+                            if (value) {
+                                swal({
+                                    text: 'Tu comentario se eliminó con exito',
+                                    button: 'Cerrar'
+                                })
+
+                                //Remover el comentario caundo es eliminado
+                                let ComentsOBJ = [];
+                                let Contador = 0;
+                                for (let i = 0; i < this.state.Commets.length; i++) {
+                                    console.log(`${i} ${Position}`);
+                                    if (i !== Position) {
+                                        ComentsOBJ = [
+                                            ...ComentsOBJ,
+                                            {
+                                                ...this.state.Commets[i],
+                                                CommentPositon: Contador
+                                            }
+                                        ]
+
+                                        Contador = Contador + 1;
+                                    }
+                                }
+                                this.setState({
+                                    Commets: ComentsOBJ,
+                                    CommetsNum: ComentsOBJ.length
+                                })
+                            } else {
+                                swal({
+                                    text: 'Tu comentario no se pudo eliminar intenta de nuevo',
+                                    button: 'Cerrar'
+                                })
+                            }
+                        })
+
+                }
+            });
+    }
+
+
     render() {
 
 
@@ -138,8 +192,10 @@ class Commets extends React.Component {
                                             newID={this.props.newid}
                                             isLiked={item.isLiked}
                                             keyNum={key}
+                                            HasBedeleteComment={this.HasBedeleteComment}
                                             comentario={item.comentario}
                                             likes={item.likes}
+                                            CommentPositon={item.CommentPositon}
                                         />
                                     </li>
                                 );
@@ -151,9 +207,9 @@ class Commets extends React.Component {
             </div>
         );
 
-        if(!this.state.isLoading){
+        if (!this.state.isLoading) {
             return Comentarios;
-        }else{
+        } else {
             return <Loader content={'comentarios'} />
         }
 

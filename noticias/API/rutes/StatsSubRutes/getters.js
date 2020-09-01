@@ -106,7 +106,6 @@ router.get('/visit/consult/?:newsid/?:userid', (req, res) => {
 router.get('/likes/?:newsid/?:userid', (req, res) => {
     const { newsid, userid } = req.params;
     const sql = `SELECT likes, dislikes FROM stats WHERE newsid = '${newsid}' AND userid = '${userid}'`;
-    console.log(sql);
     connection.query(sql, (error, results) => {
         if (error) {
             console.log(`Hay un error en la base de datos al cosultar las noticias de la siguiente noticia ${newsid} := ${error}`);

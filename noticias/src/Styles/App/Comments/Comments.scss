@@ -69,6 +69,7 @@ $font: "Barlow", sans-serif;
     width: 100%;
     margin-top: 5px;
     margin-left: 5px;
+    display: flex;
 }
 .userCommetInfo > label {
     font-weight: bold;
@@ -179,4 +180,21 @@ $font: "Barlow", sans-serif;
 }
 .CommetWriter{
     width: 100%;
+}
+
+.iconContent{
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    margin-right: 15px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: contain;
+}
+.edit{
+    background-image: url(../../../images/iconos/svg/edit.svg);
+}
+
+.deleat{
+    background-image: url(../../../images/iconos/svg/basura.svg);
 }

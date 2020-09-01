@@ -7,9 +7,6 @@ const PORT = process.env.PORT || 5000;
 const news_routes = require('./rutes/news.js');
 const user_routes = require('./rutes/user.js');
 const comments_routes = require('./rutes/comments.js');
-
-const comments_routes_getters = require('./rutes/CommentsSubRutes/geter.js');
-
 const stats_routes = require('./rutes/stats.js');
 
 app.use(bodyParser.json());

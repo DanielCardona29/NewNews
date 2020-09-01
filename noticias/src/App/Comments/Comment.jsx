@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../Styles/App/Comments/Comments.scss';
 import CommController from '../../Controllers/CommentsController.js';
+
+
 const CommentsController = new CommController();
 
 const Comment = (props) => {
@@ -36,68 +38,145 @@ const Comment = (props) => {
     }
 
 
-    if (props.keyNum % 2 === 0) {
-        let comment = (
-            <div className="commentWrapper oscuro">
-                <div className="userCommetInfo">
-                    usuario: <label className="label">{props.autor.autor}</label>
-        Puntuación: <label className="label">{props.comentario.Punt}</label>
-        hace: <label className="label">{time()} dias</label>
-                </div>
+    const userid = sessionStorage.getItem('userid')
 
-                <div className="CommentContent">
-                    <p>{props.comentario.content}</p>
+    if (props.comentario.idusercoment === userid) {
+        if (props.keyNum % 2 === 0) {
+            let comment = (
+                <div className="commentWrapper oscuro">
+                    <div className="userCommetInfo">
+                        usuario: <label className="label">{props.autor.autor}</label>
+                Puntuación: <label className="label">{props.comentario.Punt}</label>
+            hace: <label className="label">{time()} dias</label>
+                        <div className="iconContent buttonAction edit" ></div>
+                        <div className="iconContent buttonAction deleat" onClick={ () => props.HasBedeleteComment( props.comentario.id, props.CommentPositon)}></div>
+                    </div>
+
+                    <div className="CommentContent">
+                        <p>{props.comentario.content}</p>
+                    </div>
+                    {
+                        (() => {
+                            if (Like) {
+                                return <div className="CommentStats">
+                                    <div className="like" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            } else {
+                                return <div className="CommentStats">
+                                    <div className="dontLike" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            }
+                        })()
+                    }
                 </div>
-                {
-                    (() => {
-                        if (Like) {
-                            return <div className="CommentStats">
-                                <div className="like" onClick={() => handleLiker()}></div>
-                                <label>{countLikes}</label>
-                            </div>
-                        } else {
-                            return <div className="CommentStats">
-                                <div className="dontLike" onClick={() => handleLiker()}></div>
-                                <label>{countLikes}</label>
-                            </div>
-                        }
-                    })()
-                }
-            </div>
-        );
-        return comment;
+            );
+            return comment;
+
+        } else {
+            let comment = (
+                <div className="commentWrapper">
+                    <div className="userCommetInfo">
+                        usuario: <label className="label">{props.autor.autor}</label>
+                        Puntuación: <label className="label">{props.comentario.Punt}</label>
+                        hace: <label className="label">{time()} dias</label>
+                        <div className="iconContent buttonAction edit"></div>
+                        <div className="iconContent buttonAction deleat" onClick={ () => props.HasBedeleteComment( props.comentario.id, props.CommentPositon)}></div>
+                    </div>
+                    <div className="CommentContent">
+                        <p>{props.comentario.content}</p>
+                    </div>
+                    {
+                        (() => {
+                            if (Like) {
+                                return <div className="CommentStats">
+                                    <div className="like" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            } else {
+                                return <div className="CommentStats">
+                                    <div className="dontLike" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            }
+                        })()
+                    }
+                </div>
+            );
+            return comment;
+
+        }
 
     } else {
-        let comment = (
-            <div className="commentWrapper">
-                <div className="userCommetInfo">
-                    usuario: <label className="label">{props.autor.autor}</label>
-                    Puntuación: <label className="label">{props.comentario.Punt}</label>
-                    hace: <label className="label">{time()} dias</label>
+
+        if (props.keyNum % 2 === 0) {
+            let comment = (
+                <div className="commentWrapper oscuro">
+                    <div className="userCommetInfo">
+                        usuario: <label className="label">{props.autor.autor}</label>
+                Puntuación: <label className="label">{props.comentario.Punt}</label>
+            hace: <label className="label">{time()} dias</label>
+
+                    </div>
+
+                    <div className="CommentContent">
+                        <p>{props.comentario.content}</p>
+                    </div>
+                    {
+                        (() => {
+                            if (Like) {
+                                return <div className="CommentStats">
+                                    <div className="like" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            } else {
+                                return <div className="CommentStats">
+                                    <div className="dontLike" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            }
+                        })()
+                    }
                 </div>
-                <div className="CommentContent">
-                    <p>{props.comentario.content}</p>
+            );
+            return comment;
+
+        } else {
+            let comment = (
+                <div className="commentWrapper">
+                    <div className="userCommetInfo">
+                        usuario: <label className="label">{props.autor.autor}</label>
+                        Puntuación: <label className="label">{props.comentario.Punt}</label>
+                        hace: <label className="label">{time()} dias</label>
+
+                    </div>
+                    <div className="CommentContent">
+                        <p>{props.comentario.content}</p>
+                    </div>
+                    {
+                        (() => {
+                            if (Like) {
+                                return <div className="CommentStats">
+                                    <div className="like" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            } else {
+                                return <div className="CommentStats">
+                                    <div className="dontLike" onClick={() => handleLiker()}></div>
+                                    <label>{countLikes}</label>
+                                </div>
+                            }
+                        })()
+                    }
                 </div>
-                {
-                    (() => {
-                        if (Like) {
-                            return <div className="CommentStats">
-                                <div className="like" onClick={() => handleLiker()}></div>
-                                <label>{countLikes}</label>
-                            </div>
-                        } else {
-                            return <div className="CommentStats">
-                                <div className="dontLike" onClick={() => handleLiker()}></div>
-                                <label>{countLikes}</label>
-                            </div>
-                        }
-                    })()
-                }
-            </div>
-        );
-        return comment;
+            );
+            return comment;
+
+        }
 
     }
+
 }
 
 export default Comment;
