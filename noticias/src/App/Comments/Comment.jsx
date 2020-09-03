@@ -11,7 +11,12 @@ class Comment extends React.Component {
 
         this.state = {
             Like: this.props.isLiked,
-            countLikes: this.props.likes
+            countLikes: this.props.likes,
+            form: {
+                Coment: '',
+                Punt: '1'
+            },
+
         }
         this.CommentsController = new CommController();
 
@@ -49,10 +54,11 @@ class Comment extends React.Component {
     }
 
     render() {
+
         const userid = sessionStorage.getItem('userid')
         if (this.props.comentario.idusercoment === userid) {
             if (this.props.keyNum % 2 === 0) {
-                return <CommetnUser Like={this.state.Like}
+                return <CommetnUser
                     content={this.props.comentario.content}
                     countLikes={this.state.countLikes}
                     onLiked={() => this.handleLiker()}
@@ -63,9 +69,10 @@ class Comment extends React.Component {
                     time={this.time()}
                     isOscuro={true}
                     id={this.props.comentario.id}
+                    
                 />;
             } else {
-                return <CommetnUser Like={this.state.Like}
+                return <CommetnUser
                     content={this.props.comentario.content}
                     countLikes={this.state.countLikes}
                     onLiked={() => this.handleLiker()}
@@ -76,13 +83,14 @@ class Comment extends React.Component {
                     time={this.time()}
                     isOscuro={false}
                     id={this.props.comentario.id}
+                    
 
                 />;
             }
 
         } else {
             if (this.props.keyNum % 2 === 0) {
-                return <CommetnNoUser Like={this.state.Like}
+                return <CommetnNoUser 
                     content={this.props.comentario.content}
                     countLikes={this.state.countLikes}
                     onLiked={() => this.handleLiker()}
@@ -95,7 +103,7 @@ class Comment extends React.Component {
 
                 />;
             } else {
-                return <CommetnNoUser Like={this.state.Like}
+                return <CommetnNoUser 
                     content={this.props.comentario.content}
                     countLikes={this.state.countLikes}
                     onLiked={() => this.handleLiker()}

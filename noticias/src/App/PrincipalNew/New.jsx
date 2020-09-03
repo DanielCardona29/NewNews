@@ -53,7 +53,7 @@ const NewP = (props) => {
             <div className="titlePrincipal">
               <h3>{noticias.title}</h3>
             </div>
-            <div className="textoPrincipal" id="texto"></div>
+            <div className="textoPrincipal" id="texto" dangerouslySetInnerHTML={{ __html: noticias.content }} ></div>
           </div>
 
           <div style={{ margin: "10px 0px 0 0" }}>
@@ -75,8 +75,8 @@ const NewP = (props) => {
     const noData = (
       <div className="container">
         <div className="wrapperPrincipal">
-        
-        <Loader content = {'noticia'}/>
+
+          <Loader content={'noticia'} />
         </div>
       </div>
     );
@@ -85,10 +85,7 @@ const NewP = (props) => {
     if (noticias.value) {
       //Reentornamos los datos que encontramos en el stado de las noticias.
       if (noticias.size === counter) setConuter(0);
-      setTimeout(
-        () => (document.getElementById("texto").innerHTML = noticias.content),
-        1
-      );
+
       return isData;
     } else {
       //Si no se extraen los datos hacemos esperamos da 2 segundos antes de volver a intentar traerlos.

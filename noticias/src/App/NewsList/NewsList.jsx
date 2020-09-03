@@ -18,7 +18,8 @@ class NewsList extends React.Component {
         this.state = {
             newsState: false,
             scroll: 0,
-            maxScroll: 0
+            maxScroll: 0,
+            contador: 0,
         }
     }
 
@@ -44,9 +45,11 @@ class NewsList extends React.Component {
     }
 
     async componentDidMount() {
+
         if (this.props.search === 'LastTen') {
             await this.NewsController.TenUltmateNewsList()
                 .then(data => {
+
                     if (data.value)
                         this.setState({
                             newsState: data.dataOBJ,
@@ -86,6 +89,7 @@ class NewsList extends React.Component {
                         <ul id={this.props.id} className="lista">
 
                             {this.state.newsState.map((item, key) => {
+
                                 const card = (
                                     <li key={key}>
                                         <Link to={`/news/${item.id}`} className="Link linkHover">
@@ -105,7 +109,7 @@ class NewsList extends React.Component {
                                     </li>
 
                                 )
-                                return card
+                                    return card
 
                             })}
 
@@ -120,7 +124,7 @@ class NewsList extends React.Component {
                 return <Loader />
             }
         } catch (error) {
-            return <ErrorPage errorValue ={error}/>
+            return <ErrorPage errorValue={error} />
         }
 
 

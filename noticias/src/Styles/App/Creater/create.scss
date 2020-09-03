@@ -1,0 +1,26 @@
+.updater {
+    widows: 100%;
+    height: auto;
+}
+.formClass {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.formClass > .Mybtn {
+    margin-top: 15px;
+}
+
+.formClass>form>.form-group{
+    margin-top:15px
+}
+
+
+.contenidoCreador{
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 8px;
+}

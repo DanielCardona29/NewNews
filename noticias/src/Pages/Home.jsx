@@ -26,8 +26,8 @@ const Home = (props) => {
     formState.value ? (
       <InsForm action={handleChange} />
     ) : (
-      <LoginForm action={handleChange} />
-    );
+        <LoginForm action={handleChange} />
+      );
 
   const formulario = form();
   const Home = (

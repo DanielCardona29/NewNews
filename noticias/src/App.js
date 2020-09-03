@@ -14,6 +14,7 @@ import Home from './Pages/Home.jsx';
 import Principal from './Pages/Principal.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import NewsPage from './Pages/News.jsx';
+import NewWriter from './Pages/WriteAnew.jsx';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 
             <Route  path ="/news/:id" component={NewsPage}/>
             <Route path="/" exact component={Home} />
+            <Route path="/create" exact component={NewWriter} />
             <Route path='/home' exact component={Principal} />
             <Route component={ErrorPage} />
 

@@ -8,6 +8,8 @@ const news_routes = require('./rutes/news.js');
 const user_routes = require('./rutes/user.js');
 const comments_routes = require('./rutes/comments.js');
 const stats_routes = require('./rutes/stats.js');
+const path = require('path');
+
 
 app.use(bodyParser.json());
 
@@ -35,3 +37,6 @@ app.use('/users', user_routes);
 app.use('/stats', stats_routes);
 //Commentarios
 app.use('/comments', comments_routes);
+
+//Static files, obtener imagenes
+app.use(express.static(path.join(__dirname, 'src')))

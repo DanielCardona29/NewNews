@@ -26,7 +26,26 @@ router.get('/ult/news', (req, res) => {
             console.log(`Hubo un error en la base de datos`);
             res.json({ value: false })
         } else if (results.length > 0) {
-            res.json({ results, value: true });
+            let dataRow = [];
+            results.forEach(element => {
+                if (element.ispublic === 'true') {
+                    dataRow = [
+                        ...dataRow,
+                        {
+                            id: element.id,
+                            title: element.title,
+                            content: element.content,
+                            img: element.img,
+                            aling: element.aling,
+                            date: element.date,
+                            userid: element.userid,
+
+                        }
+                    ]
+                }
+            })
+
+            res.json({ results: dataRow, value: true });
         } else {
             res.json({ value: false })
         }
@@ -43,25 +62,26 @@ router.get('/best/popular/news', (req, res) => {
             res.json({ value: false })
         } else if (results.length > 0) {
             let dataRow = [];
-
             results.forEach(element => {
-                dataRow = [
-                    ...dataRow,
-                    {
-                        id: element.id,
-                        title: element.title,
-                        content: element.content,
-                        img: element.img,
-                        date: element.date,
-                        userid: element.userid,
-                        stats: {
-                            views: element.views,
-                            likes: element.likes,
-                            dislikes: element.dislikes
-                        }
+                if (element.ispublic === 'true') {
+                    dataRow = [
+                        ...dataRow,
+                        {
+                            id: element.id,
+                            title: element.title,
+                            content: element.content,
+                            img: element.img,
+                            date: element.date,
+                            userid: element.userid,
+                            stats: {
+                                views: element.views,
+                                likes: element.likes,
+                                dislikes: element.dislikes
+                            }
 
-                    }
-                ]
+                        }
+                    ]
+                }
             })
 
             res.json({ results: dataRow, value: true })

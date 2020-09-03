@@ -1,0 +1,66 @@
+.preview {
+    width: 100%;
+}
+
+.editor-preview {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.previewContent {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.previewContent > .previewTitle {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.contenidoCreador{
+    word-break: break-all;
+    padding: 10px 10px 10px 10px;
+}
+
+
+.previewContent > .contentButtons {
+    margin-top: 15px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 15px;
+
+}
+.previewContent > .contentButtons > .buttons {
+    display: flex;
+    flex-direction: row;
+}
+.previewContent > .contentButtons > .buttons > .Mybtn{
+    margin-left: 15px;
+}
+.previewContent > .previewTitle > h2 {
+    content: "";
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+    display: flex;
+    word-break: break-all;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

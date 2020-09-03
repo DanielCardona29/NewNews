@@ -139,7 +139,6 @@ class Commets extends React.Component {
                                 let ComentsOBJ = [];
                                 let Contador = 0;
                                 for (let i = 0; i < this.state.Commets.length; i++) {
-                                    console.log(`${i} ${Position}`);
                                     if (i !== Position) {
                                         ComentsOBJ = [
                                             ...ComentsOBJ,

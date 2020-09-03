@@ -11,7 +11,6 @@ import StatsController from '../Controllers/statsController.js';
 import '../Styles/App/NewsDetail/News.scss';
 import Commets from '../App/Comments/Commets.jsx';
 
-
 class NewsPage extends React.Component {
 
     constructor(props) {
@@ -175,7 +174,7 @@ class NewsPage extends React.Component {
                                     {this.state.NewElement.autor}
                                 </label>
                             </div>
-                            <div className="newContenido" id="newContenido">
+                            <div className="newContenido" id="newContenido" style={{ textAlign: this.state.NewElement.aling }} dangerouslySetInnerHTML={{ __html: this.state.NewElement.content }}>
                             </div>
 
                             <div className="newCalification"></div>
@@ -188,12 +187,9 @@ class NewsPage extends React.Component {
                 </div>
             );
 
-            if (this.state.ok) {
+            const userid = sessionStorage.getItem('userid');
+            if (this.state.ok && userid) {
                 if (this.state.NewElement) {
-                    setTimeout(() => {
-                        document.getElementById('newContenido').innerHTML = this.state.NewElement.content
-                    }, 100);
-
                     return Page;
                 } else {
                     return loading;

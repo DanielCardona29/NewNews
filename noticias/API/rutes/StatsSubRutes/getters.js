@@ -54,23 +54,24 @@ router.get('/best/calificaties/news', (req, res) => {
             let dataRow = [];
 
             results.forEach(element => {
-                dataRow = [
-                    ...dataRow,
-                    {
-                        id: element.id,
-                        title: element.title,
-                        content: element.content,
-                        img: element.img,
-                        date: element.date,
-                        userid: element.userid,
-                        stats: {
-                            views: element.views,
-                            likes: element.likes,
-                            dislikes: element.dislikes
-                        }
+                if (element.ispublic === 'true')
+                    dataRow = [
+                        ...dataRow,
+                        {
+                            id: element.id,
+                            title: element.title,
+                            content: element.content,
+                            img: element.img,
+                            date: element.date,
+                            userid: element.userid,
+                            stats: {
+                                views: element.views,
+                                likes: element.likes,
+                                dislikes: element.dislikes
+                            }
 
-                    }
-                ]
+                        }
+                    ]
             })
 
             res.json({ results: dataRow, value: true })

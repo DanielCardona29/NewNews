@@ -24,7 +24,7 @@ const NewsCard = (props) => {
             <div className="card-text">
                 <span className="date">{props.date}</span>
                 <h2>{props.title}</h2>
-                <p id={`content${props.clave}`}></p>
+                <p id={`content${props.clave}`} dangerouslySetInnerHTML={{ __html: props.content}}></p>
             </div>
             <div className="card-stats">
                 <div className="stat">
@@ -47,13 +47,6 @@ const NewsCard = (props) => {
             </div>
         </div>
     );
-
-
-    setTimeout(() => {
-        document.getElementById(`content${props.clave}`).innerHTML = props.content;
-
-    }, 100)
-
     return card
 }
 

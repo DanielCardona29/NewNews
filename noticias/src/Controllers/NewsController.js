@@ -1,7 +1,6 @@
 import StatsController from './statsController.js';
-
+import swal from 'sweetalert';
 class NewsController extends StatsController {
-
 
   //Obtener los comentarios de una noticia
   CommetsGetter = async (id) => {
@@ -70,10 +69,9 @@ class NewsController extends StatsController {
     return data
   }
 
-
   //Extrae todas las noticias
   ExtractNews = async () => {
-    let url = `http://localhost:5000/news/`;
+    let url = `http://localhost:5000/news/ult/news`;
     let data = await fetch(url);
     const response = await data.json();
 
@@ -96,7 +94,7 @@ class NewsController extends StatsController {
     }
     return data;
   }
-
+  //Extraer las noticias
   NewsController = async (contador) => {
 
     const noticia = await this.ExtractNews()
@@ -126,7 +124,7 @@ class NewsController extends StatsController {
       });
     return noticia
   }
-
+  //Extraer el autor
   AutorController = async (noticia) => {
     const element = await this.ExtractAutor(noticia.userid)
       .catch((error) => {
@@ -141,8 +139,53 @@ class NewsController extends StatsController {
     return element;
   }
 
+  //Subir la imagen de una noticia
+  UpdateAimage = async (urlImg) => {
+    //Creanis la url
+    const url = `http://localhost:5000/news/image/upload`;
+    const formData = new FormData();
+    const fileField = document.querySelector('#NewImage');
+    //Si tenemos un archivo entonces lo procesamos 
+    if (fileField.files[0]) {
+      formData.append('url', '');
+      formData.append('NewImage', fileField.files[0]);
+      formData.append('isFile', true);
+      const consulta = await fetch(url, {
+        method: 'POST',
+        body: formData
+      })
 
+      const response = await consulta.json();
+      return response;
 
+    } else if (urlImg) {
+      //Si no entonces procesamos la url
+      const data = {
+        url: urlImg,
+        isFile: false,
+      }
+      const consulta = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const response = await consulta.json();
+      return response;
+    } else {
+      swal({
+        text: 'Pon la url o poner un archivo para continuar',
+        button: 'Aceptar'
+      })
+    }
+
+  }
+
+  //Guardar una noticia en la base de datos
+  saveAnew = async () => {
+
+  }
 }
 
 export default NewsController;

@@ -96,7 +96,7 @@ class CommController {
             return LikeSetter;
         }
     }
-
+    //Enviar un comentario
     SettACommet = async (content, idnewcoment, idusercoment, Punt) => {
         const url = 'http://localhost:5000/comments/post/';
         const data = {
@@ -115,7 +115,7 @@ class CommController {
         const response = await consulta.json();
         return response;
     }
-
+    //Extraer el id de un comentario
     ExtractID = async (coment) => {
         let url = `http://localhost:5000/comments/post/id/`;
         const consulta = await fetch(url, {
@@ -132,7 +132,7 @@ class CommController {
     deleteLikesForComments = async (id) => {
 
     }
-
+    //Eliminar un comentario
     deleteComment = async (id) => {
 
         const url = `http://localhost:5000/comments/delete/likes/${id}`
@@ -151,6 +151,24 @@ class CommController {
         } else {
             return false;
         }
+    }
+    //Actualizar un comentario
+    UpdateAcoment = async (content, comentid) => {
+        const userid = sessionStorage.getItem('userid')
+        const url = `http://localhost:5000/comments/put/comment/${userid}/${comentid}`;
+        const data = {
+            content: content.content,
+            Punt: content.puntua
+        }
+        const consulta = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const response = await consulta.json();
+        return response.value;
     }
 
 }

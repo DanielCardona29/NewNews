@@ -1,5 +1,5 @@
 
-class MainControlle {
+class MainController {
 
     //Extrae la información de un usuario de la base de datos 
     userConsult = async () => {
@@ -45,4 +45,4 @@ class MainControlle {
 }
 
 
-export default MainControlle;
+export default MainController;

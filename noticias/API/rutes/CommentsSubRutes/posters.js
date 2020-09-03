@@ -5,7 +5,7 @@ const connection = require('../../connection.js');
 
 function getDate() {
     const d = new Date();
-    const output = `${d.getFullYear()}/${d.getMonth()}/${d.getDay()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
+    const output = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDay()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
     console.log(output);
     return output;
 }

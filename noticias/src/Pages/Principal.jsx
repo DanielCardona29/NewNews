@@ -46,11 +46,11 @@ class Principal extends React.Component {
                     <div className="contenidoWrapper">
                         <div className="wrapperListContent">
                             <h2>Ultimas subidas</h2>
-                            <NewsList id={'lista1'} search={'LastTen'}/>
+                            <NewsList id={'lista1'} search={'LastTen'} />
                         </div>
                         <div className="wrapperListContent">
                             <h2>Mas populares</h2>
-                            <NewsList id={'lista2'} search={'BestPopulars'}/>
+                            <NewsList id={'lista2'} search={'BestPopulars'} />
                         </div>
                         <div className="wrapperListContent">
                             <h2>Mejores calificadas</h2>
@@ -63,7 +63,8 @@ class Principal extends React.Component {
         );
 
         try {
-            if (this.state.ok) {
+            const userid = sessionStorage.getItem('userid');
+            if (this.state.ok && userid) {
 
                 return Page;
 
