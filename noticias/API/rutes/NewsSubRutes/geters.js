@@ -18,6 +18,8 @@ router.get('/', (req, res) => {
     });
 });
 
+
+
 //Obtener las 10 ultimas noticias registradas
 router.get('/ult/news', (req, res) => {
     const sql = ' SELECT * FROM news ORDER BY date DESC LIMIT 10';
@@ -123,5 +125,8 @@ router.get('/detail/?:id', (req, res) => {
         }
     });
 });
+
+
+
 
 module.exports = router;

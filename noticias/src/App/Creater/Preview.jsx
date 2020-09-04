@@ -47,7 +47,7 @@ const EditorPreview = (props) => {
                 <div className="contentButtons">
                     <h5>Guardar o publicar o eliminar</h5>
                     <div className="buttons">
-                        <Button type={'button'} content={'Guardar'} classType={'Mybtn btn3'} click={() => props.chageAling('left')} id={'saver'} name={'saver'} />
+                        <Button type={'button'} content={'Guardar'} classType={'Mybtn btn3'} click={() => props.saver()} id={'saver'} name={'saver'} />
                         <Button type={'button'} content={'Publicar'} classType={'Mybtn btn2'} click={() => props.chageAling('center')} id={'Publicer'} name={'Publicer'} />
                         <Button type={'button'} content={'Eliminar'} classType={'Mybtn btn4'} click={() => props.chageAling('center')} id={'Deleter'} name={'Deleter'} />
 

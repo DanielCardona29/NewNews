@@ -183,8 +183,54 @@ class NewsController extends StatsController {
   }
 
   //Guardar una noticia en la base de datos
-  saveAnew = async () => {
-
+  saveAnew = async (data) => {
+    if (data) {
+      if (!data.id) {
+        //Si no tenemos el id significa que la noticia que se 
+        //va a guardar es nueva y no tenemos de un registro guardada en la base de datos
+        const url = 'http://localhost:5000/news/set/';
+        const userid = sessionStorage.getItem('userid')
+        const newsOBJ = {
+          title: data.title,
+          content: data.data,
+          img: data.img,
+          aling: data.aling,
+          userid: userid,
+          ispublic: 'false'
+        }
+        const consulta = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(newsOBJ),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const response = await consulta.json();
+        return response;
+      } else {
+        //En caso de que tengamos el id entonces solo actualizamos en la base de datos
+        const url = `http://localhost:5000/news/save/${data.id}`;
+        const newsOBJ = {
+          id: data.id,
+          title: data.title,
+          content: data.data,
+          img: data.img,
+          aling: data.aling,
+          ispublic: 'false'
+        }
+        const consulta = await fetch(url, {
+          method: 'PUT',
+          body: JSON.stringify(newsOBJ),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const response = await consulta.json();
+        return response;
+      }
+    } else {
+      swal({ text: 'Al parecer tenemos datos intenta de nuevo por favor', button: 'Aceptar' })
+    }
   }
 }
 

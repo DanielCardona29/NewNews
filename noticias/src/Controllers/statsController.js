@@ -30,8 +30,7 @@ class StatsController extends MainController {
         //Si el usuario existe
         if (responseUser.value) {
             //entoces verificamos si la noticia si existe
-            let newsExist = await this.newsConsult(newsid);
-            let responseNews = await newsExist.json();
+            let responseNews = await this.newsConsult(newsid);
             //Si la noticia existe 
             if (responseNews.value) {
                 //Enviamos la visita

@@ -19,7 +19,7 @@ class MainController {
             .then(element => {
                 return element;
             })
-        return element;
+        return element.json();
     }
 
     //Verificamos si un usuario se logueado correctamente

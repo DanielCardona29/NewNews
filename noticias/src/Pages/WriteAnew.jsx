@@ -9,7 +9,6 @@ import '../Styles/Principales/Home.scss';
 import '../Styles/Principales/Creater.scss';
 import Footer from '../App/Footer/Footer.jsx';
 import MainController from '../Controllers/mainController.js';
-
 import NewsController from '../Controllers/NewsController.js';
 
 //Importamos los componetes de nuestra pagina 
@@ -27,10 +26,11 @@ class NewWriter extends React.Component {
             ok: true,
             urlUPDATE: '',
             form: {
+                id: false,
                 aling: 'left',
                 user: '',
-                image: '',
-                data: '<p>React is really <em>nice</em>!</p>',
+                img: '',
+                data: '<p>Empieza a escribir tu noticia aquí</p>',
                 title: ''
             }
         }
@@ -41,13 +41,13 @@ class NewWriter extends React.Component {
 
     }
 
-
+    //Este cambia el estado para gurdar la noticia
     handleChangeUpdater = (e) => {
         this.setState({
             urlUPDATE: e.target.value.trim(),
         });
     }
-
+    //Este carga la imagen a la api
     updateImage = async () => {
         await this.NewsController.UpdateAimage(this.state.urlUPDATE)
             .then(value => {
@@ -56,13 +56,12 @@ class NewWriter extends React.Component {
                     urlUPDATE: '',
                     form: {
                         ...this.state.form,
-                        image: value.url
+                        img: value.url
                     }
                 })
             })
     }
-
-
+    //Este cambiar el estado del cotenido
     onEditorChange(e) {
         this.setState({
             form: {
@@ -72,7 +71,7 @@ class NewWriter extends React.Component {
 
         });
     }
-
+    //Este ajusta el estado del contenido
     handleChange(e) {
         this.setState({
             form: {
@@ -81,7 +80,7 @@ class NewWriter extends React.Component {
             }
         });
     }
-
+    //Este cambia el estado del titulo
     handleChangeTitle = e => {
         this.setState({
             form: {
@@ -90,7 +89,7 @@ class NewWriter extends React.Component {
             }
         });
     }
-
+    //este ajusta el la alineacion del texto 
     alingAjust = (aling) => {
         if (aling === 'center') {
             this.setState({
@@ -115,6 +114,32 @@ class NewWriter extends React.Component {
             });
         }
     }
+    //Aqui guardamos una noticia en la base de datos
+    saveAnew = async () => {
+        if (this.state.form.data !== '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.img !== '' || this.state.form.title !== '') {
+            await this.NewsController.saveAnew(this.state.form)
+                .then(value => {
+                    console.log(value);
+                    if (value.value || value.id) {
+                        this.setState(
+                            {
+                                form: {
+                                    ...this.state.form,
+                                    id: value.id
+                                }
+                            }
+                        )
+                        localStorage.setItem('isNewCreating', JSON.stringify({ value: true, id: value.id }));
+                        swal({
+                            text: 'Datos guardados correctamente',
+                            button: 'Aceptar'
+                        })
+                    }
+                })
+        }else{
+            swal({text: 'no tienes ningun tipo de contenido para guardar'})
+        }
+    }
 
     async componentDidMount() {
         let userInfo = await this.Controller.userConsult();
@@ -132,6 +157,32 @@ class NewWriter extends React.Component {
                     ok: access
                 })
             })
+        //Verificamos si el usuario estaba creando una noticia
+        const isNewEditing = JSON.parse(localStorage.getItem('isNewCreating'));
+        if (isNewEditing) {
+            if (isNewEditing.value) {
+                await this.Controller.newsConsult(isNewEditing.id)
+                    .then(news => {
+                        if (news.value) {
+                            const formOBJ = {
+                                id: news.results[0].id,
+                                aling: news.results[0].aling,
+                                img: news.results[0].img,
+                                data: news.results[0].content,
+                                title: news.results[0].title
+                            }
+                            this.setState({
+
+                                form: {
+                                    user: this.state.form.user,
+                                    ...formOBJ
+                                }
+                            })
+                        }
+                    })
+            }
+        }
+
     }
 
 
@@ -168,11 +219,12 @@ class NewWriter extends React.Component {
                         <div className="preview">
                             <Preview data={this.state.form.data}
                                 autor={this.state.form.user}
-                                img={this.state.form.image}
+                                img={this.state.form.img}
                                 title={this.state.form.title}
                                 aling={this.state.form.aling}
                                 chageAling={this.alingAjust}
-                                />
+                                saver={this.saveAnew}
+                            />
                         </div>
 
                     </div>

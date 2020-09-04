@@ -13,10 +13,19 @@ const RuteResponse = {
 
 function getDate() {
     const d = new Date();
-    const output = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDay()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
-    console.log(output);
+    const output = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDay()-1} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
     return output;
 }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+const newsUniqID = () => {
+    const id = `${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}`
+    return id;
+}
+
+
 
 //Middleweres 
 //Son codigos que se ejecutan antes de ejecutar las rutas
@@ -58,15 +67,14 @@ router.post('/image/upload', (req, res) => {
 
 });
 
-
-
 //Envia una noticia
 router.post('/set/', (req, res) => {
-    const { title, content, img, userid, aling } = req.body;
-    if (title && content && img && userid) {
+    const { title, content, img, userid, aling, ispublic } = req.body;
+    if (title !== '' || content !== '<p>Empieza a escribir tu noticia aquí</p>' || img !== '' && userid) {
         let sql = `INSERT INTO news SET ?`;
-        const usersOBJ = {
-            title: title,
+        const newsOBJ = {
+            id: newsUniqID(),
+            title: title || 'Falta titulo para agregar',
             content: content,
             img: img,
             aling: aling || 'left',
@@ -74,12 +82,13 @@ router.post('/set/', (req, res) => {
             userid: userid,
             ispublic: ispublic
         }
-        connection.query(sql, usersOBJ, error => {
-            (error) ? console.log(error) : res.json({ value: true });
+        connection.query(sql, newsOBJ, error => {
+            (error) ? console.log(error) : res.json({ value: true, id: newsOBJ.id });
         });
+    } else {
+        res.json({ value: false })
     }
 });
-
 
 
 module.exports = router;
