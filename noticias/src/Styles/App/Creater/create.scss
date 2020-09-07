@@ -13,14 +13,147 @@
 .formClass > .Mybtn {
     margin-top: 15px;
 }
-
-.formClass>form>.form-group{
-    margin-top:15px
+.formClass > form > .form-group {
+    margin-top: 15px;
 }
-
-
-.contenidoCreador{
+.contenidoCreador {
     width: 100%;
     border: 1px solid black;
     border-radius: 8px;
+}
+.tabs {
+    background-color: #9bc8d6;
+    margin-top: 40px;
+    width: 100%;
+    height: 35px;
+    min-height: 35px;
+    max-height: 35px;
+    display: flex;
+    align-items: center;
+}
+.tabContainer {
+    width: 100%;
+    display: flex;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 30px;
+}
+.tabContainer > .tab {
+    margin: 0px 0px 0px 10px;
+    background-color: #576062;
+    width: 150px;
+    height: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    position: relative;
+    bottom: -2px;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.ColseAndTextConten {
+    color: white;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+.tabContainer > .tab > .ColseAndTextConten > label {
+    color: #ffffff;
+    cursor: pointer;
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 0;
+}
+.tabContainer > .tab > .ColseAndTextConten > .icoPest {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 10px;
+    background-color: #2e3d42;
+}
+
+.tabContainer > .tab > .ColseAndTextConten > .icoPest > .rayita {
+    width: 2px;
+    height: 10px;
+    background-color: white;
+    position: relative;
+}
+
+.tabContainer > .tab > .ColseAndTextConten > .icoPest > .rayita:nth-last-child(1) {
+    transform: rotate(40deg);
+    top: 0px;
+}
+.tabContainer > .tab > .ColseAndTextConten > .icoPest > .rayita:nth-last-child(2) {
+    transform: rotate(-40deg);
+    left: 1.8px;
+}
+
+.tabContainer > .createNewtab {
+    margin: 0px 0px 0px 10px;
+    background-color: #2e3d42;
+    width: 30px;
+    height: 30px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    display: flex;
+    position: relative;
+    bottom: -2px;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+.tabContainer > .createNewtab > .icoPest > .rayita {
+    width: 2px;
+    height: 10px;
+    background-color: white;
+    position: relative;
+}
+.tabContainer > .createNewtab > .icoPest > .rayita:nth-last-child(1) {
+    transform: rotate(90deg);
+    top: -3px;
+    left: 13.8px;
+}
+.tabContainer > .createNewtab > .icoPest > .rayita:nth-last-child(2) {
+    transform: rotate(180deg);
+    top: 7px;
+    left: 13.8px;
+}
+
+.tabActual {
+    background-color: #2e3d42 !important;
+}
+.xClara {
+    background-color: #576062 !important;
+}
+
+.rojo {
+    background-color: red !important;
+}
+.moveText {
+    animation: 20s moveText infinite;
+}
+
+@keyframes moveText {
+    0% {
+        right: 0;
+    }
+    50% {
+        right: 600%;
+    }
+
+    100% {
+        right: 0;
+    }
 }

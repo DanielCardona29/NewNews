@@ -1,6 +1,11 @@
 import StatsController from './statsController.js';
 import swal from 'sweetalert';
+import MainController from './mainController.js';
 class NewsController extends StatsController {
+  constructor() {
+    super();
+    this.MainController = new MainController();
+  }
 
   //Obtener los comentarios de una noticia
   CommetsGetter = async (id) => {
@@ -11,7 +16,6 @@ class NewsController extends StatsController {
     return data
 
   }
-
   //Obtener Obtenes las ultimas noticas registradas
   TenUltmateNewsListGetter = async () => {
     const url = `http://localhost:5000/news/ult/news`
@@ -20,7 +24,6 @@ class NewsController extends StatsController {
     let data = await response.json()
     return data;
   }
-
   //Consultar una lista de 10 noticias
   TenUltmateNewsList = async () => {
     //Obtenemos la lista de noticias completa
@@ -50,7 +53,6 @@ class NewsController extends StatsController {
     }
     return { dataOBJ, value: true };
   }
-
   //Consultar las 10 noticias mas populares
   BestPopularList = async () => {
 
@@ -68,7 +70,16 @@ class NewsController extends StatsController {
     }
     return data
   }
-
+  //Cosutlar si una noticia puede ser actualizada
+  isUpdaterNew = async (id) => {
+    const userid = sessionStorage.getItem('userid')
+    const url = `http://localhost:5000/news/consult/${id}/${userid}`
+    const element = await fetch(url)
+      .then(element => {
+        return element;
+      })
+    return element.json();
+  }
   //Extrae todas las noticias
   ExtractNews = async () => {
     let url = `http://localhost:5000/news/ult/news`;
@@ -138,7 +149,6 @@ class NewsController extends StatsController {
       });
     return element;
   }
-
   //Subir la imagen de una noticia
   UpdateAimage = async (urlImg) => {
     //Creanis la url
@@ -181,10 +191,10 @@ class NewsController extends StatsController {
     }
 
   }
-
   //Guardar una noticia en la base de datos
   saveAnew = async (data) => {
     if (data) {
+
       if (!data.id) {
         //Si no tenemos el id significa que la noticia que se 
         //va a guardar es nueva y no tenemos de un registro guardada en la base de datos
@@ -206,17 +216,83 @@ class NewsController extends StatsController {
           }
         });
         const response = await consulta.json();
+        console.log(response);
         return response;
       } else {
         //En caso de que tengamos el id entonces solo actualizamos en la base de datos
-        const url = `http://localhost:5000/news/save/${data.id}`;
+        let isPosibleSave = await this.isUpdaterNew(data.id)
+          .then(value => {
+            return value.value
+          });
+        if (isPosibleSave) {
+          const url = `http://localhost:5000/news/save/${data.id}`;
+          const userid = sessionStorage.getItem('userid')
+          const newsOBJ = {
+            id: data.id,
+            title: data.title,
+            content: data.data,
+            img: data.img,
+            userid: userid,
+            aling: data.aling,
+            ispublic: 'false'
+          }
+          const consulta = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(newsOBJ),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const response = await consulta.json();
+          console.log(response);
+
+          return response;
+        } else {
+          return false
+        }
+      }
+    } else {
+      swal({ text: 'Al parecer tenemos datos intenta de nuevo por favor', button: 'Aceptar' })
+    }
+  }
+  //Publicar una notica 
+  PublicANew = async (data) => {
+
+    if (data) {
+      if (!data.id) {
+        //Si no tenemos el id significa que la noticia que se 
+        //va a guardar es nueva y no tenemos de un registro guardada en la base de datos
+        const url = 'http://localhost:5000/news/set/';
+        const userid = sessionStorage.getItem('userid')
         const newsOBJ = {
-          id: data.id,
           title: data.title,
           content: data.data,
           img: data.img,
           aling: data.aling,
-          ispublic: 'false'
+          userid: userid,
+          ispublic: 'true'
+        }
+        const consulta = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(newsOBJ),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const response = await consulta.json();
+        return response;
+      } else {
+        //En caso de que tengamos el id entonces solo actualizamos en la base de datos
+        const userid = sessionStorage.getItem('userid')
+        const url = `http://localhost:5000/news/save/${data.id}`;
+        const newsOBJ = {
+          id: data.id,
+          userid: userid,
+          title: data.title,
+          content: data.data,
+          img: data.img,
+          aling: data.aling,
+          ispublic: 'true'
         }
         const consulta = await fetch(url, {
           method: 'PUT',
@@ -231,6 +307,21 @@ class NewsController extends StatsController {
     } else {
       swal({ text: 'Al parecer tenemos datos intenta de nuevo por favor', button: 'Aceptar' })
     }
+  }
+  //Eliminar una noticia
+  deleteANew = async (id) => {
+    const url = `http://localhost:5000/news/delete/${id}`
+
+    const deleteMethod = {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+    }
+    let consulta = await fetch(url, deleteMethod);
+    let response = await consulta.json();
+    return response.value;
+
   }
 }
 

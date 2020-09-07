@@ -1,6 +1,4 @@
 import React from 'react';
-
-import Button from '../Buttons/Buttons.jsx';
 import '../../Styles/App/Creater/create.scss';
 
 

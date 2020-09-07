@@ -45,11 +45,12 @@ const EditorPreview = (props) => {
                 <div className="contenidoCreador" style={{ textAlign: props.aling }} dangerouslySetInnerHTML={{ __html: props.data }}></div>
                 
                 <div className="contentButtons">
-                    <h5>Guardar o publicar o eliminar</h5>
+                    <h5>Guardar, publicar o eliminar</h5>
                     <div className="buttons">
                         <Button type={'button'} content={'Guardar'} classType={'Mybtn btn3'} click={() => props.saver()} id={'saver'} name={'saver'} />
-                        <Button type={'button'} content={'Publicar'} classType={'Mybtn btn2'} click={() => props.chageAling('center')} id={'Publicer'} name={'Publicer'} />
-                        <Button type={'button'} content={'Eliminar'} classType={'Mybtn btn4'} click={() => props.chageAling('center')} id={'Deleter'} name={'Deleter'} />
+                        <Button type={'button'} content={'Publicar'} classType={'Mybtn btn2'} click={() => props.publicAnew()} id={'Publicer'} name={'Publicer'} />
+                        <Button type={'button'} content={'Eliminar'} classType={'Mybtn btn4'} click={() => props.deleter()} id={'Deleter'} name={'Deleter'} />
+                        <Button type={'button'} content={'Eliminar Borrador'} classType={'Mybtn btn1'} click={() => props.deleteBorr()} id={'Borr'} name={'Borr'} />
 
                     </div>
                 </div>

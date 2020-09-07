@@ -8,31 +8,11 @@ function getDate() {
     return output;
 }
 
-
-//Actualizar una noticia que esta pública
-router.put('/update/:id', (req, res) => {
-    const { id } = req.params;
-    const { title, content, img, date, userid } = req.body;
-    if (title && content && img && date && userid) {
-        let sql = `UPDATE news SET ? WHERE ID = ${id}`;
-        const usersOBJ = {
-            title: title,
-            content: content,
-            img: img,
-            date: date,
-            userid: userid
-        }
-        connection.query(sql, usersOBJ, error => {
-            (error) ? console.log(error) : res.json({ value: true });
-        });
-    }
-});
-
-//Actualizar una noticia que no se ha publicado
+//Actualizar una noticia
 router.put('/save/:id', (req, res) => {
-    const { id, title, content, img, aling, ispublic } = req.body;
+    const { id, userid, title, content, img, aling, ispublic } = req.body;
     if (title !== '' || content !== '<p>Empieza a escribir tu noticia aquí</p>' || img !== '') {
-        let sql = `UPDATE news SET ? WHERE ID = ${id}`;
+        let sql = `UPDATE news SET ? WHERE id = '${id}' AND userid= '${userid}'`;
         const newsOBJ = {
             title: title || 'Falta titulo para agregar',
             content: content,
@@ -42,7 +22,15 @@ router.put('/save/:id', (req, res) => {
             ispublic: ispublic
         }
         connection.query(sql, newsOBJ, error => {
-            (error) ? console.log(error) : res.json({ value: true,  id: id });
+
+            if (error) {
+                console.log(error)
+                res.json({ value: false })
+            } else {
+                res.json({ value: true, id: id, title: newsOBJ.title });
+            }
+
+
         });
     } else {
         res.json({ value: false })

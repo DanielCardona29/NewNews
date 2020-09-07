@@ -18,11 +18,9 @@ router.get('/', (req, res) => {
     });
 });
 
-
-
 //Obtener las 10 ultimas noticias registradas
 router.get('/ult/news', (req, res) => {
-    const sql = ' SELECT * FROM news ORDER BY date DESC LIMIT 10';
+    const sql = `SELECT * FROM news WHERE ispublic = 'true' ORDER BY date DESC LIMIT 10`;
     connection.query(sql, (error, results) => {
         if (error) {
             console.log(`Hubo un error en la base de datos`);
@@ -56,7 +54,7 @@ router.get('/ult/news', (req, res) => {
 
 //Obtener las diez noticias mas populares
 router.get('/best/popular/news', (req, res) => {
-    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes FROM news, (SELECT newsid, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid`;
+    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes FROM news, (SELECT newsid, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid AND ispublic = 'true'`;
 
     connection.query(sql, (error, results) => {
         if (error) {
@@ -120,6 +118,24 @@ router.get('/detail/?:id', (req, res) => {
             res.json({ value: false })
         } else if (results.length > 0) {
             res.json({ results, value: true });
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+
+
+//Consultar si una noticia puede ser actualizada por un usuario
+router.get('/consult/?:id/?:userid', (req, res) => {
+    const { id, userid } = req.params;
+    const sql = `SELECT id FROM news WHERE id = '${id}' AND userid = '${userid}'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true });
         } else {
             res.json({ value: false })
         }

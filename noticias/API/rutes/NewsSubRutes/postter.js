@@ -4,7 +4,6 @@ const connection = require('../../connection.js');
 const multer = require('multer');
 const path = require('path');
 const uniqid = require('uniqid');
-const { Route } = require('react-router-dom');
 const PORT = process.env.PORT || 5000;
 const RuteResponse = {
     local: 'localhost',
@@ -13,7 +12,7 @@ const RuteResponse = {
 
 function getDate() {
     const d = new Date();
-    const output = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDay()-1} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
+    const output = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDay() - 1} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`;
     return output;
 }
 
@@ -21,10 +20,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 const newsUniqID = () => {
-    const id = `${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}${getRandomInt(0,9)}`
+    const id = `${getRandomInt(0, 9)}${getRandomInt(0, 9)}${getRandomInt(0, 9)}${getRandomInt(0, 9)}${getRandomInt(0, 9)}${getRandomInt(0, 9)}`
     return id;
 }
-
 
 
 //Middleweres 
@@ -83,7 +81,10 @@ router.post('/set/', (req, res) => {
             ispublic: ispublic
         }
         connection.query(sql, newsOBJ, error => {
-            (error) ? console.log(error) : res.json({ value: true, id: newsOBJ.id });
+            (error) ? console.log(error) : res.json({
+                value: true, id: newsOBJ.id,
+                title: newsOBJ.title,
+            });
         });
     } else {
         res.json({ value: false })

@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
 })
 //Obtener las noticias mejor calificadas
 router.get('/best/calificaties/news', (req, res) => {
-    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid ORDER BY stats.popularity DESC`;
+    const sql = `SELECT *, stats.views, stats.likes, stats.dislikes, stats.popularity FROM news, (SELECT newsid, (SUM(likes) + SUM(dislikes) /2) AS popularity, SUM(views) AS views, SUM(likes) as likes, SUM(dislikes) AS dislikes FROM stats GROUP BY newsid) AS stats WHERE news.id = stats.newsid AND ispublic='true' ORDER BY stats.popularity DESC`;
 
     connection.query(sql, (error, results) => {
         if (error) {
