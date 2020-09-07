@@ -16,7 +16,6 @@ const EditorPreview = (props) => {
     return (
         <div className="editor-preview">
             <h2>Preview</h2>
-
             <div className="previewContent">
                 <div className='previewTitle'>
                     <h2 className="title">{props.title}</h2>
@@ -43,7 +42,7 @@ const EditorPreview = (props) => {
                 </div>
 
                 <div className="contenidoCreador" style={{ textAlign: props.aling }} dangerouslySetInnerHTML={{ __html: props.data }}></div>
-                
+
                 <div className="contentButtons">
                     <h5>Guardar, publicar o eliminar</h5>
                     <div className="buttons">

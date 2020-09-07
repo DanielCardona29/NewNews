@@ -23,6 +23,11 @@ const close = () => {
             }
         })
 }
+
+const redirect = () => {
+    window.location.href = '/create'
+}
+
 const Header = (props) => {
     const [Menu, setMenu] = useState(false);
 
@@ -40,14 +45,14 @@ const Header = (props) => {
     }
 
     //Ocultar o no el menu lateral
-    if(!Menu){
-        $('#fuera').css('display','none')
-    }else{
-        $('#fuera').css('display','block')
+    if (!Menu) {
+        $('#fuera').css('display', 'none')
+    } else {
+        $('#fuera').css('display', 'block')
     }
 
 
-    
+
     const HeaderLogin = (
         <div className="headerContent">
             <div className="header">
@@ -59,12 +64,19 @@ const Header = (props) => {
                         <label>{props.userName}</label>
                     </div>
                 </div>
+
+                <div className="infoContent">
+                    <div className="icon">
+                        <div className="create buttonAction" onClick={() => redirect()}></div>
+                    </div>
+                </div>
+
                 <div className="infoContent">
                     <div className="icon">
                         <div className="config buttonAction" onClick={() => changeState()}></div>
                     </div>
-
                 </div>
+
             </div>
             <div className="configBar fuera" id="fuera" >
 

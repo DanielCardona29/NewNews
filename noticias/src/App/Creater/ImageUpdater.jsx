@@ -5,11 +5,10 @@ import '../../Styles/App/Creater/create.scss';
 
 
 function ImageUpdater(props) {
-
-
     const Updater = (
         <div className="updater">
             <div className="formClass">
+                <label>Subir una imagen</label>
                 <form className="FormCreate">
                     <div className="custom-file">
                         <label htmlFor="NewImage">Selecciona un archivo</label>

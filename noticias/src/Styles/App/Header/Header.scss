@@ -38,7 +38,7 @@ $font: "Barlow Semi Condensed", sans-serif;
     cursor: pointer;
     user-select: none;
 }
-.buttonAction:hover{
+.buttonAction:hover {
     transform: scale(1.1);
 }
 .buttonAction:active {
@@ -57,11 +57,18 @@ $font: "Barlow Semi Condensed", sans-serif;
     height: 100%;
     background-size: contain;
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .config {
     background-image: url("../../../images/iconos/svg/controls-4.svg");
 }
 
+.create {
+    margin-top: 10px;
+    background-image: url("../../../images/iconos/svg/plus.svg");
+}
 
 .Link {
     text-decoration: none;
@@ -82,25 +89,17 @@ $font: "Barlow Semi Condensed", sans-serif;
     overflow: hidden;
 }
 
-
-
-
 .configBar {
     display: flex;
     width: 100%;
     height: 100%;
     transition: 0.5s;
     animation: deCeroAcien 0.5s;
-
-    
 }
 
-
-.classClose{
+.classClose {
     animation: close 0.3s;
-
 }
-
 
 .Configwrapper {
     width: 100%;
@@ -113,16 +112,16 @@ $font: "Barlow Semi Condensed", sans-serif;
     font-family: $font;
 }
 
-ul{
+ul {
     list-style: none;
 }
 
-.dentro{
+.dentro {
     position: relative;
     top: 3px;
 }
 
-.fuera{
+.fuera {
     display: none;
     position: fixed;
     top: 36px;
@@ -130,22 +129,21 @@ ul{
 }
 
 @keyframes close {
-    0%{
+    0% {
         width: 350px;
         opacity: 1;
     }
-    100%{
+    100% {
         width: 0px;
         opacity: 0;
     }
 }
 
-
 @keyframes deCeroAcien {
-    0%{
+    0% {
         width: 0%;
     }
-    100%{
+    100% {
         width: 100%;
     }
 }
