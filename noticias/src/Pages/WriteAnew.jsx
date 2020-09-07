@@ -324,34 +324,39 @@ class NewWriter extends React.Component {
 
     //Cerrar una pestaña
     tabCloser = (id) => {
-        if (this.state.form.data !== '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.img !== '' || this.state.form.title !== '') {
-            swal({
-                text: 'Desea guardar los datos?',
-                buttons: true
-            })
-                .then(value => {
-                    if (value) {
-                        this.tabSaver();
-                        //Guardamos el estado en el local storage 
-                        const storage = JSON.parse(localStorage.getItem('isNewCreating')) || [];
-                        let newObj = [];
-                        for (let i = 0; i < storage.length; i++) {
-                            if (storage[i].id !== id) {
-                                newObj = [
-                                    ...newObj,
-                                    storage[i]
-                                ]
-                            }
-                        }
-
-                        localStorage.setItem('isNewCreating', JSON.stringify([
-                            ...newObj,
-                        ]));
-                    } else {
-                        this.storagesaverDeletTab(id);
-                    }
+        const comparador = parseInt(id);
+        if (typeof parseInt(id) === "number") {
+            console.log(typeof parseInt(id));
+            if (this.state.form.data !== '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.img !== '' || this.state.form.title !== '') {
+                swal({
+                    text: 'Desea guardar los datos?',
+                    buttons: true
                 })
+                    .then(value => {
+                        if (value) {
+                            this.tabSaver();
+                            //Guardamos el estado en el local storage 
+                            const storage = JSON.parse(localStorage.getItem('isNewCreating')) || [];
+                            let newObj = [];
+                            for (let i = 0; i < storage.length; i++) {
+                                if (storage[i].id !== id) {
+                                    newObj = [
+                                        ...newObj,
+                                        storage[i]
+                                    ]
+                                }
+                            }
+                            localStorage.setItem('isNewCreating', JSON.stringify([
+                                ...newObj,
+                            ]));
 
+                        } else {
+                            this.storagesaverDeletTab(id);
+                        }
+                    })
+            } else {
+                this.storagesaverDeletTab(id);
+            }
         } else {
             this.storagesaverDeletTab(id);
         }
@@ -484,9 +489,9 @@ class NewWriter extends React.Component {
         this.setState({
             tabsOpen: isNewEditing,
         })
-        if (isNewEditing[0]) {
-            if (isNewEditing[0].value) {
-                await this.Controller.newsConsult(isNewEditing[0].id)
+        if (isNewEditing) {
+            if (isNewEditing.value) {
+                await this.Controller.newsConsult(isNewEditing.id)
                     .then(news => {
                         if (news.value) {
                             const formOBJ = {
@@ -518,17 +523,7 @@ class NewWriter extends React.Component {
                 <div className="wrapper">
                     <Header userName={this.state.user} Ok={this.state.ok} />
                     <div className="contenidoWrapper">
-                        <div className="tabs">
-                            <Pesta
-                                title={this.state.form.title}
-                                state={this.state.form.ispublic}
-                                tabs={this.state.tabsOpen || []}
-                                creater={this.tabCreater}
-                                closer={this.tabCloser}
-                                changerTab={this.changeTab}
-                                tapActual={`${this.state.form.id}`}
-                            />
-                        </div>
+
                         <div className="title">
                             <h4>Escribir una noticia</h4>
                         </div>
