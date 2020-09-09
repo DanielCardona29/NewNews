@@ -242,13 +242,15 @@ class NewWriter extends React.Component {
                 user: data.results[0].user
             }
         })
-        this.Controller.userVerifi(data.results[0].access)
-            .then(access => {
-                this.setState({
-                    ...data.results[0],
-                    ok: access
-                })
-            })
+        if (data.results) {
+            this.Controller.userVerifi(data.results[0].access)
+                .then(access => {
+                    this.setState({
+                        ...data.results[0],
+                        ok: access
+                    })
+                });
+        }
         //Verificamos si el usuario estaba creando una noticia
         const isNewEditing = JSON.parse(localStorage.getItem('isNewCreating'));
         if (isNewEditing) {

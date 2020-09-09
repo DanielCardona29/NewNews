@@ -103,4 +103,20 @@ router.get('/?:id', (req, res) => {
 });
 
 
+//Obntener un avatar
+router.get('/avatar/?:userid', (req, res) => {
+    const { userid } = req.params;
+    const sql = `SELECT url FROM avatars WHERE userid = '${userid}'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ results, value: true });
+        } else {
+            res.send({ value: false })
+        }
+    });
+});
+
 module.exports = router;

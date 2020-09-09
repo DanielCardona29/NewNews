@@ -29,7 +29,7 @@ class MainController {
         //Si esta el id
         if (id) {
             //y si el acceso es verdadero entonces
-            if (access === 'true') {
+            if (access === 'true') { 
                 //reentornamos verdadero
                 return true
             } else {

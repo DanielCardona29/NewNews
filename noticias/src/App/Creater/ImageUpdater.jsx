@@ -14,7 +14,6 @@ function ImageUpdater(props) {
                         <label htmlFor="NewImage">Selecciona un archivo</label>
                         <input type="file" id="NewImage" name="NewImage" required />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="Coment">O pega una url</label>
                         <input type="text"

@@ -15,23 +15,23 @@ import Principal from './Pages/Principal.jsx';
 import ErrorPage from './Pages/ErrorPage.jsx';
 import NewsPage from './Pages/News.jsx';
 import NewWriter from './Pages/WriteAnew.jsx';
+import UserInfo from './Pages/UserInfo.jsx';
 
 function App() {
 
   return (
-    <div className="App">
+    <div className="App" id="App">
 
-        <Router>
-          <Switch> 
-
-            <Route  path ="/news/:id" component={NewsPage}/>
-            <Route path="/" exact component={Home} />
-            <Route path="/create" exact component={NewWriter} />
-            <Route path='/home' exact component={Principal} />
-            <Route component={ErrorPage} />
-
-          </Switch>
-        </Router>
+      <Router>
+        <Switch>
+          <Route path="/user/info/:id" component={UserInfo} />
+          <Route path="/news/:id" component={NewsPage} />
+          <Route path="/" exact component={Home} />
+          <Route path="/create" exact component={NewWriter} />
+          <Route path='/home' exact component={Principal} />
+          <Route component={ErrorPage} />
+        </Switch>
+      </Router>
 
 
     </div>

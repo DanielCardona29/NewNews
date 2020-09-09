@@ -29,14 +29,15 @@ class NewsPage extends React.Component {
     async componentDidMount() {
         let userInfo = await this.Controller.userConsult();
         let data = await userInfo.json();
-        this.Controller.userVerifi(data.results[0].access)
-            .then(access => {
-                this.setState({
-                    ...data.results[0],
-                    ok: access
-                })
-            });
-
+        if (data.results) {
+            this.Controller.userVerifi(data.results[0].access)
+                .then(access => {
+                    this.setState({
+                        ...data.results[0],
+                        ok: access
+                    })
+                });
+        }
         //Ahora extraemos la noticia y la ponemos en el estado
         let NewDetail = await fetch(`http://localhost:5000/news/detail/${this.props.match.params.id}`);
         let response = await NewDetail.json();

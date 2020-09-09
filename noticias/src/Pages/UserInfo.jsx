@@ -1,23 +1,23 @@
 import React from 'react';
 import swal from 'sweetalert';
 
+
 import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
-import NewsList from '../App/NewsList/NewsList';
+import '../Styles/Principales/UserInfo.scss';
 import Footer from '../App/Footer/Footer.jsx';
-
 import MainController from '../Controllers/mainController.js';
+import AvatarUser from '../App/Avatar/Avatar.jsx';
 
-const Controller = new MainController();
 
-class Principal extends React.Component {
+class UserInfo extends React.Component {
     constructor(props) {
         super(props);
+        this.Controller = new MainController();
         this.state = {
             ok: true
         }
-        this.Controller = Controller;
     }
 
     async componentDidMount() {
@@ -30,31 +30,23 @@ class Principal extends React.Component {
                         ...data.results[0],
                         ok: access
                     })
-                })
+                });
         }
     }
 
-    render() {
 
+    render() {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
 
                     <Header userName={this.state.user} Ok={this.state.ok} />
-
-
-                    <div className="contenidoWrapper">
-                        <div className="wrapperListContent">
-                            <h2>Ultimas subidas</h2>
-                            <NewsList id={'lista1'} search={'LastTen'} />
-                        </div>
-                        <div className="wrapperListContent">
-                            <h2>Mas populares</h2>
-                            <NewsList id={'lista2'} search={'BestPopulars'} />
-                        </div>
-                        <div className="wrapperListContent">
-                            <h2>Mejores calificadas</h2>
-                            <NewsList id={'lista3'} search={'BestCalification'} />
+                    <div className="container" >
+                        <div className="container-fluid userinfo" >
+                            
+                            <div className="avatar">
+                                <AvatarUser />
+                            </div>
                         </div>
                     </div>
                     <Footer />
@@ -87,5 +79,4 @@ class Principal extends React.Component {
     }
 }
 
-
-export default Principal;
+export default UserInfo; 

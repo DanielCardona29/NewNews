@@ -3,6 +3,10 @@ import React from 'react';
 import '../../Styles/App/Header/Header.scss';
 
 const Config = (props) => {
+    const infoUser = () =>{
+        const userid = sessionStorage.getItem('userid');
+        window.location.href = `/user/info/${userid}`;
+    }
 
     if (!props.state) {
     }
@@ -22,7 +26,7 @@ const Config = (props) => {
                             <label className="buttonAction">Ajustes</label>
                         </li>
                         <li>
-                            <label className="buttonAction">Información del usuario</label>
+                            <label className="buttonAction" onClick={() => infoUser()}>Información del usuario</label>
                         </li>
                         <li>
                             <label className="buttonAction">Acerca de</label>

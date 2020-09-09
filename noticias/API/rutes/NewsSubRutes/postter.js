@@ -27,14 +27,12 @@ const newsUniqID = () => {
 
 //Middleweres 
 //Son codigos que se ejecutan antes de ejecutar las rutas
-
 const storage = multer.diskStorage({
     destination: path.join('src/api/images/'),
     filename: (req, file, cb) => {
         cb(null, (uniqid() + file.originalname).toLocaleLowerCase());
     }
 });
-
 router.use(multer({
     storage,
     dest: path.join('src/api/images/'),

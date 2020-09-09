@@ -1,0 +1,226 @@
+{
+    "confing": [
+        {
+            "type": "avatarStyle",
+            "currentName": "Estilo del Avatar",
+            "content": [
+                "Transparent",
+                "Circle"
+            ]
+        },
+        {
+            "type": "topType",
+            "currentName": "Cabeza",
+            "content": [
+                "Hat",
+                "Hijab",
+                "Turban",
+                "WinterHat1",
+                "WinterHat2",
+                "WinterHat3",
+                "WinterHat4",
+                "LongHairBigHair",
+                "LongHairBob",
+                "LongHairBun",
+                "LongHairCurly",
+                "LongHairCurvy",
+                "LongHairDreads",
+                "LongHairFrida",
+                "LongHairFro",
+                "LongHairFroBand",
+                "LongHairNotTooLong",
+                "LongHairShavedSides",
+                "LongHairMiaWallace",
+                "LongHairStraight",
+                "LongHairStraight2",
+                "LongHairStraightStrand",
+                "ShortHairDreads01",
+                "ShortHairDreads02",
+                "ShortHairFrizzle",
+                "ShortHairShaggyMullet",
+                "ShortHairShortCurly",
+                "ShortHairShortFlat",
+                "ShortHairShortRound",
+                "ShortHairShortWaved",
+                "ShortHairSides",
+                "ShortHairTheCaesar",
+                "ShortHairTheCaesarSidePart"
+            ]
+        },
+        {
+            "type": "accessoriesType",
+            "currentName": "Tipo de accesorio",
+            "content": [
+                "Blank",
+                "Kurt",
+                "Prescription01",
+                "Prescription02",
+                "Round",
+                "Sunglasses",
+                "Wayfarers"
+            ]
+        },
+        {
+            "type": "hairColor",
+            "currentName": "Color de Cabello",
+            "content": [
+                "Auburn",
+                "Black",
+                "Blonde",
+                "BlondeGolden",
+                "Brown",
+                "BrownDark",
+                "PastelPink",
+                "Platinum",
+                "Red",
+                "SilverGray"
+            ]
+        },
+        {
+            "type": "facialHairType",
+            "currentName": "Tipo de barba",
+            "content": [
+                "Blank",
+                "BeardMedium",
+                "BeardLight",
+                "BeardMagestic",
+                "MoustacheFancy",
+                "MoustacheMagnum"
+            ]
+        },
+        {
+            "type": "facialHairColor",
+            "currentName": "Color de la barba",
+            "content": [
+                "Auburn",
+                "Black",
+                "Blonde",
+                "BlondeGolden",
+                "Brown",
+                "BrownDark",
+                "Platinum",
+                "Red"
+            ]
+        },
+        {
+            "type": "clotheType",
+            "currentName": "Tipo de ropa",
+            "content": [
+                "BlazerShirt",
+                "BlazerSweater",
+                "CollarSweater",
+                "GraphicShirt",
+                "Hoodie",
+                "Overall",
+                "ShirtCrewNeck",
+                "ShirtScoopNeck",
+                "ShirtVNeck"
+            ]
+        },
+        {
+            "type": "clotheColor",
+            "currentName": "Color de la ropa",
+            "content": [
+                "Black",
+                "Blue01",
+                "Blue02",
+                "Blue03",
+                "Gray01",
+                "Gray02",
+                "Heather",
+                "PastelBlue",
+                "PastelGreen",
+                "PastelOrange",
+                "PastelRed",
+                "PastelYellow",
+                "Pink",
+                "Red",
+                "White"
+            ]
+        },
+        {
+            "type": "graphicType",
+            "currentName": "Diseño de la ropa",
+            "content": [
+                "Bat",
+                "Cumbia",
+                "Deer",
+                "Diamond",
+                "Hola",
+                "Pizza",
+                "Resist",
+                "Selena",
+                "Bear",
+                "SkullOutline",
+                "Skull"
+            ]
+        },
+        {
+            "type": "eyeType",
+            "currentName": "Tipo de ojo",
+            "content": [
+                "Close",
+                "Cry",
+                "Default",
+                "Dizzy",
+                "EyeRoll",
+                "Happy",
+                "Hearts",
+                "Side",
+                "Squint",
+                "Surprised",
+                "Wink",
+                "WinkWacky"
+            ]
+        },
+        {
+            "type": "eyebrowType",
+            "currentName": "Tipo de cejas",
+            "content": [
+                "Angry",
+                "AngryNatural",
+                "Default",
+                "DefaultNatural",
+                "FlatNatural",
+                "RaisedExcited",
+                "RaisedExcitedNatural",
+                "SadConcerned",
+                "SadConcernedNatural",
+                "UnibrowNatural",
+                "UpDown",
+                "UpDownNatural"
+            ]
+        },
+        {
+            "type": "mouthType",
+            "currentName": "Tipo de boca",
+            "content": [
+                "Concerned",
+                "Default",
+                "Disbelief",
+                "Eating",
+                "Grimace",
+                "Sad",
+                "ScreamOpen",
+                "Serious",
+                "Smile",
+                "Tongue",
+                "Twinkle",
+                "Vomit"
+            ]
+        },
+        {
+            "type": "skinColor",
+            "currentName": "Color de piel",
+            "content": [
+                "Tanned",
+                "Yellow",
+                "Pale",
+                "Light",
+                "Brown",
+                "DarkBrown",
+                "Black"
+            ]
+        }
+    ]
+}
