@@ -24,7 +24,7 @@ function App() {
 
       <Router>
         <Switch>
-          <Route path="/user/info/:id" component={UserInfo} />
+          <Route path="/user/info/" component={UserInfo} />
           <Route path="/news/:id" component={NewsPage} />
           <Route path="/" exact component={Home} />
           <Route path="/create" exact component={NewWriter} />

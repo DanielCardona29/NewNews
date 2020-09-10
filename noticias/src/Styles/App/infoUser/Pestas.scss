@@ -1,0 +1,38 @@
+.pestasContent {
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    flex-wrap: wrap;
+}
+.pestasContent > .tab {
+    color: black;
+    background-color: #a5d4f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-right: 15px;
+    height: auto;
+    width: auto;
+    border-radius: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 3px 10px 3px 10px;
+    cursor: pointer;
+}
+.pestasContent > .tab > label {
+    width: auto;
+    cursor: pointer  ;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.pestasContent > .tab:nth-last-child(1) {
+    margin-right: 0;
+}

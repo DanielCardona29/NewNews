@@ -9,17 +9,29 @@ import '../Styles/Principales/UserInfo.scss';
 import Footer from '../App/Footer/Footer.jsx';
 import MainController from '../Controllers/mainController.js';
 import AvatarUser from '../App/Avatar/Avatar.jsx';
-
-
+import Info from '../App/userInfo/UserInfo.jsx';
+import Content from '../App/userInfo/Content.jsx'
+import CommController from '../Controllers/CommentsController.js'
 class UserInfo extends React.Component {
     constructor(props) {
         super(props);
+        this.CommController = new CommController();
         this.Controller = new MainController();
         this.state = {
+            info: {},
+            CMYL: false,
             ok: true
         }
     }
 
+    //Extraer los comentairos que un usuario le dio like
+    UserLikesExtractsComments = async () => {
+        const consulta = await this.CommController.extractComentsLikesUser(sessionStorage.getItem('userid'));
+        this.setState({
+            CMYL: consulta
+        })
+
+    }
     async componentDidMount() {
         let userInfo = await this.Controller.userConsult();
         let data = await userInfo.json();
@@ -27,13 +39,12 @@ class UserInfo extends React.Component {
             this.Controller.userVerifi(data.results[0].access)
                 .then(access => {
                     this.setState({
-                        ...data.results[0],
+                        info: data.results[0],
                         ok: access
                     })
                 });
         }
     }
-
 
     render() {
         const Page = (
@@ -43,9 +54,21 @@ class UserInfo extends React.Component {
                     <Header userName={this.state.user} Ok={this.state.ok} />
                     <div className="container" >
                         <div className="container-fluid userinfo" >
-                            
+
                             <div className="avatar">
                                 <AvatarUser />
+                            </div>
+                            <div className="userContent">
+                                <Info info={this.state.info} />
+                            </div>
+
+                            <div className="Cotenido">
+                                <Content 
+                                CMYL={this.UserLikesExtractsComments}
+
+                                />
+
+
                             </div>
                         </div>
                     </div>

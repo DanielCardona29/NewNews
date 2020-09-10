@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import '../../Styles/App/Avatar/AvatarSpected.scss';
@@ -8,7 +8,7 @@ import Button from '../Buttons/Buttons.jsx'
 
 const AvatarCreator = (props) => {
     const avatar = `https://avataaars.io/?avatarStyle=${props.Config.avatarStyle}&topType=${props.Config.topType}&accessoriesType=${props.Config.accessoriesType}&hairColor=${props.Config.hairColor}&facialHairType=${props.Config.facialHairType}&facialHairColor=${props.Config.facialHairColor}&clotheType=${props.Config.clotheType}&clotheColor=${props.Config.clotheColor}&graphicType=${props.Config.graphicType}&eyeType=${props.Config.eyeType}&eyebrowType=${props.Config.eyebrowType}&mouthType=${props.Config.mouthType}&skinColor=${props.Config.skinColor}`
-    const [config, setConfig] = useState(confing)
+    const config = confing;
 
     const page = (
         <div className="CreatormModal">
@@ -18,7 +18,7 @@ const AvatarCreator = (props) => {
                 <div className="contenido">
                     <div className="ContentForm">
                         <div className="AvatarForm" >
-                            <img src={avatar} className="img img-circle" ></img>
+                            <img src={avatar} className="img img-circle"  alt="" />
                         </div>
                         <div className="FormContent">
                             <form className="formulario">
@@ -27,7 +27,7 @@ const AvatarCreator = (props) => {
                                         return (
                                             <div className="form-group" key={key}>
                                                 <label htmlFor={item.type}>{item.currentName}</label>
-                                                <select className="form-control" id={item.type} name={item.type} id={item.type} onChange={props.onChange()}>
+                                                <select className="form-control" id={item.type} name={item.type} onChange={props.onChange()}>
                                                     {
                                                         item.content.map((options, key2) => {
                                                             return <option key={key2} value={options}>{options}</option>
@@ -60,7 +60,7 @@ const AvatarCreator = (props) => {
                     <div className="contenido">
                         <div className="ContentForm">
                             <div className="AvatarForm" >
-                                <img src={props.avatar} className="img img-circle" ></img>
+                                <img src={props.avatar} className="img img-circle" alt=""/>
                             </div>
                             <div className="FormContentiMG">
                                 <form className="formulario">

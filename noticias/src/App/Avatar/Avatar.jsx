@@ -86,7 +86,7 @@ class AvatarUser extends React.Component {
         const AvatarImage = (
             <div className="Content" onMouseOver={() => this.AvatarController.showButtons()} onMouseOut={() => this.AvatarController.hiddenButtons()}>
                 <div className="avatar" >
-                    <img src={this.state.avatar} className="img img-circle" ></img>
+                    <img src={this.state.avatar} className="img img-circle"  alt="" />
                 </div>
                 <AvatarCreator
                     visualice={this.state.visualice}

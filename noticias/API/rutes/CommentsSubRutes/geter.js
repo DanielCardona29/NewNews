@@ -76,4 +76,35 @@ router.get('/likes/:commentid/:newsid/:userid', (req, res) => {
     });
 })
 
+//consultar un comentario por id
+router.get('/comment/:id', (req, res) => {
+    const { id } = req.params;
+    let sql = `SELECT * FROM coments WHERE id = '${id.trim()}'`;
+    const consulta = connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Error al extraer los comentarios del usuario ${id}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true, results })
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+//Extraer los comentarios que le gustarion a un usuario
+router.get('/userlikes/likes/:userid', (req, res) => {
+    const { userid } = req.params;
+    let sql = `SELECT * FROM comentslikes WHERE userid = '${userid.trim()}'`;
+    const consulta = connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Error al extraer los comentarios del usuario ${userid}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true, results })
+        } else {
+            res.json({ value: false })
+        }
+    });
+})
 module.exports = router;

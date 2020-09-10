@@ -1,3 +1,5 @@
+import swal from "sweetalert";
+
 class CommController {
 
     //Extraer el numero de likes de un commentario
@@ -11,7 +13,6 @@ class CommController {
             return 0
         }
     }
-
     //Consult Like setter
     LikeConsultUser = async (commentid, newsid, userid) => {
         let url = `http://localhost:5000/comments/get/likes/${commentid}/${newsid}/${userid}`
@@ -20,7 +21,6 @@ class CommController {
         return response.value;
 
     }
-
     //Enviar un nuevo like
     LikeSetter = async (commentid, newsid, userid) => {
         const url = 'http://localhost:5000/comments/post/likes/';
@@ -40,7 +40,6 @@ class CommController {
         const response = await consulta.json();
         return response.value;
     }
-
     //Actualizar el estado del Like en la base de datos
     LikeUpdater = async (commentid, newsid, userid, dataState) => {
         const url = 'http://localhost:5000/comments/put/likes/';
@@ -80,7 +79,6 @@ class CommController {
 
 
     }
-
     //Enviar un like de un comentario
     LikeController = async (commentid, newsid, userid, dataState) => {
         //Antes de enviar un like o quitar un like tenemos que saber si existe en la base un registro de ello en la base de datos;
@@ -128,10 +126,6 @@ class CommController {
         const response = await consulta.json();
         return response;
     }
-
-    deleteLikesForComments = async (id) => {
-
-    }
     //Eliminar un comentario
     deleteComment = async (id) => {
 
@@ -169,6 +163,42 @@ class CommController {
         });
         const response = await consulta.json();
         return response.value;
+    }
+    //Extraer un comentario por id
+    ExtractAcomentID = async (id) => {
+        let url = `http://localhost:5000/comments/get/comment/${id}`;
+        const consulta = await fetch(url);
+        const response = await consulta.json();
+        if (response.value) {
+            return response.results[0]
+        } else {
+            return false;
+        }
+    }
+    //Extrar los comentarios que le gustaron a un usuario
+    extractComentsLikesUser = async (userid) => {
+        let url = `http://localhost:5000/comments/get/userlikes/likes/${userid}`;
+        const consulta = await fetch(url);
+        const response = await consulta.json();
+        if (response.value) {
+            const coments = response.results;
+            let comentsList = []
+            for (let i = 0; i < coments.length; i++) {
+                const consulta = await this.ExtractAcomentID(coments[i].commentid);
+                comentsList = [
+                    ...comentsList,
+                    consulta
+                ]
+            }
+            console.log(comentsList);
+            return comentsList;
+        } else {
+            swal({
+                text: 'Al parecer no le has dado like a ningun comentario',
+                button: 'Acceptar'
+            })
+        }
+
     }
 
 }
