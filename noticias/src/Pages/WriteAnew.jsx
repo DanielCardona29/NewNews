@@ -52,7 +52,7 @@ class NewWriter extends React.Component {
     updateImage = async () => {
         await this.NewsController.UpdateAimage(this.state.urlUPDATE)
             .then(value => {
-                console.log(value);
+                if(value)
                 this.setState({
                     urlUPDATE: '',
                     form: {
