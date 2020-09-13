@@ -25,7 +25,6 @@ class CommetnUser extends React.Component {
             },
         });
     }
-
     //Este Guarda el cambio en el comentario
     onSave = async () => {
         if (this.state.form.content && this.state.form.content !== '') {
@@ -59,10 +58,6 @@ class CommetnUser extends React.Component {
         }
     }
 
-
-
-
-
     render() {
         if (!this.state.isEditing) {
             let comment = (
@@ -95,6 +90,7 @@ class CommetnUser extends React.Component {
                     }
                 </div>
             );
+            
             return comment;
         } else {
             let comment = (

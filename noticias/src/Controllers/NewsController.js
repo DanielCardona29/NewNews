@@ -323,6 +323,63 @@ class NewsController extends StatsController {
     return response.value;
 
   }
+
+  //Sacar las noticias a las cuales un usuario le ha dado like
+  userLikesNews = async (userid) => {
+    const url = `http://localhost:5000/stats/userlikes/news/${userid}`
+    const element = await fetch(url)
+      .then(element => {
+        return element.json();
+      })
+    let newsOBJ = []
+    let stats = false;
+    let comentarios = false
+    for (let i = 0; i < element.results.length; i++) {
+      //Extraemos las estadisticas de cada noticia por id
+      stats = await this.StatsNewsGetter(element.results[i].newsid);
+      //Extraemos el numero de comentarios de cada noticia por id
+      comentarios = await this.CommetsGetter(element.results[i].newsid);
+      const news = await this.MainController.newsConsult(element.results[i].newsid).then(value => { return value.results[0]; })
+      newsOBJ = [
+        ...newsOBJ,
+        {
+          news,
+          stats,
+          comentarios: comentarios.response.coments
+        }
+      ]
+    }
+    return newsOBJ;
+  }
+  //Extraer las noticias que ha escrito un usuario
+  userWriteNews = async (userid) => {
+
+    const url = `http://localhost:5000/news/userwrite/news/${userid}`
+    const element = await fetch(url)
+      .then(element => {
+        return element.json();
+      })
+    let newsOBJ = []
+    let stats = false;
+    let comentarios = false
+    console.log(element);
+    for (let i = 0; i < element.results.length; i++) {
+      //Extraemos las estadisticas de cada noticia por id
+      stats = await this.StatsNewsGetter(element.results[i].id);
+      //Extraemos el numero de comentarios de cada noticia por id
+      comentarios = await this.CommetsGetter(element.results[i].id);
+      newsOBJ = [
+        ...newsOBJ,
+        {
+          news: element.results[i],
+          stats,
+          comentarios: comentarios.response.coments
+        }
+      ]
+    }
+
+    return newsOBJ
+  }
 }
 
 export default NewsController;

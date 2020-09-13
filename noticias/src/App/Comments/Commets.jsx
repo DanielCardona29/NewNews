@@ -186,7 +186,7 @@ class Commets extends React.Component {
                             //(props.comentario.id)
                             this.state.Commets.map((item, key) => {
                                 const lista = (
-                                    <li key={key}>
+                                    <li key={key} id={`comment${item.comentario.id}`}>
                                         <Commet autor={item.autor}
                                             newID={this.props.newid}
                                             isLiked={item.isLiked}

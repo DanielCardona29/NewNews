@@ -201,6 +201,26 @@ class CommController {
 
     }
 
+
+
+        //Extraer los comentarios que ha escrito en el mundo
+        extractUserComments = async (userid) => {
+            let url = `http://localhost:5000/comments/get/write/likes/${userid}`;
+            const consulta = await fetch(url);
+            const response = await consulta.json();
+            if (response.value) {       
+                console.log(response.results);
+                return response.results;
+            } else {
+                swal({
+                    text: 'Al parecer no le has dado like a ningun comentario',
+                    button: 'Acceptar'
+                })
+            }
+    
+        }
+    
+
 }
 
 export default CommController;

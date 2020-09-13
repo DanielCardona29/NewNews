@@ -49,9 +49,11 @@
 .previewContent > .contentButtons > .buttons {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .previewContent > .contentButtons > .buttons > .Mybtn{
     margin-left: 15px;
+    margin-top: 15px;
 }
 .previewContent > .previewTitle > h2 {
     content: "";

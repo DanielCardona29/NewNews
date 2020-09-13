@@ -26,7 +26,7 @@
 }
 .pestasContent > .tab > label {
     width: auto;
-    cursor: pointer  ;
+    cursor: pointer;
     height: auto;
     display: flex;
     justify-content: center;
@@ -35,4 +35,50 @@
 }
 .pestasContent > .tab:nth-last-child(1) {
     margin-right: 0;
+}
+ul > .Comenta {
+    margin-top: 15px;
+}
+
+ul > .Comenta:hover {
+    transform: scale(1.1);
+}
+
+ul > .Comenta > .Link {
+    text-decoration: none;
+    color: black;
+}
+
+.NoContenido {
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    margin-top: 80px;
+}
+.NewsForUserInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 30px;
+    width: auto;
+}
+.NewsUserInfoRow{
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.NewsForUserInfo > .Link {
+    color: black;
+    text-decoration: none;
+}
+.NewsForUserInfo > .Link:hover {
+    color: black;
 }

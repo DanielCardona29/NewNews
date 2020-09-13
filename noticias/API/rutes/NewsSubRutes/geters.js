@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../../connection.js');
 
-
 //Recuperar lista de noticias
 router.get('/', (req, res) => {
     const sql = ' SELECT * FROM news ORDER BY date DESC';
@@ -124,8 +123,6 @@ router.get('/detail/?:id', (req, res) => {
     });
 });
 
-
-
 //Consultar si una noticia puede ser actualizada por un usuario
 router.get('/consult/?:id/?:userid', (req, res) => {
     const { id, userid } = req.params;
@@ -142,7 +139,24 @@ router.get('/consult/?:id/?:userid', (req, res) => {
     });
 });
 
-
+//Cosultar las noticias que ha escrito un usuario
+router.get('/userwrite/news/?:userid', (req, res) => {
+    const { userid } = req.params;
+    console.log(userid);
+    const sql = `SELECT * FROM news WHERE userid = '${userid}'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hay un error al extraer las noticias que le gusta a un usuario ${newsid} := ${error}`);
+            res.json({ value: false });
+        } else {
+            if (results.length > 0) {
+                res.json({ results, value: true })
+            } else {
+                res.json({ value: false })
+            }
+        }
+    })
+});
 
 
 module.exports = router;

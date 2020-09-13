@@ -47,7 +47,7 @@ class Comment extends React.Component {
 
     time = () => {
         let fechaInicio = new Date(this.props.comentario.date).getTime();
-        let fechaFin = new Date(this.getDate()).getTime();
+        let fechaFin = new Date().getTime();
         let diff = fechaInicio - fechaFin;
         const date = Math.abs(diff / (1000 * 60 * 60 * 24)).toFixed(2);
         return date

@@ -121,4 +121,25 @@ router.get('/likes/?:newsid/?:userid', (req, res) => {
     })
 });
 
+//Consultar las noticias que le gusta a un usuario
+router.get('/userlikes/news/?:userid', (req, res) => {
+    const { userid } = req.params;
+    console.log(userid);
+    const sql = `SELECT newsid FROM stats WHERE userid = '${userid}' AND likes = '1'`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hay un error al extraer las noticias que le gusta a un usuario ${newsid} := ${error}`);
+            res.json({ value: false });
+        } else {
+            if (results.length > 0) {
+                res.json({ results, value: true })
+            } else {
+                res.json({ value: false })
+            }
+        }
+    })
+});
+
+
+
 module.exports = router;

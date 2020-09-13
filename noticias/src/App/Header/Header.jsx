@@ -59,11 +59,18 @@ const Header = (props) => {
                 <div className="infoContent">
                     <Link to="/home" className="Link"><h3> New News</h3> </Link>
                 </div>
-                <div className="infoContent">
-                    <div className="userName">
-                        <label>{props.userName}</label>
-                    </div>
-                </div>
+                {
+                    (() => {
+                        if (props.userName) {
+                           return <div className="infoContent">
+                                <div className="userName">
+                                    <Link className="Link" to="/user/info/">{props.userName}</Link>
+                                </div>
+                            </div>
+                        }
+                    })()
+                }
+
 
                 <div className="infoContent">
                     <div className="icon">

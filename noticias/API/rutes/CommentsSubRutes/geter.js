@@ -108,3 +108,19 @@ router.get('/userlikes/likes/:userid', (req, res) => {
     });
 })
 module.exports = router;
+
+//Extraer los comentarios que ha escrito un usuario
+router.get('/write/likes/:userid', (req, res) => {
+    const { userid } = req.params;
+    let sql = `SELECT * FROM coments WHERE 	idusercoment = '${userid.trim()}'`;
+    const consulta = connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Error al extraer los comentarios del usuario ${userid}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true, results })
+        } else {
+            res.json({ value: false })
+        }
+    });
+})
