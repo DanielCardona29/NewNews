@@ -58,23 +58,27 @@ $font: "Barlow", "sans-serif";
   text-align: center;
   color: #fff;
   font-weight: bold;
-
 }
 
-.next{
-   background-image: url('../../../images/iconos/svg/next.svg');
-   background-repeat: no-repeat;
-   background-size: contain;
-   background-position: center;
-}
-
-.last{
-  background-image: url('../../../images/iconos/svg/back.svg');
+.next {
+  margin: 10px;
+  background-image: url("../../../images/iconos/svg/next.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  width: 41px;
+  border-radius: 100px;
 }
 
+.last {
+  margin: 10px;
+  background-image: url("../../../images/iconos/svg/back.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 41px;
+  border-radius: 100px;
+}
 
 .Mybtn {
   user-select: none;

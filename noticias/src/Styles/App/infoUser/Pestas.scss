@@ -1,5 +1,4 @@
 .pestasContent {
-    background-color: blue;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -24,6 +23,7 @@
     padding: 3px 10px 3px 10px;
     cursor: pointer;
 }
+
 .pestasContent > .tab > label {
     width: auto;
     cursor: pointer;
@@ -66,7 +66,7 @@ ul > .Comenta > .Link {
     margin-top: 30px;
     width: auto;
 }
-.NewsUserInfoRow{
+.NewsUserInfoRow {
     display: flex;
     width: 100%;
     overflow: hidden;

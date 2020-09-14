@@ -24,6 +24,7 @@ class UserInfo extends React.Component {
         this.NewsController = new NewsController();
         this.state = {
             info: {},
+            oscurecer: 'NG',
             contenido: false,
             cotnenidoNews: false,
             ok: true,
@@ -33,7 +34,7 @@ class UserInfo extends React.Component {
 
     //Extraer los comentairos que un usuario le dio like
     UserLikesExtractsComments = async () => {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, oscurecer: 'CMYL' })
         const data = await this.CommController.extractComentsLikesUser(sessionStorage.getItem('userid')) || false;
         let CommentsOBJ = [];
         const userid = sessionStorage.getItem('userid')
@@ -64,7 +65,7 @@ class UserInfo extends React.Component {
 
     //Extraer los comentarios que ha escrito un usuairo
     extractUserComments = async () => {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, oscurecer: 'YCMS' })
         const data = await this.CommController.extractUserComments(sessionStorage.getItem('userid')) || false;
         let CommentsOBJ = [];
         const userid = sessionStorage.getItem('userid')
@@ -93,7 +94,7 @@ class UserInfo extends React.Component {
 
     //Extraer las noticias que le gustaron a un usuairo
     userLikesNews = async () => {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, oscurecer: 'NG' })
         await this.NewsController.userLikesNews(sessionStorage.getItem('userid'))
             .then(value => {
                 console.log(value);
@@ -108,7 +109,7 @@ class UserInfo extends React.Component {
 
     //Extaer las noticias del usuairo
     usernewsWrited = async () => {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, oscurecer: 'NES' })
         await this.NewsController.userWriteNews(sessionStorage.getItem('userid'))
             .then(value => {
                 console.log(value);
@@ -119,7 +120,6 @@ class UserInfo extends React.Component {
             })
         this.setState({ isLoading: false })
     }
-
 
     async componentDidMount() {
         let userInfo = await this.Controller.userConsult();
@@ -159,10 +159,11 @@ class UserInfo extends React.Component {
 
                             <div className="Cotenido">
                                 <Content
-                                    CMYL={this.UserLikesExtractsComments}
-                                    YCMS={this.extractUserComments}
-                                    NG={this.userLikesNews}
-                                    NES={this.usernewsWrited}
+                                    CMYL={this.UserLikesExtractsComments || false}
+                                    YCMS={this.extractUserComments || false}
+                                    NG={this.userLikesNews || false}
+                                    NES={this.usernewsWrited || false}
+                                    oscurecer={this.state.oscurecer}
 
                                 />
                             </div>

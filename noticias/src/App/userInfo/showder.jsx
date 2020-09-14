@@ -24,7 +24,7 @@ const Show = (props) => {
                             return <li key={key} className="Comenta">
                                 <Link className="Link buttonAction" to={`/news/${item.comentario.idnewcoment}#comment${item.comentario.id}`}>
                                     <CommentNoUser
-                                        content={item.content}
+                                        content={item.comentario.content}
                                         countLikes={item.likes}
                                         puntua={item.comentario.Punt}
                                         Like={true}
