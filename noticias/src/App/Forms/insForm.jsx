@@ -70,7 +70,6 @@ class InsForm extends React.Component {
   //con esta propiedad se validan que los campos esten completados correctamente;
   validate = (element, len = 5) => {
     const validate = $(`#${element}`).val();
-
     if (!validate || validate.trim() === "") {
       //Aqui validamos que el elemento exista
       $(`#${element}`).addClass("invali");

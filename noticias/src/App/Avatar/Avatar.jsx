@@ -19,7 +19,16 @@ class AvatarUser extends React.Component {
     }
     //Mostrar el formulario para subir una foto
     showCreator = (kind) => {
-        this.state.visualice ? this.setState({ visualice: false, kindOfFomr: kind }) : this.setState({ visualice: true, kindOfFomr: kind });
+        if (this.state.visualice) {
+            this.setState({ visualice: false, kindOfFomr: kind })
+            document.body.style.overflow = "auto"
+
+        } else {
+            this.setState({ visualice: true, kindOfFomr: kind })
+            window.scrollTo(0, 0);
+            document.body.style.overflow = "hidden";
+
+        }
     }
     //Cambair el estado del formulario
     onChange = e => {
@@ -44,6 +53,8 @@ class AvatarUser extends React.Component {
                     swal({ text: 'No se pudo subir, intenta de nuevo por favor!', button: 'Aceptar' })
                 }
             });
+        document.body.style.overflow = "auto";
+
     }
     //cambiar un avatar
     changeCaracter = async (url) => {
@@ -59,6 +70,8 @@ class AvatarUser extends React.Component {
                     swal({ text: 'No se pudo subir, intenta de nuevo por favor!', button: 'Aceptar' })
                 }
             });
+        document.body.style.overflow = "auto";
+
     }
     async componentDidMount() {
         //Lo primero que hacemos es saber si el usuario  un avatar registrador r
@@ -86,7 +99,7 @@ class AvatarUser extends React.Component {
         const AvatarImage = (
             <div className="Content" onMouseOver={() => this.AvatarController.showButtons()} onMouseOut={() => this.AvatarController.hiddenButtons()}>
                 <div className="avatar" >
-                    <img src={this.state.avatar} className="img img-circle"  alt="" />
+                    <img src={this.state.avatar} className="img img-circle" alt="" />
                 </div>
                 <AvatarCreator
                     visualice={this.state.visualice}

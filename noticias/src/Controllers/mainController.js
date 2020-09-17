@@ -1,3 +1,4 @@
+import swal from 'sweetalert';
 
 class MainController {
 
@@ -29,7 +30,7 @@ class MainController {
         //Si esta el id
         if (id) {
             //y si el acceso es verdadero entonces
-            if (access === 'true') { 
+            if (access === 'true') {
                 //reentornamos verdadero
                 return true
             } else {
@@ -42,6 +43,58 @@ class MainController {
         }
 
     }
+
+    //Cambiar la contraseña de un usuario
+    passChanger = async (newPass, oldPass) => {
+        const url = 'http://localhost:5000/users/change/pass/';
+        const data = {
+            userid: sessionStorage.getItem('userid'),
+            newPass: newPass,
+            pass: oldPass,
+        }
+        const consulta = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const response = await consulta.json();
+        console.log(response);
+        return response.value;
+    }
+
+    //Verificador de contraseñas viejas del usuario
+    olPassVerifi = async (user, pass) => {
+        const url = `http://localhost:5000/users/validationlogin/${user}/${pass}`;
+        const response = await fetch(url);
+        const consulta = await response.json();
+        return consulta.value;
+    }
+    //Verificador de contraseñas
+    //Verificar si las contraseñas coinciden
+    passVerifi = (newPass, passVerifi) => {
+        //verificamos que sean iguales
+        if (newPass === passVerifi) {
+            //En caso que de sean iguales ahora verificamos que las contraseña tenga mas de 5 caracteres
+            if (newPass.length > 5) {
+                //entonces reentormas un verdadero en caso de que esta ultima condición se cumpla
+                return true
+            } else {
+                //reentornamos un mensaje en pantalña
+                swal({ text: 'La Nueva contraseña debe tener como minimo 5 caracteres', button: 'Acceptar' })
+                return false
+            }
+        } else {
+            //Enviamos un mensaje en caso de que las contraseñas no sean iguales
+            swal({ text: 'Las contraseñas no coinciden', button: 'Acceptar' });
+            return false
+
+        }
+    }
+
+
+
 }
 
 

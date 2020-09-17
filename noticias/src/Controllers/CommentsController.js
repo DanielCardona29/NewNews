@@ -190,7 +190,6 @@ class CommController {
                     consulta
                 ]
             }
-            console.log(comentsList);
             return comentsList;
         } else {
             swal({
@@ -209,7 +208,6 @@ class CommController {
             const consulta = await fetch(url);
             const response = await consulta.json();
             if (response.value) {       
-                console.log(response.results);
                 return response.results;
             } else {
                 swal({

@@ -135,3 +135,12 @@
     border-radius: 8px;
     padding: 10px 10px 10px 10px;
 }
+
+.FormContentiMG > .formulario > .form-group{
+    width: 40%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+}

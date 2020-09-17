@@ -38,4 +38,27 @@ router.put('/update/avatar/', (req, res) => {
     }
 });
 
+//Actualizar la contraseña de un usuario
+router.put('/change/pass/', (req, res) => {
+    const { pass, userid, newPass } = req.body;
+    if (userid) {
+        let sql = `UPDATE users SET ? WHERE id = '${userid}' AND pass = '${pass}'`;
+        const newsOBJ = {
+            pass: newPass,
+        }
+        connection.query(sql, newsOBJ, error => {
+            if (error) {
+                console.log(error);
+                res.json({ value: false })
+            } else {
+                res.json({ value: true });
+            }
+
+        });
+    } else {
+        res.json({ value: false })
+    }
+});
+
+
 module.exports = router;

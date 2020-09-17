@@ -97,7 +97,6 @@ class UserInfo extends React.Component {
         this.setState({ isLoading: true, oscurecer: 'NG' })
         await this.NewsController.userLikesNews(sessionStorage.getItem('userid'))
             .then(value => {
-                console.log(value);
                 this.setState({
                     cotnenidoNews: value,
                     contenido: false
@@ -112,7 +111,6 @@ class UserInfo extends React.Component {
         this.setState({ isLoading: true, oscurecer: 'NES' })
         await this.NewsController.userWriteNews(sessionStorage.getItem('userid'))
             .then(value => {
-                console.log(value);
                 this.setState({
                     cotnenidoNews: value,
                     contenido: false

@@ -102,7 +102,6 @@ router.get('/?:id', (req, res) => {
     });
 });
 
-
 //Obntener un avatar
 router.get('/avatar/?:userid', (req, res) => {
     const { userid } = req.params;
@@ -118,5 +117,7 @@ router.get('/avatar/?:userid', (req, res) => {
         }
     });
 });
+
+
 
 module.exports = router;

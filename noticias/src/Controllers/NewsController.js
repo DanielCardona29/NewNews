@@ -362,7 +362,6 @@ class NewsController extends StatsController {
     let newsOBJ = []
     let stats = false;
     let comentarios = false
-    console.log(element);
     for (let i = 0; i < element.results.length; i++) {
       //Extraemos las estadisticas de cada noticia por id
       stats = await this.StatsNewsGetter(element.results[i].id);
