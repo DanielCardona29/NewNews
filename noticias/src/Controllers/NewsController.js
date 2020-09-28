@@ -379,6 +379,17 @@ class NewsController extends StatsController {
 
     return newsOBJ
   }
+
+  //Conusltar si es posible modificar una noticia
+  isPosibleUpdateNews = async (newsid) => {
+    const userid = sessionStorage.getItem('userid');
+    const url = `http://localhost:5000/news/user/news/update/${userid}/${newsid}`;
+    const consulta = await fetch(url)
+    const response = await consulta.json();
+    return response.value;
+  }
+
+
 }
 
 export default NewsController;

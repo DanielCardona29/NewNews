@@ -23,9 +23,17 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .newData > label:nth-child(2) {
     margin-left: 30px;
+}
+.newData > label:nth-last-child(1){
+    display: flex;
+    align-items: center;
+}
+.newData > label:nth-last-child(1) > .Link{
+    margin-left: 10px;
 }
 
 .newContenido {

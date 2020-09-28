@@ -10,8 +10,8 @@ class AvatarController {
         $('#buttons').css({ 'display': 'none' });
     }
     //Saber si el usuario tiene un avatar
-    async gettAvatar() {
-        const userid = sessionStorage.getItem('userid')
+    async gettAvatar(id) {
+        const userid =  id || sessionStorage.getItem('userid');
         const url = `http://localhost:5000/users/avatar/${userid}/`;
         let consult = await fetch(url);
         let data = await consult.json();

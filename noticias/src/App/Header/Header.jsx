@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import $ from 'jquery'
@@ -6,8 +6,10 @@ import $ from 'jquery'
 
 import '../../Styles/App/Header/Header.scss';
 import Config from './Configuracion.jsx';
+import AvatarController from '../../Controllers/AvatarController.js';
 
 
+const Controller = new AvatarController();
 const close = () => {
 
 
@@ -28,8 +30,15 @@ const redirect = () => {
     window.location.href = '/create'
 }
 
+
 const Header = (props) => {
     const [Menu, setMenu] = useState(false);
+    const [Avatar, setAvatar] = useState('https://censur.es/wp-content/uploads/2019/03/default-avatar.png');
+
+    //LLamado a la API
+    useEffect(() => {
+        Controller.gettAvatar().then(value => { setAvatar(value) });
+    });
 
 
     const changeState = () => {
@@ -50,9 +59,9 @@ const Header = (props) => {
     } else {
         $('#fuera').css('display', 'block')
     }
-
-
-
+    const style = {
+        backgroundImage: "url(" + Avatar + ")",
+    }
     const HeaderLogin = (
         <div className="headerContent">
             <div className="header">
@@ -62,9 +71,12 @@ const Header = (props) => {
                 {
                     (() => {
                         if (props.userName) {
-                           return <div className="infoContent">
+                            return <div className="infoContent">
                                 <div className="userName">
-                                    <Link className="Link" to="/user/info/">{props.userName}</Link>
+                                    <Link className="Link buttonAction" to="/user/info/">
+                                        <div className="Avatar" style={style}>
+                                        </div>
+                                        {props.userName}</Link>
                                 </div>
                             </div>
                         }

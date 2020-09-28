@@ -39,10 +39,7 @@ class Principal extends React.Component {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-
                     <Header userName={this.state.user} Ok={this.state.ok} />
-
-
                     <div className="contenidoWrapper">
                         <div className="wrapperListContent">
                             <h2>Ultimas subidas</h2>

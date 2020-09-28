@@ -107,6 +107,25 @@ router.get('/user/?:id', (req, res) => {
     });
 });
 
+//Consultar si un usuario puede actualizar una noticia 
+
+router.get('/user/news/update/?:userid/?:newsid', (req, res) => {
+    console.log('Consultado');
+    const { newsid, userid } = req.params;
+    const sql = `SELECT * FROM news WHERE userid ='${userid}' AND id=${newsid}`;
+    connection.query(sql, (error, results) => {
+        if (error) {
+            console.log(`Hubo un error en la base de datos al consultar la posibilidad de editar una noticia ${error}`);
+            res.json({ value: false })
+        } else if (results.length > 0) {
+            res.json({ value: true });
+        } else {
+            res.json({ value: false })
+        }
+    });
+});
+
+
 //Atraer una noticia por id
 router.get('/detail/?:id', (req, res) => {
     const { id } = req.params;

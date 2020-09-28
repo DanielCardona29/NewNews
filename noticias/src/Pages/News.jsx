@@ -1,5 +1,6 @@
 import React from 'react';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 import Footer from '../App/Footer/Footer.jsx';
 import Loader from '../App/Loader/Loader.jsx';
@@ -9,21 +10,26 @@ import MainController from '../Controllers/mainController.js';
 import NewsController from '../Controllers/NewsController.js';
 import StatsController from '../Controllers/statsController.js';
 import '../Styles/App/NewsDetail/News.scss';
+import AvatarController from '../Controllers/AvatarController';
 import Commets from '../App/Comments/Commets.jsx';
 
 class NewsPage extends React.Component {
 
     constructor(props) {
         super(props);
+        
         this.state = {
             ok: true,
             NewElement: false,
             isNewLiked: false,
-            isNewDisliked: false
+            isNewDisliked: false,
+            Avatar: false
         }
+    
         this.Controller = new MainController();
         this.NewsController = new NewsController();
         this.statsController = new StatsController();
+        this.AvatarController = new AvatarController();
     }
 
     async componentDidMount() {
@@ -65,6 +71,15 @@ class NewsPage extends React.Component {
                         isNewDisliked: true
                     })
                 }
+            });
+
+        
+        await this.AvatarController.gettAvatar(this.state.NewElement.userid)
+            .then(value => {
+                console.log(value);
+                this.setState({
+                    Avatar: value || 'https://censur.es/wp-content/uploads/2019/03/default-avatar.png'
+                })
             })
 
     }
@@ -125,6 +140,9 @@ class NewsPage extends React.Component {
     }
 
     render() {
+        const style = {
+            backgroundImage: "url(" + this.state.Avatar + ")",
+        }
 
         try {
             const imgStyle = {
@@ -172,7 +190,11 @@ class NewsPage extends React.Component {
                                 </label>
                                 <label className="label">
                                     <span className="negrita">Autor: </span>
-                                    {this.state.NewElement.autor}
+
+                                    <Link className="Link buttonAction" to="/user/info/">
+                                        <div className="Avatar" style={style}>
+                                        </div>
+                                        {this.state.NewElement.autor}</Link>
                                 </label>
                             </div>
                             <div className="newContenido" id="newContenido" style={{ textAlign: this.state.NewElement.aling }} dangerouslySetInnerHTML={{ __html: this.state.NewElement.content }}>
