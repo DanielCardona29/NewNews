@@ -1,6 +1,4 @@
-
 const express = require('express');
-const connection = require('../connection.js');
 const router = express.Router();
 const getter = require('./UserSubRutes/getter.js');
 const postters = require('./UserSubRutes/postters.js');
