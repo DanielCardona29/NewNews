@@ -1,21 +1,14 @@
-require('dotenv').config();
-const app = require('./models/app.js');
+"use strict";
+// desde este archivo arrancamos la aplicacion
+import app from './app.js';
+import './database.js';
+import dotenv from 'dotenv'
 
-const init = async () => {
-    //Asiganmos el nuestro puerto
-    const port = process.env.PORT || 3000
-    //Conectamos en servidor a nuestro puerto local
-    await app.listen(port)
-        //Si todo esta bien enviamos el aviso de correcto a nuestra cosola
-        .then(value => {
-            console.log(`Server connected in port ${port}`);
-        })
-        //Si no enviamos el error a nuestra consola
-        .catch(error => {
-            console.log(`Was a error connecting the server ${error}`);
-        });
-}
-
-
-
-
+//Configuramos las variables de entorno
+dotenv.config();
+//Abrimos el puerto de nustra aplicacion
+//1. Asignamos el puerto a una variable
+// este valor lo capturamos de una variable de entorno.
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
+console.log('Servidor abierto en el puerto', PORT);
