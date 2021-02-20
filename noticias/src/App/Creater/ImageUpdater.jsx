@@ -25,6 +25,7 @@ function ImageUpdater(props) {
                     </div>
                 </form>
 
+                <progress id="progressbar" value="" max="100" style={{ width: 100, margin: 0 }} />
 
                 <Button type={'button'}
                     content={'Subir'}

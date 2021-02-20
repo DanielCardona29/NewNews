@@ -1,11 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import $ from "jquery";
-import swal from "sweetalert";
 
 import Button from "../Buttons/Buttons.jsx";
 import ErrorPage from "../../Pages/ErrorPage.jsx";
 import "../../Styles/App/Form/form.scss";
+
+import RegistroController from '../../NewControllers/registro.controller';
+const _RegistroController = new RegistroController();
+
 
 class InsForm extends React.Component {
   constructor(props) {
@@ -21,7 +24,7 @@ class InsForm extends React.Component {
     };
   }
 
-  //Esta propiedad transforma el codigo en caso de que las contrasñas no coincidan
+  //Esta propiedad transforma la UI en caso de que las contraseñas no coincidan
   incoPass = (value) => {
     if (!value) {
       $("#pass").addClass("invali");
@@ -34,12 +37,32 @@ class InsForm extends React.Component {
     }
   };
 
-  //Esta propiedad transforma el checkbox en caso de que este incorrecto
+  //Esta propiedad transforma el checkbox en caso de que esté deseleccionado
   termsnocheck = (value) => {
     if (!value) {
       $("#checkID").css("border", "1px solid red");
     } else {
       $("#checkID").css("border", "1px solid green");
+    }
+  };
+
+  //con esta propiedad se validan que los campos correctamente;
+  validate = (element, len = 5) => {
+    const validate = $(`#${element}`).val();
+    if (!validate || validate.trim() === "") {
+      //Aqui validamos que el elemento exista
+      $(`#${element}`).addClass("invali");
+      return false;
+    } else if (validate.length < len) {
+      //Aqui que el valor de ele elemento sea mayor a 5
+      $(`#${element}`).addClass("invali");
+      return false;
+    } else {
+      //en caso de que todo este correcto envias un true
+      $(`#${element}`).addClass("vali");
+      $(`#${element}`).removeClass("invali");
+
+      return true;
     }
   };
 
@@ -67,193 +90,7 @@ class InsForm extends React.Component {
     });
   };
 
-  //con esta propiedad se validan que los campos esten completados correctamente;
-  validate = (element, len = 5) => {
-    const validate = $(`#${element}`).val();
-    if (!validate || validate.trim() === "") {
-      //Aqui validamos que el elemento exista
-      $(`#${element}`).addClass("invali");
-      return false;
-    } else if (validate.length < len) {
-      //Aqui que el valor de ele elemento sea mayor a 5
-      $(`#${element}`).addClass("invali");
-      return false;
-    } else {
-      //en caso de que todo este correcto envias un true
-      $(`#${element}`).addClass("vali");
-      $(`#${element}`).removeClass("invali");
 
-      return true;
-    }
-  };
-
-  //Con esta propiedad validamos la viabilidad del formulario y verificamos que todos los datos esten correctos
-  validateAll = async () => {
-    //Primero validamos que todos los campos estan completados correctamente;
-    //Cada variable deberia tener el valor de true si estan de manera correcta;
-    let user = this.validate("usuario", 5);
-    let email = this.validate("correo");
-    let pass = this.validate("pass", 6);
-    let confiPass = this.validate("confiPass", 6);
-    let terms = this.state.form.terms;
-
-    //Verificamos que todas las variables esten como queremos
-    if (user && email && pass && confiPass) {
-      //Ahora veficamos que las contraseña coincidan
-      if (this.state.form.pass.trim() === this.state.form.confiPass.trim()) {
-        this.incoPass(true);
-        //Validamos que los terminos y condiciones este check
-        if (terms) {
-          //si esta check enviamos un verdadero para seguir
-          this.termsnocheck(true);
-          //Ahora hacemos una consulta a la appi para verificar que elc orreo que ingrese el usuario es el correcto
-          let consultaCorreo = await this.consultarUsuario(
-            this.state.form.correo,
-            "email"
-          );
-
-          if (!consultaCorreo) {
-            let consultaUsurio = await this.consultarUsuario(
-              this.state.form.usuario,
-              "user"
-            );
-
-            if (!consultaUsurio) {
-              return true;
-            } else {
-              swal({
-                text: "Al parecer ya tenemos este usuario registrado",
-                button: "Aceptar",
-              });
-              return false;
-            }
-          } else {
-            swal({
-              text: "Al parecer ya tenemos este correo registrado",
-              button: "Aceptar",
-            });
-            return false;
-          }
-        } else {
-          //En caso de que no sea asi le informamos al usuario
-          this.termsnocheck(false);
-          swal({
-            text: "Debe aceptar los terminos y condiciones del sistema",
-            button: "Aceptar",
-          });
-        }
-      } else {
-        //Envia que las contraseñas no son correctas
-        this.incoPass(false);
-        return false;
-      }
-    } else {
-      //En caso de que esta primera propiedad no se cumpla informamos al usuario por medio de una alerta
-      if (!user) {
-        swal({
-          text: "Debes terner un usuario",
-          button: "Aceptar",
-        });
-      } else if (user.length < 5) {
-        swal({
-          text: "El user es muy corto debe ser mayor 5 caracteres",
-          button: "Aceptar",
-        });
-      } else if (!email) {
-        swal({
-          text: "Nos hace falta un correo",
-          button: "Aceptar",
-        });
-      } else if (email.length < 8) {
-        swal({
-          text: "Al parecer el correo no es valido",
-          button: "Aceptar",
-        });
-      } else if (!pass) {
-        swal({
-          text: "necesitamos una contraña para continuar",
-          button: "Aceptar",
-        });
-      } else if (pass.length < 6) {
-        swal({
-          text: "La contraseña debe tener al menos 6 caracteres",
-          button: "Aceptar",
-        });
-      } else if (!confiPass) {
-        swal({
-          text:
-            "Para verificar que la contraseña este correcta debes verificarla aquí",
-          button: "Aceptar",
-        });
-      }
-
-      return false;
-    }
-  };
-
-  //esta propiedad veficia si el correo o usuario se encuentra registrado en la base de datos
-  async consultarUsuario(dato, formato) {
-    let url = `http://localhost:5000/users/validation${formato}/${dato}`;
-    const data = await fetch(url);
-    const response = await data.json();
-    return response.value;
-  }
-
-  async hacerRegistro() {
-    let url = `http://localhost:5000/users`;
-    const data = {
-      user: this.state.form.usuario,
-      email: this.state.form.correo,
-      pass: this.state.form.pass,
-      access: "true",
-    };
-
-    const value = await fetch(url, {
-      method: "POST", // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .catch((error) => console.error("Error:", error))
-      .then((response) => {
-        return response.value;
-      });
-
-    return value;
-  }
-
-  //Con esta propiedad damos submit al formulario y
-  submit = async (e) => {
-    //Consultamos si todas las validaciones se han hecho correctamente
-    const validate = await this.validateAll();
-    //Si las validacions estan hechas de la manera correcta
-    if (validate) {
-      //entonces hacemos el registro en la base de datos
-      let registro = await this.hacerRegistro();
-      console.log(registro);
-      if (registro) {
-        //El registro se hizo de manera correcta, entonces le informamos al usuario que el proceso fue correcto
-        swal({
-          title: "Genial!",
-          text: "Todo ha salido bien!",
-          icon: "success",
-          button: "Aceptar!",
-        })
-          //Y redireccionamos al incio de sesión
-          .then((value) => {
-            // window.location.href = '/'
-          });
-      } else {
-        //En caso de que el registro no se haga de manera correcta, le informamos al usuario que lo intnte de nuevo
-        swal({
-          text: "Algo ha salido mal, intenta de nuevo por favor!",
-          button: "Aceptar!",
-        });
-      }
-    }
-  };
 
   render() {
     try {
@@ -302,7 +139,7 @@ class InsForm extends React.Component {
             </div>
 
             <div className="form-group incoPass" id="incoPass">
-              <label>Las contraseñas no coinciden</label>
+              <label>Las contraseñas no son correctas</label>
             </div>
 
             <div className="form-group">
@@ -336,7 +173,13 @@ class InsForm extends React.Component {
               type={"button"}
               content={"registrarse"}
               classType={"Mybtn btn4"}
-              click={() => this.submit()}
+              click={() => _RegistroController.SingUp({
+                user: this.state.form.usuario,
+                email: this.state.form.correo,
+                pass: this.state.form.pass,
+                confipass: this.state.form.confiPass,
+                check: this.state.form.terms
+              }, this.incoPass)}
               id={"registrarse"}
               name={"registrarse"}
             />

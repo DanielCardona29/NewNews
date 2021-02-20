@@ -160,6 +160,7 @@ class NewsController extends StatsController {
       formData.append('url', '');
       formData.append('NewImage', fileField.files[0]);
       formData.append('isFile', true);
+      
       const consulta = await fetch(url, {
         method: 'POST',
         body: formData
@@ -379,7 +380,6 @@ class NewsController extends StatsController {
 
     return newsOBJ
   }
-
   //Conusltar si es posible modificar una noticia
   isPosibleUpdateNews = async (newsid) => {
     const userid = sessionStorage.getItem('userid');

@@ -7,8 +7,10 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "avataaars": "^1.2.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "ckeditor4-react": "^1.1.1",
+    "dotenv": "^8.2.0",
     "jquery": "^3.5.1",
     "mysql": "^2.18.1",
     "react": "^16.13.1",
@@ -26,6 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

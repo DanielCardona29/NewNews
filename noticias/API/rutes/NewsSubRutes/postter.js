@@ -56,8 +56,6 @@ router.post('/image/upload', (req, res) => {
         console.log(req.body);
         res.json({ value: true, url: `http://${RuteResponse.local}:${RuteResponse.port}/api/images/${req.file.filename}` });
     } else {
-        console.log('hola');
-
         res.json({ value: true, url: url });
     }
 

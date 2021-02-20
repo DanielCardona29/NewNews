@@ -211,7 +211,7 @@ class NewsPage extends React.Component {
             );
 
             const userid = sessionStorage.getItem('userid');
-            if (this.state.ok && userid) {
+            if (this.state.ok) {
                 if (this.state.NewElement) {
 
                     return Page;

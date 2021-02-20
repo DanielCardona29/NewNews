@@ -1,8 +1,11 @@
 import React from "react";
-import swal from "sweetalert";
 
 import Button from "../Buttons/Buttons.jsx";
 import ErrorPage from "../../Pages/ErrorPage.jsx";
+
+import LoginController from '../../NewControllers/login.controllers'
+
+const _LoginController = new LoginController();
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -23,47 +26,6 @@ class LoginForm extends React.Component {
       },
     });
   };
-
-  consulta = async (url) => {
-    let data = await fetch(url);
-    let response = await data.json();
-    return response;
-  };
-
-  submit = async (e) => {
-    let url = `http://localhost:5000/users/validationlogin/${this.state.form.user}/${this.state.form.pass}`;
-    let response = await this.consulta(url).then((user) => {
-      //Primero verificamos que exista el usuario
-      if (user.value) {
-        //Ahora verificamos que el usaurio tenga accesso al sistema
-        if (user.access) {
-          //si tenemos accesos enviamos el id del usuairo al sesion starage
-          sessionStorage.setItem("userid", user.results[0].id);
-          return { value: true };
-        } else {
-          //En caso de que no tengamos aceso reentornamos falso
-          return { identy: "access", value: false };
-        }
-      } else {
-        //En caso de que no tengamos el valor reentornamos falso
-        return { identy: "value", value: false };
-      }
-    });
-
-    console.log(response);
-    //Ahora informamos al hacemos el login o informamos al usuario que paso
-    if (response.value) {
-      window.location.href = "/home";
-    } else {
-      if (response.identy === "access") {
-        swal({ text: "Al parecer no tienes aceso a nuestro sistema", button: 'Aceptar' });
-      } else {
-        swal({ text: "Usuario o contraseña incorrectos", button: 'Aceptar' });
-
-      }
-    }
-  };
-
 
   render() {
     try {
@@ -102,7 +64,7 @@ class LoginForm extends React.Component {
               type={"button"}
               content={"ingresar"}
               classType={"Mybtn btn4"}
-              click={() => this.submit()}
+              click={() => _LoginController.Login({ user: this.state.form.user, pass: this.state.form.pass })}
               id={"ingresar"}
               name={"ingresar"}
             />

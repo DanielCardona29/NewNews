@@ -8,11 +8,9 @@ import '../../Styles/App/Header/Header.scss';
 import Config from './Configuracion.jsx';
 import AvatarController from '../../Controllers/AvatarController.js';
 
-
 const Controller = new AvatarController();
+
 const close = () => {
-
-
     swal({
         text: '¿Estas seguro que quieres salir?',
         buttons: true,
@@ -20,7 +18,7 @@ const close = () => {
     })
         .then(value => {
             if (value) {
-                sessionStorage.removeItem('userid');
+                sessionStorage.removeItem('__token');
                 window.location.href = "/";
             }
         })
@@ -123,7 +121,7 @@ const Header = (props) => {
 
     );
 
-    if (props.Ok) {
+    if (props.token) {
         return HeaderLogin
     } else {
         return noLoginUser;

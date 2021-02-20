@@ -2,5 +2,11 @@
     margin-top: 50px;
 }
 .textEditor{
-    width: 100%;
+    width: 50%;
+}
+
+@media  (max-width: 900px){
+    .textEditor{
+        width: 80%;
+    }
 }
