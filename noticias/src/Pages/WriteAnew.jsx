@@ -24,6 +24,7 @@ class NewWriter extends React.Component {
         super(props);
         this.state = {
             token: true,
+            user: 'Daniel',
             urlUPDATE: '',
             form: {
                 id: false,
@@ -258,12 +259,13 @@ class NewWriter extends React.Component {
             });
 
         }
-
         this.setState({
             token: true,
+            user: userInfo.result.user,
             form: {
                 ...this.state.form,
-                user: userInfo.result.user
+                user: userInfo.result.user,
+
             }
         })
 
@@ -298,7 +300,7 @@ class NewWriter extends React.Component {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-                    <Header userName={this.state.user} Ok={this.state.ok} />
+                    <Header userName={this.state.user} token={this.state.token} />
                     <div className="contenidoWrapper">
 
                         <div className="title">

@@ -6,8 +6,8 @@ import Footer from '../App/Footer/Footer.jsx';
 import Loader from '../App/Loader/Loader.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
-import MainController from '../Controllers/mainController.js';
-import NewsController from '../Controllers/NewsController.js';
+import MainController from '../NewControllers/main.controller';
+import NewsController from '../NewControllers/news.controller.js';
 import StatsController from '../Controllers/statsController.js';
 import '../Styles/App/NewsDetail/News.scss';
 import AvatarController from '../Controllers/AvatarController';
@@ -17,70 +17,57 @@ class NewsPage extends React.Component {
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
-            ok: true,
+            token: true,
             NewElement: false,
             isNewLiked: false,
             isNewDisliked: false,
-            Avatar: false
+            Avatar: false,
+            autor: '',
         }
-    
-        this.Controller = new MainController();
+
+        this._MainController = new MainController();
         this.NewsController = new NewsController();
         this.statsController = new StatsController();
         this.AvatarController = new AvatarController();
     }
 
     async componentDidMount() {
-        let userInfo = await this.Controller.userConsult();
-        let data = await userInfo.json();
-        if (data.results) {
-            this.Controller.userVerifi(data.results[0].access)
-                .then(access => {
-                    this.setState({
-                        ...data.results[0],
-                        ok: access
-                    })
-                });
-        }
-        //Ahora extraemos la noticia y la ponemos en el estado
-        let NewDetail = await fetch(`http://localhost:5000/news/detail/${this.props.match.params.id}`);
-        let response = await NewDetail.json();
-        if (response.value) {
-            //Extraemos el autor de la notica
-            await this.NewsController.AutorController(response.results[0]).then(data => { this.setState({ NewElement: data }) })
-        } else {
-            this.setState({
-                ...this.state,
-                NewElement: false
-            })
-        }
+        let tokenValidate = await this._MainController.tokenValidate();
 
-        //Saber si la noticia tiene un like o un dislike
-        await this.statsController.getLikeorDislikeToNews(this.props.match.params.id)
-            .then(data => {
-                if (data.likes > 0) {
-                    this.setState({
-                        isNewLiked: true,
-                        isNewDisliked: false
-                    })
-                } else if (data.dislikes > 0) {
-                    this.setState({
-                        isNewLiked: false,
-                        isNewDisliked: true
-                    })
-                }
+        let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
+        console.log(userInfo.result);
+        if (!tokenValidate) {
+            this.setState({
+                token: false,
             });
 
-        
-        await this.AvatarController.gettAvatar(this.state.NewElement.userid)
-            .then(value => {
-                console.log(value);
-                this.setState({
-                    Avatar: value || 'https://censur.es/wp-content/uploads/2019/03/default-avatar.png'
+        }
+
+        this.setState({
+            token: true,
+            user: userInfo.result.user
+        })
+
+        //Extraemos la informacion de la noticia que tenemos
+        const response = await this.NewsController.findNew(this.props.match.params.id);
+        if (response) {
+            this.setState({
+                NewElement: response,
+                autor: response.userid.user
+            });
+        } else {
+            swal({ text: 'No se encontro la noticia que busca' })
+                .then(() => {
+                    window.location.href = "/home";
                 })
-            })
+                .catch(err => {
+                    swal({ text: 'Hubo un error' })
+                    window.location.href = "/home";
+                    console.error(err);
+                })
+        }
 
     }
 
@@ -139,6 +126,9 @@ class NewsPage extends React.Component {
         }
     }
 
+    //Convertidor de fechas 
+
+
     render() {
         const style = {
             backgroundImage: "url(" + this.state.Avatar + ")",
@@ -157,7 +147,7 @@ class NewsPage extends React.Component {
             const Page = (
                 <div className="container-fluid">
                     <div className="wrapper">
-                        <Header userName={this.state.user} Ok={this.state.ok} />
+                        <Header userName={this.state.user} token={this.state.token} />
                         <div className="contenidoWrapper">
                             {
                                 (() => {
@@ -185,16 +175,16 @@ class NewsPage extends React.Component {
                             <div className="newImagen" style={imgStyle}></div>
                             <div className="newData">
                                 <label className="label">
-                                    <span className="negrita">Fecha de creación: </span>
-                                    {this.state.NewElement.date}
+                                    <span className="negrita">Fecha de creación:</span>
+                                    {this._MainController.date(this.state.NewElement.create_date)}
                                 </label>
                                 <label className="label">
-                                    <span className="negrita">Autor: </span>
+                                    <span className="negrita">Autor:</span>
 
                                     <Link className="Link buttonAction" to="/user/info/">
                                         <div className="Avatar" style={style}>
                                         </div>
-                                        {this.state.NewElement.autor}</Link>
+                                        {this.state.autor}</Link>
                                 </label>
                             </div>
                             <div className="newContenido" id="newContenido" style={{ textAlign: this.state.NewElement.aling }} dangerouslySetInnerHTML={{ __html: this.state.NewElement.content }}>
@@ -210,10 +200,8 @@ class NewsPage extends React.Component {
                 </div>
             );
 
-            const userid = sessionStorage.getItem('userid');
-            if (this.state.ok) {
+            if (this.state.token) {
                 if (this.state.NewElement) {
-
                     return Page;
                 } else {
                     return loading;

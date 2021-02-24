@@ -44,5 +44,11 @@ export default class MainController {
         return true;
     }
 
+    //Convertidor de fechas 
+    date(date) {
+        var options = { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "numeric", hour12: "false" };
+        date = new Date(date);
+        return date.toLocaleString("ES", options);
+    }
 
 }

@@ -16,6 +16,7 @@ class Principal extends React.Component {
             token: true,
         }
         this._MainController = _MainController;
+        
     }
 
     async componentDidMount() {

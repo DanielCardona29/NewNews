@@ -35,7 +35,7 @@ const Header = (props) => {
 
     //LLamado a la API
     useEffect(() => {
-        Controller.gettAvatar().then(value => { setAvatar(value) });
+    //Controller.gettAvatar().then(value => { setAvatar(value) });
     });
 
 
@@ -58,7 +58,7 @@ const Header = (props) => {
         $('#fuera').css('display', 'block')
     }
     const style = {
-        backgroundImage: "url(" + Avatar + ")",
+        backgroundImage: "url(" + Avatar ||  + ")",
     }
     const HeaderLogin = (
         <div className="headerContent">
