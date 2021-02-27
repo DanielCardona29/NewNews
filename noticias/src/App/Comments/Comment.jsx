@@ -55,7 +55,8 @@ class Comment extends React.Component {
 
     render() {
 
-        const userid = sessionStorage.getItem('userid')
+        const userid = sessionStorage.getItem('userid');
+        
         if (this.props.comentario.idusercoment === userid) {
             if (this.props.keyNum % 2 === 0) {
                 return <CommetnUser

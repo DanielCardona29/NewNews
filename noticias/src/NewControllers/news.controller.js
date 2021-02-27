@@ -141,5 +141,9 @@ export default class NewsController {
         return true
     }
 
+    async Liker(data) {
+        const consulta = await this.consult(data, 'liker');
+        return consulta;
+    }
 
 }

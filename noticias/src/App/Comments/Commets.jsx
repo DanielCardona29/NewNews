@@ -29,39 +29,6 @@ class Commets extends React.Component {
         }
     }
 
-    //El estado del like de un usuario
-    //Extraemos los comentarios de la base de datos
-    async componentDidMount() {
-        this.setState({ isLoading: true })
-        const data = await this.Controller.CommetsGetter(this.props.newid);
-        let CommentsOBJ = [];
-        const userid = sessionStorage.getItem('userid')
-        if (data.response.value) {
-            for (let i = 0; i < data.response.results.length; i++) {
-                let autor = await this.Controller.ExtractAutor(data.response.results[i].idusercoment);
-                let Likes = await this.CommentsController.CommetsLikes(data.response.results[i].id, this.props.newid);
-                let isLiked = await this.CommentsController.LikeConsultUser(data.response.results[i].id, this.props.newid, userid);
-                CommentsOBJ = [
-                    ...CommentsOBJ,
-                    {
-                        comentario: data.response.results[i],
-                        likes: Likes,
-                        autor: autor,
-                        isLiked: isLiked,
-                        CommentPositon: i
-                    }
-                ]
-            }
-            this.setState({
-                Commets: CommentsOBJ,
-                CommetsNum: CommentsOBJ.length
-            })
-        }
-
-        this.setState({ isLoading: false })
-    }
-
-    //
     handleChange = e => {
         this.setState({
             form: {
@@ -183,23 +150,27 @@ class Commets extends React.Component {
                 <div className="comentariosContent">
                     <ul>
                         {
-                            //(props.comentario.id)
-                            this.state.Commets.map((item, key) => {
-                                const lista = (
-                                    <li key={key} id={`comment${item.comentario.id}`}>
-                                        <Commet autor={item.autor}
-                                            newID={this.props.newid}
-                                            isLiked={item.isLiked}
-                                            keyNum={key}
-                                            HasBedeleteComment={this.HasBedeleteComment}
-                                            comentario={item.comentario}
-                                            likes={item.likes}
-                                            CommentPositon={item.CommentPositon}
-                                        />
-                                    </li>
-                                );
-                                return lista;
-                            })
+                            (() => {
+                                if (this.props.newElement.coments.count === 0) {
+                                    return (
+                                        <div>No hay comentarios para mostrar</div>
+                                    )
+                                } else {
+
+                                    this.props.newElement.coments.content.map((item, key) => {
+                                        console.log(item);
+                                        const lista = (
+                                            <li key={key}>
+                                                <Commet
+                                                    item={item}
+                                                />
+                                            </li>
+                                        );
+                                        return lista;
+                                    })
+                                }
+                            })()
+
                         }
                     </ul>
                 </div>

@@ -25,6 +25,7 @@ class NewsPage extends React.Component {
             isNewDisliked: false,
             Avatar: false,
             autor: '',
+            id: this.props.match.params.id
         }
 
         this._MainController = new MainController();
@@ -51,10 +52,14 @@ class NewsPage extends React.Component {
         })
 
         //Extraemos la informacion de la noticia que tenemos
-        const response = await this.NewsController.findNew(this.props.match.params.id);
+        const response = await this.NewsController.findNew(this.state.id);
         if (response) {
+            console.log(response);
+            //Buscamos si el usuario le ha dado like a la noticia
             this.setState({
                 NewElement: response,
+                isNewDisliked: response.dislikes.isUserLike,
+                isNewLiked: response.likes.isUserLike,
                 autor: response.userid.user
             });
         } else {
@@ -73,62 +78,44 @@ class NewsPage extends React.Component {
 
     //Controllador de likes de una new enviar o quitar
     LikeController = async () => {
-        if (!this.state.isNewLiked) {
-            //Si la noticia no tiene el Like del usuario entonces le enviamos el like
-            await this.statsController.settAlike(this.props.match.params.id)
-                .then(data => {
-                    console.log(data);
-                    if (data) {
-                        this.setState({
-                            isNewLiked: true,
-                            isNewDisliked: false
-                        })
-                    }
-                    return data;
-                });
-        } else {
-            //Si la noticia tiene un like entonces se lo borramos 
-            await this.statsController.deleteAlike(this.props.match.params.id)
-                .then(data => {
-                    console.log(data);
-                    if (data) {
-                        this.setState({
-                            isNewLiked: false,
-                        })
-                    }
-                })
+        const data = {
+            id: this.state.id,
+            isLiking: true,
+            isDisliking: false
         }
+        await this.NewsController.Liker(data)
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    isNewLiked: res.isLiked,
+                    isNewDisliked: res.isDisliked
+                })
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
+
     //Controllador de likes de una new enviar o quitar
     DislikeController = async () => {
-        if (!this.state.isNewDisliked) {
-            //Si la noticia no tiene el Like del usuario entonces le enviamos el like
-            await this.statsController.settAdislike(this.props.match.params.id)
-                .then(data => {
-                    if (data) {
-                        this.setState({
-                            isNewLiked: false,
-                            isNewDisliked: true
-                        })
-                    }
-                })
-        } else {
-            //Si la noticia tiene un like entonces se lo borramos 
-            await this.statsController.deleteAdislike(this.props.match.params.id)
-                .then(data => {
-                    if (data) {
-                        console.log(data);
-                        this.setState({
-                            isNewDisliked: false
-                        })
-                    }
-                })
+        const data = {
+            id: this.state.id,
+            isLiking: false,
+            isDisliking: true
         }
+        await this.NewsController.Liker(data)
+            .then(res => {
+                this.setState({
+                    isNewLiked: res.isLiked,
+                    isNewDisliked: res.isDisliked
+                })
+            })
+            .catch(err => {
+                console.error(err);
+            })
     }
 
     //Convertidor de fechas 
-
-
     render() {
         const style = {
             backgroundImage: "url(" + this.state.Avatar + ")",
@@ -190,10 +177,6 @@ class NewsPage extends React.Component {
                             <div className="newContenido" id="newContenido" style={{ textAlign: this.state.NewElement.aling }} dangerouslySetInnerHTML={{ __html: this.state.NewElement.content }}>
                             </div>
 
-                            <div className="newCalification"></div>
-                            <div className="comments">
-                                <Commets newid={this.state.NewElement.id} />
-                            </div>
                         </div>
                         <Footer />
                     </div>
