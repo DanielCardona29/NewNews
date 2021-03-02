@@ -8,34 +8,37 @@ import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
 import '../Styles/Principales/Creater.scss';
 import Footer from '../App/Footer/Footer.jsx';
-import MainController from '../Controllers/mainController.js';
-import NewsController from '../Controllers/NewsController.js';
+// import NewsController from '../Controllers/NewsController.js';
 
 //Importamos los componetes de nuestra pagina 
 import ImageUpdater from '../App/Creater/ImageUpdater.jsx';
 import CKEditor from 'ckeditor4-react';
 import Preview from '../App/Creater/Preview.jsx';
 import TitleCreater from '../App/Creater/titleCreater.jsx';
+import MainController from '../NewControllers/main.controller';
+import NewsController from '../NewControllers/news.controller';
 
-class UpdateNews extends React.Component {
+class NewWriter extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            ok: true,
+            token: true,
+            user: 'Daniel',
             urlUPDATE: '',
             form: {
                 id: false,
-                aling: 'left',
+                aling: 'center',
                 user: '',
                 img: '',
                 ispublic: false,
-                data: '<p>Empieza a escribir tu noticia aquí</p>',
+                data: '',
+                content: '<p>Empieza a escribir tu noticia aquí</p>',
                 title: ''
             },
             tabsOpen: false
         }
-        this.Controller = new MainController();
+        this._MainController = new MainController();
         this.NewsController = new NewsController();
         this.handleChange = this.handleChange.bind(this);
         this.onEditorChange = this.onEditorChange.bind(this);
@@ -48,26 +51,13 @@ class UpdateNews extends React.Component {
             urlUPDATE: e.target.value.trim(),
         });
     }
-    //Este carga la imagen a la api
-    updateImage = async () => {
-        await this.NewsController.UpdateAimage(this.state.urlUPDATE)
-            .then(value => {
-                if(value)
-                this.setState({
-                    urlUPDATE: '',
-                    form: {
-                        ...this.state.form,
-                        img: value.url
-                    }
-                })
-            })
-    }
+
     //Este cambiar el estado del cotenido
     onEditorChange(e) {
         this.setState({
             form: {
                 ...this.state.form,
-                data: e.editor.getData()
+                content: e.editor.getData()
             }
 
         });
@@ -91,7 +81,7 @@ class UpdateNews extends React.Component {
         });
     }
     //este ajusta el la alineacion del texto 
-    alingAjust = (aling) => {
+    aling = (aling) => {
         if (aling === 'center') {
             this.setState({
                 form: {
@@ -115,183 +105,206 @@ class UpdateNews extends React.Component {
             });
         }
     }
-    //Aqui guardamos una noticia en la base de datos
-    saveAnew = async () => {
-        if (this.state.form.data !== '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.img !== '' || this.state.form.title !== '') {
-            let consulta = await this.NewsController.saveAnew(this.state.form)
-                .then(value => {
-                    if (value.value || value.id) {
-                        this.setState(
-                            {
-                                form: {
-                                    ...this.state.form,
-                                    id: value.id
-                                }
-                            }
-                        )
-                        //Guardamos el estado en el local storage 
-                        const NewSaveNew = { value: true, id: `${value.id}`, title: value.title };
-                        localStorage.setItem('isNewCreating', JSON.stringify(NewSaveNew));
-                        swal({
-                            text: 'Datos guardados correctamente',
-                            button: 'Aceptar'
-                        });
 
-                        return true;
-                    } else {
-                        swal({
-                            text: 'Al parecer no tienes permisos para actualizar este contenido',
-                            button: 'Aceptar'
-                        }).then(value => {
-                            localStorage.removeItem('isNewCreating');
-                            window.location.href = '/home';
-                        })
-                    }
-                })
-
-            return consulta;
-        } else {
-            swal({ text: 'no tienes ningun tipo de contenido para guardar' })
-            return false
-        }
-    }
-    //Publicar una noticia
-    publicAnew = async () => {
-        if (this.state.form.data === '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.data === '' || this.state.form.img === '' || this.state.form.title === '') {
-            swal({ text: 'Al parecer te faltan datos para publicar' })
-        } else {
-            await this.NewsController.PublicANew(this.state.form)
-                .then(value => {
-                    if (value.value) {
-                        swal({
-                            text: 'Tu noticia se publicó correctamente ¿Quieres verla en producción?',
-                            buttons: true
-                        }).then(response => {
-                            if (response) {
-                                window.location.href = `/news/${value.id || this.state.id}`
-                            }
-                        })
-                    } else {
-                        swal({
-                            text: 'Error desconocido intenta nuevamente mas tarde por favor',
-                            button: true
-                        });
-                    }
-                })
-        }
-
-    }
-    //Eliminar borrador 
-    deleteBorrador = () => {
-        swal({
-            text: '¿Esta seguro que quiere eliminar el borrador?',
-            buttons: true
-        }).then((value) => {
-            if (value) {
-                localStorage.removeItem('isNewCreating');
-                swal({
-                    text: '¿Volver al home?',
-                    buttons: true
-                }).then(response => {
-                    if (response) {
-                        window.location.href = '/home';
-                    } else {
-                        window.location.reload();
-                    }
-                })
-            }
-        })
-    }
     //Eliminar una noticia que esta siendo escrita
-    deleAwritingNew = async () => {
-        const deleter = async () => {
-            if (this.state.form.id) {
-                await this.NewsController.deleteANew(this.state.form.id)
-                    .then(response => {
-                        console.log(response);
-                        if (response) {
-
-                            swal({
-                                text: 'La noticia se eliminó correctamente',
-                                button: 'Aceptar'
-                            }).then((value) => {
-                                localStorage.removeItem('isNewCreating');
-                                window.location.href = '/home';
-                            })
-                        }
-                    })
-            }
+    delete = async () => {
+        const id = this.state.form.id || false;
+        if (!id) {
+            swal({ text: 'Debe guardar la noticia para eliminarla' });
         }
-
         swal({
-            text: 'Quieres eliminar este borrador ?',
+            text: '¿Quiere eliminar este borrador?',
             buttons: true
         })
+            .then(value => value ? this.NewsController.delete(id) : null)
             .then(value => {
                 if (value) {
-                    deleter();
-                }
-            });
-    }
-    async componentDidMount() {
-        let userInfo = await this.Controller.userConsult();
-        let data = await userInfo.json();
-        this.setState({
-            form: {
-                ...this.state.form,
-                user: data.results[0].user
-            }
-        })
-        if (data.results) {
-            this.Controller.userVerifi(data.results[0].access)
-                .then(access => {
-                    this.setState({
-                        ...data.results[0],
-                        ok: access
+                    swal({
+                        text: 'Eliminado correctamente'
                     })
-                });
-        }
-        //Verificamos si el usuario estaba creando una noticia
-        const isNewEditing = this.props.match.params.id || false;
-        if (isNewEditing) {
-                await this.Controller.newsConsult(isNewEditing)
-                    .then(news => {
-                        if (news.value) {
-                            const formOBJ = {
-                                id: news.results[0].id,
-                                aling: news.results[0].aling,
-                                img: news.results[0].img,
-                                data: news.results[0].content,
-                                title: news.results[0].title,
-                                ispublic: news.results[0].ispublic
-                            }
-                            this.setState({
-                                form: {
-                                    user: this.state.form.user,
-                                    ...formOBJ
-                                }
-                            })
+                    this.setState({
+                        form: {
+                            id: false,
+                            aling: 'center',
+                            user: '',
+                            img: '',
+                            ispublic: false,
+                            data: '',
+                            content: '<p>Empieza a escribir tu noticia aquí</p>',
+                            title: ''
                         }
                     })
-        }
-
-        //Comprobamos que la noticia sea del usuario
-        const consulta = await this.NewsController.isPosibleUpdateNews(this.props.match.params.id)
-        if(!consulta){
-            this.setState({
-                ok: false
+                }
             })
+            .catch(err => console.log(err))
+    }
+
+    //Este carga la imagen a la api
+    updateImage = async () => {
+        //Hacemos muestra consulta a la API
+        await this.NewsController.uploadImage('progressbar')
+            .then(value => {
+                //Si el valor es verdadero Enviamos nuestra url de nuestra imagen a el estado
+                if (value) {
+                    this.setState({
+                        form: {
+                            ...this.state.form,
+                            img: value.data.url
+                        }
+                    });
+                    //Si el valor es falso enviamos la url que esta en el campo de texto
+                } else if (this.state.urlUPDATE.trim() !== "" || this.state.urlUPDATE) {
+                    this.setState({
+                        form: {
+                            ...this.state.form,
+                            img: this.state.urlUPDATE,
+                            urlUPDATE: ''
+                        }
+                    });
+                } else {
+                    //Encaso de que no tenga url o imagen enviamos el faltan datos
+
+                    swal({
+                        text: 'Faltan datos'
+                    })
+                }
+            })
+    }
+
+    //Aqui guardamos una noticia en la base de datos
+    save = async () => {
+        if (this.state.form.content === '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.content === '' || this.state.form.img === '' || this.state.form.title === '') {
+            swal({ text: 'Al parecer te faltan datos para publicar' })
+        } else {
+            const response = await this.NewsController.save({
+                id: this.state.form.id,
+                content: this.state.form.content,
+                title: this.state.form.title,
+                img: this.state.form.img,
+                aling: this.state.form.aling,
+            });
+            let id = response.ID || response.response._id
+            if (id) {
+                this.setState({
+                    form: {
+                        ...this.state.form,
+                        id: id
+                    }
+                })
+            }
+
         }
     }
+
+    //Publicar una noticia
+    publisher = async () => {
+        if (this.state.form.content === '<p>Empieza a escribir tu noticia aquí</p>' || this.state.form.content === '' || this.state.form.img === '' || this.state.form.title === '') {
+            swal({ text: 'Al parecer te faltan datos para publicar' })
+        } else {
+            await this.save();
+            await this.NewsController.public(this.state.form.id)
+                .then(val => val ? swal({ text: 'Publicado correctamente' }) : swal({ text: 'Error al publicar' }))
+                .then(val => swal({ text: 'Quieres ver tu articulo', buttons: true }))
+                .then(value => {
+                    if (value) {
+                        window.location.href = `/news/${this.state.form.id}`;
+                        this.setState({
+                            form: {
+                                id: false,
+                                aling: 'center',
+                                user: '',
+                                img: '',
+                                ispublic: false,
+                                data: '',
+                                content: '<p>Empieza a escribir tu noticia aquí</p>',
+                                title: ''
+                            }
+                        });
+
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                    swal({ text: 'Error desconocido intente nuevamente' })
+                });
+        };
+
+    }
+
+    eraserDelete() {
+        swal({
+            text: 'Seguro/a que quieres eliminar',
+            buttons: true
+        })
+            .then(val => {
+                if(val){
+                    
+                    localStorage.removeItem('isEditing');
+                    window.location.reload()
+                }
+            })
+    }
+    //Cargamos nuestro contenido en 
+    async componentDidMount() {
+        let tokenValidate = await this._MainController.tokenValidate();
+        if (!tokenValidate) {
+            this.setState({
+                token: false,
+            });
+        }
+        let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
+        if (!tokenValidate) {
+            this.setState({
+                token: false,
+            });
+
+        }
+        this.setState({
+            token: true,
+            user: userInfo.result.user,
+            form: {
+                ...this.state.form,
+                user: userInfo.result.user,
+
+            }
+        })
+
+        //Verificamos si el usuario estaba creando una noticia
+        const id = this.props.match.params.id;
+        if (id) {
+            const result = await this.NewsController.findNew(id);
+            console.log(result);
+            if (result) {
+                //Enviamos nuestra consulta al estado
+
+                return this.setState({
+                    form: {
+                        ...this.state.form,
+                        id: result._id,
+                        aling: result.aling,
+                        img: result.img,
+                        ispublic: result.isPublic,
+                        data: result.content,
+                        content: result.content,
+                        title: result.title
+                    }
+                })
+            }
+
+            return localStorage.removeItem('isEditing')
+        }
+    }
+
     render() {
+
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-                    <Header userName={this.state.user} Ok={this.state.ok} />
+                    <Header userName={this.state.user} token={this.state.token} />
                     <div className="contenidoWrapper">
 
                         <div className="title">
-                            <h4>Actualizar una noticia</h4>
+                            <h4>Escribir una noticia</h4>
                         </div>
                         <div className="imgeUpdater">
                             <ImageUpdater valueUrlUPDATE={this.state.urlUPDATE}
@@ -307,16 +320,24 @@ class UpdateNews extends React.Component {
                                 onChange={this.onEditorChange} />
                         </div>
                         <div className="preview">
-                            <Preview data={this.state.form.data}
+                            <Preview data={this.state.form.content}
                                 autor={this.state.form.user}
                                 img={this.state.form.img}
                                 title={this.state.form.title}
                                 aling={this.state.form.aling}
-                                chageAling={this.alingAjust}
-                                saver={this.saveAnew}
-                                deleter={this.deleAwritingNew}
-                                publicAnew={this.publicAnew}
-                                deleteBorr={this.deleteBorrador}
+                                chageAling={this.aling}
+
+                                //Funcion para guardar
+                                saver={this.save}
+
+                                //Funcion para publicar
+                                publisher={this.publisher}
+
+                                //Funcion para eliminar
+                                deleter={this.delete}
+
+                                //Funcion para elimianr
+                                deleteBorr={this.eraserDelete}
                             />
                         </div>
                     </div>
@@ -326,29 +347,25 @@ class UpdateNews extends React.Component {
         );
 
         try {
-            const userid = sessionStorage.getItem('userid');
-            if (this.state.ok && userid) {
-
+            if (this.state.token) {
                 return Page;
-
             } else {
                 swal({
                     text: 'No tienes permisos para estar en esta página',
                     button: 'Volver'
                 }).then(value => {
-                    window.location.href = '/home'
+
+                    sessionStorage.removeItem('userid');
+                    this.setState({});
+                    window.location.href = '/'
                 })
                 return <h1>Opps</h1>
             }
-
         } catch (error) {
             return <ErrorPage errorValue={error} value={true} />;
         }
-
-
-
     }
 }
 
 
-export default UpdateNews;
+export default NewWriter;

@@ -11,7 +11,7 @@ $fonts: "Barlow Condensed", sans-serif;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
   font-family: $fonts;
   text-align: center;
-  width: 350px;
+  width: 300px;
   padding-bottom: 10px;
 }
 
@@ -55,9 +55,9 @@ $fonts: "Barlow Condensed", sans-serif;
 }
 
 .card-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
+  display: flex;
+justify-content: center;
+align-items: center;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   background: #079cff;
@@ -71,6 +71,8 @@ $fonts: "Barlow Condensed", sans-serif;
   flex-direction: column;
   color: white;
   padding: 10px;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .card-stats .stat:hover{

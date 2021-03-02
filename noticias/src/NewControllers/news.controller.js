@@ -140,10 +140,25 @@ export default class NewsController {
         swal({ text: 'Todo se ha publicado correctamente' })
         return true
     }
-
+    //Envair likes
     async Liker(data) {
         const consulta = await this.consult(data, 'liker');
         return consulta;
+    }
+
+    //Encontrar todo el listado de noticias
+    async allNews(token) {
+        const responser = await fetch(`${this.url}/news`, {
+            headers: {
+                'x-access-token': token
+            }
+        });
+        const consult = await responser.json();
+        if (!consult.value) {
+            return consult;
+        } else {
+            return false;
+        }
     }
 
 }

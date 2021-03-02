@@ -100,9 +100,6 @@ const Info = (props) => {
             <div className="object">
                 <Button type={'button'} content={'Cambiar Contraseña'} classType={'Mybtn btn4'} click={() => showCreator('passChanger')} id={'newButton'} name={'newButton'} />
             </div>
-            <div className="object">
-                <label><b>Acceso:</b> {props.info.access}</label>
-            </div>
         </div>
     );
     return page;

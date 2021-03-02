@@ -12,9 +12,10 @@ const NewsCard = (props) => {
 
     //esta funcion se encargara de enviar la visita a la base de datos
     const cardClick = async () => {
-        
-        const userid = sessionStorage.getItem('userid');
-        await Controller.SendVisit(props.id, userid).then(response => {console.log(response);})
+
+        // const userid = sessionStorage.getItem('userid');
+        // await Controller.SendVisit(props.id, userid).then(response => {console.log(response);})
+        window.location.href = `/news/${props.id}`
     }
 
 
@@ -24,7 +25,7 @@ const NewsCard = (props) => {
             <div className="card-text">
                 <span className="date">{props.date}</span>
                 <h2>{props.title}</h2>
-                <p id={`content${props.clave}`} dangerouslySetInnerHTML={{ __html: props.content}}></p>
+                <p id={`content${props.clave}`} dangerouslySetInnerHTML={{ __html: props.content }}></p>
             </div>
             <div className="card-stats">
                 <div className="stat">
@@ -34,6 +35,10 @@ const NewsCard = (props) => {
                 <div className="stat ">
                     <div className="value">{props.dislikes}</div>
                     <div className="type">Dislikes</div>
+                </div>
+                <div className="stat ">
+                    <div className="value">{props.views}</div>
+                    <div className="type">Views</div>
                 </div>
 
 

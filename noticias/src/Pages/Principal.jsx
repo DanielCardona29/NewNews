@@ -6,13 +6,17 @@ import NewsList from '../App/NewsList/NewsList';
 import Footer from '../App/Footer/Footer.jsx';
 import NewsCard from '../App/NewsList/NewsCard';
 import MainController from '../NewControllers/main.controller';
+import NewsController from '../NewControllers/news.controller';
+import Loader from '../App/Loader/Loader'
 
+const _NewsController = new NewsController();
 const _MainController = new MainController();
 
 class Principal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            newsList: [],
             token: true,
         }
         this._MainController = _MainController;
@@ -34,7 +38,21 @@ class Principal extends React.Component {
         this.setState({
             token: true,
             user: userInfo.result.user
+        });
+
+
+        //Vamos a importar las lista de todoas las noticias
+        const consult = await _NewsController.allNews(sessionStorage.getItem('__token'));
+        console.log(consult);
+        this.setState({
+            newsList: consult.news
         })
+
+
+    }
+    //renderizado de noticias
+    renderNews() {
+
     }
 
     render() {
@@ -45,29 +63,31 @@ class Principal extends React.Component {
                     <Header userName={this.state.user} token={this.state.token} />
                     <div className="contenidoWrapper">
                         <div className="wrapperListContent">
-                            <NewsCard
-                                date={'Hoy'}
-                                title={'hola gente nueva'}
-                                content={'Este es una parte del contenido'}
-                                image={'Esta seria la imagen'}
-                                clave={'4'}
-                                id={'dd'}
-                                views={6}
-                                comentarios={60}
-                                likes={4}
-                                dislikes={4}
-                            />
-                            <h2>Ultimas subidas</h2>
-                            <NewsList id={'lista1'} search={'LastTen'} />
+
+                            {
+
+
+                                this.state.newsList.map((item, key) => {
+                                    console.log(item._id);
+                                    const card = <NewsCard
+                                        date={item.updatedAt}
+                                        title={item.title}
+                                        content={item.content}
+                                        image={item.img}
+                                        clave={key}
+                                        id={item._id}
+                                        views={item.viwes}
+                                        comentarios={item.coments.lenght || 0}
+                                        likes={item.likes.userslist.lenght || 0}
+                                        dislikes={item.dislikes.userslist.lenght || 0}
+                                    />
+                                    return card;
+
+                                })
+                            }
+
                         </div>
-                        <div className="wrapperListContent">
-                            <h2>Mas populares</h2>
-                            <NewsList id={'lista2'} search={'BestPopulars'} />
-                        </div>
-                        <div className="wrapperListContent">
-                            <h2>Mejores calificadas</h2>
-                            <NewsList id={'lista3'} search={'BestCalification'} />
-                        </div>
+
                     </div>
                     <Footer />
                 </div>

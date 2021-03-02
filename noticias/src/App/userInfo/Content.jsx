@@ -15,19 +15,29 @@ const oscurecer = (item) => {
 const Pesta = (props) => {
     oscurecer(props.oscurecer);
 
-    return (
+    // return (
+    //     <div className="pestasContent">
+    //         <div id="NG" className="tab buttonAction" onClick={() => props.NG()}>
+    //             <label>Noticias que te gustaron</label>
+    //         </div>
+    //         <div id="NES" className="tab buttonAction" onClick={() => props.NES()}>
+    //             <label>Noticias que escribiste</label>
+    //         </div>
+    //         <div id="CMYL" className="tab buttonAction" onClick={() => props.CMYL()}>
+    //             <label>Comentarios que te gustaron</label>
+    //         </div>
+    //         <div id="YCMS" className="tab buttonAction" onClick={() => props.YCMS()}>
+    //             <label>tus comentarios</label>
+    //         </div>
+    //     </div>
+    // );
+
+
+
+     return (
         <div className="pestasContent">
-            <div id="NG" className="tab buttonAction" onClick={() => props.NG()}>
-                <label>Noticias que te gustaron</label>
-            </div>
             <div id="NES" className="tab buttonAction" onClick={() => props.NES()}>
                 <label>Noticias que escribiste</label>
-            </div>
-            <div id="CMYL" className="tab buttonAction" onClick={() => props.CMYL()}>
-                <label>Comentarios que te gustaron</label>
-            </div>
-            <div id="YCMS" className="tab buttonAction" onClick={() => props.YCMS()}>
-                <label>tus comentarios</label>
             </div>
         </div>
     );
