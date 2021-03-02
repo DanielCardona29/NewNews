@@ -35,14 +35,7 @@ const NewsCard = (props) => {
                     <div className="value">{props.dislikes}</div>
                     <div className="type">Dislikes</div>
                 </div>
-                <div className="stat ">
-                    <div className="value">{props.views}</div>
-                    <div className="type">vistas</div>
-                </div>
-                <div className="stat">
-                    <div className="value">{props.comentarios}</div>
-                    <div className="type">comentarios</div>
-                </div>
+
 
             </div>
         </div>

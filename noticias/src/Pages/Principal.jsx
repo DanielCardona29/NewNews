@@ -4,7 +4,7 @@ import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
 import NewsList from '../App/NewsList/NewsList';
 import Footer from '../App/Footer/Footer.jsx';
-
+import NewsCard from '../App/NewsList/NewsCard';
 import MainController from '../NewControllers/main.controller';
 
 const _MainController = new MainController();
@@ -16,7 +16,7 @@ class Principal extends React.Component {
             token: true,
         }
         this._MainController = _MainController;
-        
+
     }
 
     async componentDidMount() {
@@ -45,6 +45,18 @@ class Principal extends React.Component {
                     <Header userName={this.state.user} token={this.state.token} />
                     <div className="contenidoWrapper">
                         <div className="wrapperListContent">
+                            <NewsCard
+                                date={'Hoy'}
+                                title={'hola gente nueva'}
+                                content={'Este es una parte del contenido'}
+                                image={'Esta seria la imagen'}
+                                clave={'4'}
+                                id={'dd'}
+                                views={6}
+                                comentarios={60}
+                                likes={4}
+                                dislikes={4}
+                            />
                             <h2>Ultimas subidas</h2>
                             <NewsList id={'lista1'} search={'LastTen'} />
                         </div>
