@@ -1,5 +1,4 @@
 import React from 'react';
-import swal from 'sweetalert';
 
 import Button from '../Buttons/Buttons.jsx'
 import '../../Styles/App/Avatar/AvatarSpected.scss';

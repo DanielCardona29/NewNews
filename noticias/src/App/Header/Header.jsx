@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import $ from 'jquery'
@@ -6,9 +6,7 @@ import $ from 'jquery'
 
 import '../../Styles/App/Header/Header.scss';
 import Config from './Configuracion.jsx';
-import AvatarController from '../../NewControllers/avatar.controller.js';
 
-const Controller = new AvatarController();
 
 const close = () => {
     swal({

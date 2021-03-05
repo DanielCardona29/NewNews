@@ -2,12 +2,10 @@ import React from 'react';
 import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
-import NewsList from '../App/NewsList/NewsList';
 import Footer from '../App/Footer/Footer.jsx';
 import NewsCard from '../App/NewsList/NewsCard';
 import MainController from '../NewControllers/main.controller';
 import NewsController from '../NewControllers/news.controller';
-import Loader from '../App/Loader/Loader'
 
 const _NewsController = new NewsController();
 const _MainController = new MainController();
