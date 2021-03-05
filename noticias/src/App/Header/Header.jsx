@@ -6,7 +6,7 @@ import $ from 'jquery'
 
 import '../../Styles/App/Header/Header.scss';
 import Config from './Configuracion.jsx';
-import AvatarController from '../../Controllers/AvatarController.js';
+import AvatarController from '../../NewControllers/avatar.controller.js';
 
 const Controller = new AvatarController();
 

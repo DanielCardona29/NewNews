@@ -8,7 +8,6 @@ import Header from '../App/Header/Header.jsx';
 import '../Styles/Principales/Home.scss';
 import '../Styles/Principales/Creater.scss';
 import Footer from '../App/Footer/Footer.jsx';
-// import NewsController from '../Controllers/NewsController.js';
 
 //Importamos los componetes de nuestra pagina 
 import ImageUpdater from '../App/Creater/ImageUpdater.jsx';

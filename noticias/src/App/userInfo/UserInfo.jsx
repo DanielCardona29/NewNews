@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import Button from '../Buttons/Buttons.jsx';
 import '../../Styles/App/infoUser/infoUser.scss';
 import AvatarCreator from '../Avatar/AvatarCreator.jsx';
-import MainController from '../../Controllers/mainController.js';
 import swal from 'sweetalert';
 import UserController from '../../NewControllers/user.controller';
 
 
 const _UserController = new UserController();
 
-const Controller = new MainController();
 const Info = (props) => {
     const [state, setState] = useState({
         form: {

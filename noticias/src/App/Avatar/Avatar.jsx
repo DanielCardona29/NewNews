@@ -3,7 +3,7 @@ import swal from 'sweetalert';
 
 import Button from '../Buttons/Buttons.jsx'
 import '../../Styles/App/Avatar/AvatarSpected.scss';
-import AvatarController from '../../Controllers/AvatarController.js';
+import AvatarController from '../../NewControllers/avatar.controller.js';
 import AvatarCreator from './AvatarCreator.jsx'
 import UserController from '../../NewControllers/user.controller';
 
@@ -44,41 +44,7 @@ class AvatarUser extends React.Component {
 
     };
 
-    //Subir una imagen
-    updateImage = async () => {
-        await this.AvatarController.putNewImage()
-            .then(value => {
-                console.log(value);
-                if (value) {
-                    this.setState({
-                        avatar: value,
-                        visualice: false,
-                    })
-                } else {
-                    swal({ text: 'No se pudo subir, intenta de nuevo por favor!', button: 'Aceptar' })
-                }
-            });
-        document.body.style.overflow = "auto";
 
-    };
-
-    //cambiar un avatar
-    changeCaracter = async (url) => {
-        await this.AvatarController.putNewAvatar(url)
-            .then(value => {
-                if (value) {
-                    console.log(value);
-                    this.setState({
-                        visualice: false,
-                        avatar: value
-                    })
-                } else {
-                    swal({ text: 'No se pudo subir, intenta de nuevo por favor!', button: 'Aceptar' })
-                }
-            });
-        document.body.style.overflow = "auto";
-
-    };
 
     render() {
         const AvatarImage = (

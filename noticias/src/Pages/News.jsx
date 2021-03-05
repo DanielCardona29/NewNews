@@ -8,10 +8,8 @@ import ErrorPage from './ErrorPage.jsx';
 import Header from '../App/Header/Header.jsx';
 import MainController from '../NewControllers/main.controller';
 import NewsController from '../NewControllers/news.controller.js';
-import StatsController from '../Controllers/statsController.js';
 import '../Styles/App/NewsDetail/News.scss';
-import AvatarController from '../Controllers/AvatarController';
-import Commets from '../App/Comments/Commets.jsx';
+import AvatarController from '../NewControllers/avatar.controller';
 
 class NewsPage extends React.Component {
 
@@ -30,7 +28,6 @@ class NewsPage extends React.Component {
 
         this._MainController = new MainController();
         this.NewsController = new NewsController();
-        this.statsController = new StatsController();
         this.AvatarController = new AvatarController();
     }
 

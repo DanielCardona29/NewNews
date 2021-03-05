@@ -11,9 +11,7 @@ import MainController from '../NewControllers/main.controller';
 import AvatarUser from '../App/Avatar/Avatar.jsx';
 import Info from '../App/userInfo/UserInfo.jsx';
 import Content from '../App/userInfo/Content.jsx'
-import CommController from '../Controllers/CommentsController.js';
 import NewsController from '../NewControllers/news.controller.js';
-import Show from '../App/userInfo/showder.jsx';
 import NewsCardsInfo from '../App/userInfo/NewsCardsInfo.jsx'
 import UserController from '../NewControllers/user.controller';
 
@@ -21,7 +19,6 @@ class UserInfo extends React.Component {
     constructor(props) {
         super(props);
         this._UserController = new UserController();
-        this.CommController = new CommController();
         this._MainController = new MainController();
         this.NewsController = new NewsController();
         this.state = {
@@ -36,7 +33,6 @@ class UserInfo extends React.Component {
 
     //I need to learn programin in english 
     setAvatar = async (avatar) => {
-        console.log(avatar);
         this.setState({
             info: {
                 ...this.state.info,

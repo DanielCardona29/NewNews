@@ -2,7 +2,6 @@ import React from "react";
 
 import LoginForm from "../App/Forms/LoginForm.jsx";
 import InsForm from "../App/Forms/insForm.jsx";
-import NewP from "../App/PrincipalNew/New.jsx";
 import Button from "../App/Buttons/Buttons.jsx";
 import "../Styles/Principales/Home.scss";
 import { useState } from "react";
@@ -38,9 +37,6 @@ const Home = (props) => {
         </div>
 
         <div className="content">
-          <div className="noticia">
-            <NewP />
-          </div>
           <div className="form">
             <div className="formualrio">{formulario}</div>
             <div className="buttonIns">

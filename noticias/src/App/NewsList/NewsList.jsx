@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import NewsCard from './NewsCard';
 import Button from '../Buttons/Buttons.jsx';
 import Loader from '../Loader/Loader.jsx';
-import NewsController from '../../Controllers/NewsController.js';
 import ErrorPage from '../../Pages/ErrorPage.jsx';
 import '../../Styles/App/Buttons/Buttons.scss';
 
@@ -14,7 +13,6 @@ class NewsList extends React.Component {
     constructor(props) {
         super(props);
         //Instanciamos la clase controller con nosotros
-        this.NewsController = new NewsController();
         this.state = {
             newsState: false,
             scroll: 0,
@@ -23,60 +21,6 @@ class NewsList extends React.Component {
         }
     }
 
-    //Hacer el scroll a la lista
-    ScrollLeft = (direction) => {
-        if (direction) {
-            document.getElementById(this.props.id).scroll({ top: 0, left: this.state.scroll + 400, behavior: 'smooth' });
-            if (this.state.scroll < this.state.maxScroll)
-                this.setState({
-                    ...this.state,
-                    scroll: this.state.scroll + 400
-                });
-
-        } else {
-            document.getElementById(this.props.id).scroll({ top: 0, left: this.state.scroll - (400), behavior: 'smooth' })
-            if (this.state.scroll > 0)
-                this.setState({
-                    ...this.state,
-                    scroll: this.state.scroll - 400
-                });
-        }
-
-    }
-
-    async componentDidMount() {
-
-        if (this.props.search === 'LastTen') {
-            await this.NewsController.TenUltmateNewsList()
-                .then(data => {
-
-                    if (data.value)
-                        this.setState({
-                            newsState: data.dataOBJ,
-                            maxScroll: (data.dataOBJ.length * 400) / 2
-                        })
-                });
-
-        } else if (this.props.search === 'BestPopulars') {
-            this.NewsController.BestPopularList()
-                .then(data => {
-                    if (data.value)
-                        this.setState({
-                            newsState: data.results,
-                            maxScroll: (data.results.length * 400) / 2
-                        })
-                })
-        } else if (this.props.search === 'BestCalification') {
-            this.NewsController.BestCalfList()
-                .then(data => {
-                    if (data.value)
-                        this.setState({
-                            newsState: data.results,
-                            maxScroll: (data.results.length * 400) / 2
-                        })
-                })
-        }
-    }
 
     render() {
 

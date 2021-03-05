@@ -3,9 +3,7 @@ import React from 'react';
 //Importamos los estilos 
 import '../../Styles/App/NewsList/CardsList.scss'
 //Importramos la clase controladora
-import StatsController from '../../Controllers/statsController.js';
 
-const Controller = new StatsController();
 
 const NewsCard = (props) => {
     //este estado se encargara de saber si un usario ya vio esta noticia o no
