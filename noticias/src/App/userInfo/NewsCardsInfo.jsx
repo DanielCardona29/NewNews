@@ -5,27 +5,30 @@ import Loader from '../Loader/Loader.jsx'
 import ErrorPage from '../../Pages/ErrorPage.jsx';
 import '../../Styles/App/infoUser/Pestas.scss';
 import NewsCard from '../NewsList/NewsCard.jsx';
-
+import MainController from '../../NewControllers/main.controller'
+const _MainController = new MainController();
 const NewsCardsInfo = (props) => {
     try {
         const content = props.news || [];
+        console.log(content);
         const contenido = (
             <div>
                 <ul className="NewsUserInfoRow">
                     {
                         content.map((item, key) => {
+                            console.log(item);
                             return <li key={key} className="NewsForUserInfo">
-                                <Link className="Link buttonAction" to={`/news/${item.news.id}`}>
-                                    <NewsCard date={item.news.date}
-                                        title={item.news.title}
-                                        content={item.news.content}
-                                        image={item.news.img}
+                                <Link className="Link buttonAction" to={`/news/${item.id}`}>
+                                    <NewsCard date={_MainController.date(item.createdAt)}
+                                        title={item.title}
+                                        content={item.content}
+                                        image={item.img}
                                         clave={key}
-                                        id={item.news.id}
-                                        views={item.stats.views}
-                                        comentarios={item.comentarios}
-                                        likes={item.stats.likes}
-                                        dislikes={item.stats.dislikes} />
+                                        id={item._id}
+                                        views={item.viwes}
+                                        comentarios={item.coments.length}
+                                        likes={item.likes.userslist.length}
+                                        dislikes={item.dislikes.userslist.length} />
                                 </Link>
                             </li>
                         })

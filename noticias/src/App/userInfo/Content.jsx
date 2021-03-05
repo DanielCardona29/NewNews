@@ -36,7 +36,7 @@ const Pesta = (props) => {
 
      return (
         <div className="pestasContent">
-            <div id="NES" className="tab buttonAction" onClick={() => props.NES()}>
+            <div id="NES" className="tab buttonAction" >
                 <label>Noticias que escribiste</label>
             </div>
         </div>

@@ -34,20 +34,20 @@ class UserInfo extends React.Component {
         }
     }
 
-    //Extaer las noticias del usuairo
-    usernewsWrited = async () => {
-        this.setState({ isLoading: true, oscurecer: 'NES' })
-        await this.NewsController.userWriteNews(sessionStorage.getItem('userid'))
-            .then(value => {
-                this.setState({
-                    cotnenidoNews: value,
-                    contenido: false
-                })
-            })
-        this.setState({ isLoading: false })
+    //I need to learn programin in english 
+    setAvatar = async (avatar) => {
+        console.log(avatar);
+        this.setState({
+            info: {
+                ...this.state.info,
+                avatar: avatar
+            }
+        })
     }
 
     async componentDidMount() {
+        this.setState({ isLoading: true })
+
         let tokenValidate = await this._MainController.tokenValidate();
         let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
         if (!userInfo || !tokenValidate) {
@@ -56,15 +56,20 @@ class UserInfo extends React.Component {
             });
 
         }
+        let consulta = await this._UserController.news();
+
         this.setState({
             token: true,
             name: userInfo.result.user,
             info: {
-               
-               ...userInfo.result,
 
-            }
+                ...userInfo.result,
+
+            },
+            cotnenidoNews: consulta,
+            isLoading: false
         });
+
 
     }
 
@@ -73,12 +78,11 @@ class UserInfo extends React.Component {
             <div className="container-fluid">
                 <div className="wrapper">
 
-                    <Header userName={this.state.user} Ok={this.state.ok} />
+                    <Header userName={this.state.user} token={this.state.token} />
                     <div className="container" >
                         <div className="container-fluid userinfo" >
-
                             <div className="avatar">
-                                <AvatarUser />
+                                <AvatarUser avatar={this.state.info.avatar} setavatar={this.setAvatar} />
                             </div>
                             <div className="userContent">
                                 <Info info={this.state.info} />
@@ -86,7 +90,7 @@ class UserInfo extends React.Component {
 
                             <div className="Cotenido">
                                 <Content
-                        
+
                                     NES={this.usernewsWrited || false}
                                     oscurecer={this.state.oscurecer}
                                 />
@@ -94,16 +98,8 @@ class UserInfo extends React.Component {
 
                             {
                                 (() => {
-                                    if (this.state.contenido) {
-                                        return (
-                                            <div className="showder">
-                                                <Show
-                                                    comments={this.state.contenido}
-                                                    username={this.state.info.user}
-                                                    isLoading={this.state.isLoading} />
-                                            </div>
-                                        )
-                                    } else if (this.state.cotnenidoNews) {
+
+                                    if (this.state.cotnenidoNews) {
                                         return (
                                             <div className="showder">
                                                 <NewsCardsInfo news={this.state.cotnenidoNews}

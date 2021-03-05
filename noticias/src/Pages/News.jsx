@@ -23,7 +23,7 @@ class NewsPage extends React.Component {
             NewElement: false,
             isNewLiked: false,
             isNewDisliked: false,
-            Avatar: false,
+            avatar: false,
             autor: '',
             id: this.props.match.params.id
         }
@@ -48,7 +48,8 @@ class NewsPage extends React.Component {
 
         this.setState({
             token: true,
-            user: userInfo.result.user
+            user: userInfo.result.user,
+            avatar: userInfo.result.avatar
         })
 
         //Extraemos la informacion de la noticia que tenemos
@@ -134,7 +135,7 @@ class NewsPage extends React.Component {
             const Page = (
                 <div className="container-fluid">
                     <div className="wrapper">
-                        <Header userName={this.state.user} token={this.state.token} />
+                        <Header userName={this.state.user} token={this.state.token} avatar={this.state.avatar} />
                         <div className="contenidoWrapper">
                             {
                                 (() => {

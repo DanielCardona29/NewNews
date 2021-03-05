@@ -24,7 +24,8 @@ class NewWriter extends React.Component {
         super(props);
         this.state = {
             token: true,
-            user: 'Daniel',
+            avatar: false,
+            user: false,
             urlUPDATE: '',
             form: {
                 id: false,
@@ -62,6 +63,7 @@ class NewWriter extends React.Component {
 
         });
     }
+
     //Este ajusta el estado del contenido
     handleChange(e) {
         this.setState({
@@ -71,6 +73,7 @@ class NewWriter extends React.Component {
             }
         });
     }
+    
     //Este cambia el estado del titulo
     handleChangeTitle = e => {
         this.setState({
@@ -80,6 +83,7 @@ class NewWriter extends React.Component {
             }
         });
     }
+    
     //este ajusta el la alineacion del texto 
     aling = (aling) => {
         if (aling === 'center') {
@@ -237,8 +241,8 @@ class NewWriter extends React.Component {
             buttons: true
         })
             .then(val => {
-                if(val){
-                    
+                if (val) {
+
                     localStorage.removeItem('isEditing');
                     window.location.reload()
                 }
@@ -247,13 +251,9 @@ class NewWriter extends React.Component {
     //Cargamos nuestro contenido en 
     async componentDidMount() {
         let tokenValidate = await this._MainController.tokenValidate();
-        if (!tokenValidate) {
-            this.setState({
-                token: false,
-            });
-        }
+
         let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
-        if (!tokenValidate) {
+        if (!tokenValidate || !userInfo ) {
             this.setState({
                 token: false,
             });
@@ -262,6 +262,7 @@ class NewWriter extends React.Component {
         this.setState({
             token: true,
             user: userInfo.result.user,
+            avatar: userInfo.result.avatar,
             form: {
                 ...this.state.form,
                 user: userInfo.result.user,
@@ -300,7 +301,7 @@ class NewWriter extends React.Component {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-                    <Header userName={this.state.user} token={this.state.token} />
+                    <Header userName={this.state.user} token={this.state.token} avatar={this.state.avatar} />
                     <div className="contenidoWrapper">
 
                         <div className="title">

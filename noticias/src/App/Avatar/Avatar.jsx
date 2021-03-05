@@ -5,31 +5,34 @@ import Button from '../Buttons/Buttons.jsx'
 import '../../Styles/App/Avatar/AvatarSpected.scss';
 import AvatarController from '../../Controllers/AvatarController.js';
 import AvatarCreator from './AvatarCreator.jsx'
+import UserController from '../../NewControllers/user.controller';
+
 
 class AvatarUser extends React.Component {
     constructor(props) {
         super(props);
         this.AvatarController = new AvatarController();
+        this.UserController = new UserController();
         this.state = {
             visualice: false,
             avatar: '',
             kindOfFomr: false,
             fomConfing: {}
         }
-    }
+    };
     //Mostrar el formulario para subir una foto
     showCreator = (kind) => {
         if (this.state.visualice) {
             this.setState({ visualice: false, kindOfFomr: kind })
             document.body.style.overflow = "auto"
-
         } else {
             this.setState({ visualice: true, kindOfFomr: kind })
             window.scrollTo(0, 0);
             document.body.style.overflow = "hidden";
 
         }
-    }
+    };
+
     //Cambair el estado del formulario
     onChange = e => {
         this.setState({
@@ -38,7 +41,9 @@ class AvatarUser extends React.Component {
                 [e.target.name]: e.target.value,
             }
         })
-    }
+
+    };
+
     //Subir una imagen
     updateImage = async () => {
         await this.AvatarController.putNewImage()
@@ -55,7 +60,8 @@ class AvatarUser extends React.Component {
             });
         document.body.style.overflow = "auto";
 
-    }
+    };
+
     //cambiar un avatar
     changeCaracter = async (url) => {
         await this.AvatarController.putNewAvatar(url)
@@ -72,39 +78,19 @@ class AvatarUser extends React.Component {
             });
         document.body.style.overflow = "auto";
 
-    }
-    async componentDidMount() {
-        //Lo primero que hacemos es saber si el usuario  un avatar registrador r
-        await this.AvatarController.gettAvatar()
-            .then(value => {
-                if (value) {
-                    this.setState({
-                        avatar: value
-                    })
-                } else {
-                    this.AvatarController.newAvatar()
-                        .then(value => {
-                            if (value.value) {
-                                this.setState({
-                                    avatar: value.url
-                                });
-                            }
-                        });
-                }
-            })
-
-    }
+    };
 
     render() {
         const AvatarImage = (
             <div className="Content" onMouseOver={() => this.AvatarController.showButtons()} onMouseOut={() => this.AvatarController.hiddenButtons()}>
                 <div className="avatar" >
-                    <img src={this.state.avatar} className="img img-circle" alt="" />
+                    <img src={this.props.avatar} className="img img-circle" alt="Avatar" />
                 </div>
                 <AvatarCreator
                     visualice={this.state.visualice}
-                    avatar={this.state.avatar}
+                    avatar={this.props.avatar}
                     Config={this.state.fomConfing}
+                    setavatar={this.props.setavatar}
                     hidden={this.showCreator}
                     onChange={() => this.onChange}
                     onUpdate={this.updateImage}
@@ -118,7 +104,7 @@ class AvatarUser extends React.Component {
             </div>
         )
         return AvatarImage
-    }
+    };
 }
 
 

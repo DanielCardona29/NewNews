@@ -9,7 +9,8 @@ export default class NewsController {
         this.CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/dx7chtz6f/image/upload`;
         this.url = config.serverURL;
 
-    }
+    };
+
     //Encontrar una noticia
     async findNew(id) {
         const consult = await fetch(`${this.url}/news/${id}`, {
@@ -21,7 +22,7 @@ export default class NewsController {
         const response = await consult.json();
         console.log(response);
         return response.response;
-    }
+    };
 
     //Subimos una imagen
     async uploadImage(element) {
@@ -32,25 +33,22 @@ export default class NewsController {
             //Aplicamos los datos que vamos a enviar
             formData.append('file', fileField.files[0]);
             formData.append('upload_preset', this.CLOUDINARY_UPLOAD_PRESET);
-
             //Hacemos la cosulta a la API de Cloudinary
             const consulta = await axios.post(this.CLOUDINARY_URL, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
-
                 //Manejamos la barra de progreso
                 onUploadProgress(e) {
                     const progress = (e.loaded * 100) / e.total;
                     document.getElementById(element).setAttribute('value', progress);
                 }
             });
-
             return consulta;
         } else {
             return false
         }
-    }
+    };
 
     //Gurdamos la noticia en la base de datos
     async consult(data, route) {
@@ -64,7 +62,7 @@ export default class NewsController {
         });
         const response = await consult.json()
         return response;
-    }
+    };
 
     //Publicamos las noticias las noticias
     async save(data) {
@@ -86,7 +84,7 @@ export default class NewsController {
             return response;
         }
 
-    }
+    };
 
     //Publicar una noticia
     async create(datos) {
@@ -98,7 +96,8 @@ export default class NewsController {
         localStorage.setItem('isEditing', consulta.ID);
         swal({ text: 'Todo se ha guardado correctamente' })
         return consulta
-    }
+    };
+
     //Actualizar una noticia
     async update(datos) {
         const consulta = await this.consult(datos, 'update');
@@ -108,7 +107,8 @@ export default class NewsController {
         };
         swal({ text: 'Todo se ha guardado correctamente' })
         return consulta;
-    }
+    };
+
     //Eliminamos una noticia
     async delete(id) {
         const consulta = await fetch(`${this.url}/news/delete/${id}`, {
@@ -125,7 +125,8 @@ export default class NewsController {
             return false;
         };
         return response;
-    }
+    };
+
     //Publicar una nueva noticia
     async public(id) {
         const datos = {
@@ -139,12 +140,13 @@ export default class NewsController {
         };
         swal({ text: 'Todo se ha publicado correctamente' })
         return true
-    }
+    };
+
     //Envair likes
     async Liker(data) {
         const consulta = await this.consult(data, 'liker');
         return consulta;
-    }
+    };
 
     //Encontrar todo el listado de noticias
     async allNews(token) {
@@ -159,6 +161,5 @@ export default class NewsController {
         } else {
             return false;
         }
-    }
-
+    };
 }

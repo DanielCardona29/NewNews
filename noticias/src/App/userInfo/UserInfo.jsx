@@ -4,7 +4,10 @@ import '../../Styles/App/infoUser/infoUser.scss';
 import AvatarCreator from '../Avatar/AvatarCreator.jsx';
 import MainController from '../../Controllers/mainController.js';
 import swal from 'sweetalert';
+import UserController from '../../NewControllers/user.controller';
 
+
+const _UserController = new UserController();
 
 const Controller = new MainController();
 const Info = (props) => {
@@ -44,38 +47,22 @@ const Info = (props) => {
     //Cambiar la contraseña
     const passChanger = async () => {
         //primero verificamos que los campos existan
-        if (state.form.newPass && state.form.passVerfi && state.form.oldPass) {
-            //Primero verificamos que las contraseñas cumplan con los requisitos del sistema
-            const verificar = Controller.passVerifi(state.form.newPass, state.form.passVerfi);
-     
-            //En caso de que la verificación sea correcta verificamos que la contraseña que la contraseña anterior que escribio el usuario sea correcta
-            if (verificar) {
-                //Entonces validamos que la contraseña antigua se haya escrito bien
-                const oldPass = await Controller.olPassVerifi(props.info.user, state.form.oldPass);
-                
-                if (oldPass) {
+        if (state.form.newPass && state.form.passVerfi) {
 
-
-                    const Changer = await Controller.passChanger(state.form.newPass, state.form.oldPass);
-                    if (Changer) {
-                        swal({ text: 'La contraseña ha cambiado exitosamente' }).then(value => {
-                            sessionStorage.removeItem('userid');
-                            window.location.href = '/'
-                        })
-                    }
-                }else{
-                    swal({
-                        text: 'Tu contraseña actual no es correcta'
-                    })
+            if (state.form.newPass === state.form.passVerfi) {
+                const consulta = await _UserController.changePass(state.form.newPass);
+                if(consulta.value){
+                    swal({text:'Todo salio correcto'})
                 }
-            }else{
+            } else {
                 swal({
-                    text: 'tu contraseña actual no es correcta'
+                    text: 'Las contraseñas no coinciden'
                 })
             }
+
         } else {
             swal({
-                text: 'debes llenar primero todos los campos'
+                text: 'Debes llenar todos los campos'
             })
         }
 

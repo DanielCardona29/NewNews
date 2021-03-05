@@ -18,6 +18,7 @@ class Principal extends React.Component {
         this.state = {
             newsList: [],
             token: true,
+            avatar: false
         }
         this._MainController = _MainController;
 
@@ -29,6 +30,7 @@ class Principal extends React.Component {
         let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
         console.log(userInfo.result);
         if (!tokenValidate) {
+
             this.setState({
                 token: false,
             });
@@ -37,7 +39,8 @@ class Principal extends React.Component {
 
         this.setState({
             token: true,
-            user: userInfo.result.user
+            user: userInfo.result.user,
+            avatar: userInfo.result.avatar,
         });
 
 
@@ -60,7 +63,7 @@ class Principal extends React.Component {
         const Page = (
             <div className="container-fluid">
                 <div className="wrapper">
-                    <Header userName={this.state.user} token={this.state.token} />
+                    <Header userName={this.state.user} token={this.state.token} avatar={this.state.avatar} />
                     <div className="contenidoWrapper">
                         <div className="wrapperListContent">
 
@@ -70,7 +73,9 @@ class Principal extends React.Component {
                                 this.state.newsList.map((item, key) => {
                                     console.log(item._id);
                                     const card = <NewsCard
-                                        date={item.updatedAt}
+                                        date={
+                                            this._MainController.date(item.updatedAt)
+                                        }
                                         title={item.title}
                                         content={item.content}
                                         image={item.img}

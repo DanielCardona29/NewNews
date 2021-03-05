@@ -31,14 +31,6 @@ const redirect = () => {
 
 const Header = (props) => {
     const [Menu, setMenu] = useState(false);
-    const [Avatar, setAvatar] = useState('https://censur.es/wp-content/uploads/2019/03/default-avatar.png');
-
-    //LLamado a la API
-    useEffect(() => {
-    //Controller.gettAvatar().then(value => { setAvatar(value) });
-    });
-
-
     const changeState = () => {
         Menu ? closing() : setMenu(true)
     }
@@ -58,7 +50,7 @@ const Header = (props) => {
         $('#fuera').css('display', 'block')
     }
     const style = {
-        backgroundImage: "url(" + Avatar ||  + ")",
+        backgroundImage: "url(" + props.avatar ||  + ")",
     }
     const HeaderLogin = (
         <div className="headerContent">
