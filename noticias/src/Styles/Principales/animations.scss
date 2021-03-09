@@ -1,0 +1,14 @@
+.apear-cards {
+
+    animation: apear-card 4s;
+    overflow: hidden;
+}
+
+@keyframes apear-card {
+      0%{
+          height: 0;
+      }  
+      100%{
+          height: 440px;
+      }
+}

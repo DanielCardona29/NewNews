@@ -2,23 +2,22 @@ import React from 'react';
 
 //Importamos los estilos 
 import '../../Styles/App/NewsList/CardsList.scss'
-//Importramos la clase controladora
+import '../../Styles/Principales/animations.scss';
+import NewsController from '../../NewControllers/news.controller';
+
+const _NewsController = new NewsController();
 
 
 const NewsCard = (props) => {
-    //este estado se encargara de saber si un usario ya vio esta noticia o no
 
     //esta funcion se encargara de enviar la visita a la base de datos
     const cardClick = async () => {
-
-        // const userid = sessionStorage.getItem('userid');
-        // await Controller.SendVisit(props.id, userid).then(response => {console.log(response);})
+        await _NewsController.view(props.id)
         window.location.href = `/news/${props.id}`
+
     }
-
-
     const card = (
-        <div className="card" id={`card${props.id}`} onClick={() => cardClick()}>
+        <div className="card apear-cards" id={`card${props.id}`} onClick={() => cardClick()}>
             <div className="card-image" style={{ backgroundImage: `url(${props.image})` }}></div>
             <div className="card-text">
                 <span className="date">{props.date}</span>
@@ -43,7 +42,8 @@ const NewsCard = (props) => {
             </div>
         </div>
     );
-    return card
+
+      return card; 
 }
 
 

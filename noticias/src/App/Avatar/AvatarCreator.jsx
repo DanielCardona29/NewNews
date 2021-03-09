@@ -5,6 +5,7 @@ import '../../Styles/App/Avatar/AvatarSpected.scss';
 import confing from './options.json';
 import Button from '../Buttons/Buttons.jsx'
 import UserController from '../../NewControllers/user.controller';
+import swal from 'sweetalert';
 
 const _UserController = new UserController();
 
@@ -53,7 +54,13 @@ const AvatarCreator = (props) => {
                             classType={'Mybtn'}
                             click={async () => {
                                 await _UserController.updateImage(avatar);
-                                props.setavatar(avatar);
+                                let resp = props.setavatar(avatar);
+                                if (resp) {
+                                    swal({ text: 'Creado correctamente' })
+                                        .then(() => {
+                                            props.hidden()
+                                        });
+                                }
                             }}
                             id={'create'}
                             name={'create'} />
@@ -91,7 +98,13 @@ const AvatarCreator = (props) => {
                                 click={async () => {
                                     let upload = await _UserController.uploadImage('progressbar');
                                     await _UserController.updateImage(upload)
-                                    props.setavatar(upload);
+                                    let resp = props.setavatar(upload);
+                                    if (resp) {
+                                        swal({ text: 'Foto subida correctamente' })
+                                            .then(() => {
+                                                props.hidden()
+                                            });
+                                    }
                                 }}
                                 id={'create'}
                                 name={'create'} />
@@ -130,7 +143,10 @@ const AvatarCreator = (props) => {
 
                                 </form>
                             </div>
-                            <Button type={'button'} content={'Cambiar Contraseña'} classType={'Mybtn'} click={() => props.passChange()} id={'passchange'} name={'passchange'} />
+                            <Button type={'button'} content={'Cambiar Contraseña'} classType={'Mybtn'} click={async () => {
+                                await props.passChange()
+                                props.hidden()
+                            }} id={'passchange'} name={'passchange'} />
                         </div>
 
                     </div>

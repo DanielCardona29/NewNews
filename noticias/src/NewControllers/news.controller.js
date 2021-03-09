@@ -5,8 +5,8 @@ import config from './config.controllers';
 
 export default class NewsController {
     constructor() {
-        this.CLOUDINARY_UPLOAD_PRESET = 'uukb6zly';
-        this.CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/dx7chtz6f/image/upload`;
+        this.CLOUDINARY_UPLOAD_PRESET = config.CLOUDINARY_UPLOAD_PRESET;
+        this.CLOUDINARY_URL = config.CLOUDINARY_URL;
         this.url = config.serverURL;
 
     };
@@ -20,7 +20,6 @@ export default class NewsController {
             }
         });
         const response = await consult.json();
-        console.log(response);
         return response.response;
     };
 
@@ -119,19 +118,18 @@ export default class NewsController {
         });
 
         const response = await consulta.json()
-        console.log(response);
         if (!response.value) {
-            swal({ text: consulta.message })
+            swal({ text: response.message })
             return false;
         };
-        return response;
+        swal({ text: response.message })
+        return true;
     };
 
     //Publicar una nueva noticia
     async public(id) {
         const datos = {
             newID: id,
-            isPublic: true,
         }
         const consulta = await this.consult(datos, 'public');
         if (!consulta.value) {
@@ -139,6 +137,21 @@ export default class NewsController {
             return false;
         };
         swal({ text: 'Todo se ha publicado correctamente' })
+        return true
+    };
+
+    //Despublicar una noticia
+
+    async dispublic(id) {
+        const datos = {
+            newID: id,
+        }
+        const consulta = await this.consult(datos, 'dispublic');
+        if (!consulta.value) {
+            swal({ text: consulta.message })
+            return false;
+        };
+        swal({ text: 'Guardado correctamente' })
         return true
     };
 
@@ -162,4 +175,12 @@ export default class NewsController {
             return false;
         }
     };
+
+    //Enviar una visita 
+    async view(id) {
+        const data = {
+            newID: id
+        }
+        await this.consult(data, 'view');
+    }
 }

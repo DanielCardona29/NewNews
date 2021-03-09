@@ -62,7 +62,7 @@ ul > .Comenta > .Link {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 30px;
     width: auto;
 }
@@ -81,4 +81,53 @@ ul > .Comenta > .Link {
 }
 .NewsForUserInfo > .Link:hover {
     color: black;
+}
+.Cotenedor-Etiquetas {
+    display: flex;
+}
+.button-icon {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-weight: 400;
+}
+
+.button-icon .editar {
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/iconos/svg/edit-1.svg);
+}
+
+
+.button-icon .despublicar {
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/iconos/svg/hide.svg);
+}
+
+.button-icon .publicar {
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/iconos/svg/megaphone-1.svg);
+}
+
+
+.button-icon .ver {
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/iconos/svg/view-2.svg);
+}
+
+.button-icon .trash {
+    width: 32px;
+    height: 32px;
+    background-image: url(../../../images/iconos/svg/trash.svg);
+}
+
+.button-icon .nombre {
+    display: none;
+}
+
+.button-icon:hover .nombre {
+    display: block;
 }

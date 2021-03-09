@@ -1,10 +1,12 @@
 
-.loaderWrapper{
+.loader-Wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     flex-direction: column;
+    width: 100vw;
+    height: 100vh;
 }
 .loader {
     display: inline-block;
@@ -14,6 +16,17 @@
     display: inline-block;
     width: 64px;
     height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    background: #3498db;
+    animation: loader 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+
+.loader-little > div {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
     margin: 8px;
     border-radius: 50%;
     background: #3498db;

@@ -81,7 +81,7 @@ class NewWriter extends React.Component {
             }
         });
     }
-    
+
     //este ajusta el la alineacion del texto 
     aling = (aling) => {
         if (aling === 'center') {
@@ -138,7 +138,7 @@ class NewWriter extends React.Component {
                     })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }
 
     //Este carga la imagen a la api
@@ -185,16 +185,17 @@ class NewWriter extends React.Component {
                 img: this.state.form.img,
                 aling: this.state.form.aling,
             });
-            let id = response.ID || response.response._id
-            if (id) {
-                this.setState({
-                    form: {
-                        ...this.state.form,
-                        id: id
-                    }
-                })
+            if (response.value) {
+                let id = response.ID || response.response._id
+                if (id) {
+                    this.setState({
+                        form: {
+                            ...this.state.form,
+                            id: id
+                        }
+                    })
+                }
             }
-
         }
     }
 
@@ -239,8 +240,8 @@ class NewWriter extends React.Component {
             buttons: true
         })
             .then(val => {
-                if(val){
-                    
+                if (val) {
+
                     localStorage.removeItem('isEditing');
                     window.location.reload()
                 }
@@ -271,7 +272,6 @@ class NewWriter extends React.Component {
         const id = this.props.match.params.id;
         if (id) {
             const result = await this.NewsController.findNew(id);
-            console.log(result);
             if (result) {
                 //Enviamos nuestra consulta al estado
 

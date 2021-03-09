@@ -25,13 +25,13 @@ const Home = (props) => {
     formState.value ? (
       <InsForm action={handleChange} />
     ) : (
-        <LoginForm action={handleChange} />
-      );
+      <LoginForm action={handleChange} />
+    );
 
   const formulario = form();
   const Home = (
     <div className="home">
-      <div className="wrapperPrincipal">
+      <div className="wrapperPrincipal" style={{width:'50%'}}>
         <div className="title">
           <h1>New News</h1>
         </div>

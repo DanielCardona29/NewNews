@@ -5,7 +5,6 @@ import AvatarCreator from '../Avatar/AvatarCreator.jsx';
 import swal from 'sweetalert';
 import UserController from '../../NewControllers/user.controller';
 
-
 const _UserController = new UserController();
 
 const Info = (props) => {
@@ -87,7 +86,12 @@ const Info = (props) => {
             </div>
         </div>
     );
-    return page;
+    if(props.info.user){
+        return page;
+
+    }else{
+        return null
+    }
 }
 
 export default Info;

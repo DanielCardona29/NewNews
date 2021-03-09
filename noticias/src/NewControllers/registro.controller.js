@@ -27,7 +27,7 @@ export default class RegistroController {
             }
         });
         const response = await consult.json()
-        return response._token;
+        return response;
     }
 
     //Hacemos el registro
@@ -54,14 +54,14 @@ export default class RegistroController {
             pass: pass,
             email: email
         });
-        if (!consult) {
+        if (!consult.value) {
             swal({
                 text: consult.message,
                 button: 'Aceptar'
             })
             return false;
         }
-        sessionStorage.setItem('__token', consult)
+        sessionStorage.setItem('__token', consult._token)
         swal({
             text: 'Todo salio correctamente'
         })

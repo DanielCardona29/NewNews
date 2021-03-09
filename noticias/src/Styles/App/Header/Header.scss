@@ -62,7 +62,8 @@ $font: "Barlow Semi Condensed", sans-serif;
     align-items: center;
 }
 .config {
-    background-image: url("../../../images/iconos/svg/controls-4.svg");
+    background-image: url("../../../images/iconos/svg/controls-1.svg");
+    position: absolute;
 }
 
 .create {
@@ -110,6 +111,7 @@ $font: "Barlow Semi Condensed", sans-serif;
     text-align: center;
     flex-direction: column;
     font-family: $font;
+    font-size: 1.5rem;
 }
 
 ul {
@@ -128,12 +130,12 @@ ul {
     z-index: 1000;
 }
 
-.Link{
+.Link {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.Link .Avatar{
+.Link .Avatar {
     width: 30px;
     height: 30px;
     background-size: contain;
@@ -155,6 +157,15 @@ ul {
         width: 0%;
     }
     100% {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .lateralA {
+        display: none;
+    }
+    .lateralB {
         width: 100%;
     }
 }

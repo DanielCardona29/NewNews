@@ -35,7 +35,6 @@ class NewsPage extends React.Component {
         let tokenValidate = await this._MainController.tokenValidate();
 
         let userInfo = await this._MainController.Consulta('user', sessionStorage.getItem('__token'), 'GET');
-        console.log(userInfo.result);
         if (!tokenValidate) {
             this.setState({
                 token: false,
@@ -52,7 +51,6 @@ class NewsPage extends React.Component {
         //Extraemos la informacion de la noticia que tenemos
         const response = await this.NewsController.findNew(this.state.id);
         if (response) {
-            console.log(response);
             //Buscamos si el usuario le ha dado like a la noticia
             this.setState({
                 NewElement: response,
@@ -83,7 +81,6 @@ class NewsPage extends React.Component {
         }
         await this.NewsController.Liker(data)
             .then(res => {
-                console.log(res);
                 this.setState({
                     isNewLiked: res.isLiked,
                     isNewDisliked: res.isDisliked

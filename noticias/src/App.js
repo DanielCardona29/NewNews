@@ -7,8 +7,6 @@ import {
   // Link
 } from "react-router-dom";
 
-
-
 // import InsForm from './App/Forms/insForm.jsx';
 import Home from './Pages/Home.jsx';
 import Principal from './Pages/Principal.jsx';
@@ -18,8 +16,9 @@ import UpdateNews from './Pages/updateNews.jsx';
 import NewWriter from './Pages/WriteAnew.jsx';
 import UserInfo from './Pages/UserInfo.jsx';
 
+
 function App() {
-  
+
   return (
     <div className="App" id="App">
 

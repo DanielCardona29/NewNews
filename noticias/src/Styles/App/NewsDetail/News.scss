@@ -78,3 +78,111 @@
 .likeNoActive{
     background-image: url(../../../images/iconos/svg/corazon.svg);
 }
+
+
+.like {
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background: red;
+}
+
+.like:before,
+.like:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: red;
+}
+
+.like:before,
+.like:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: red;
+    position: absolute;
+}
+
+.like:before {
+    top: 0;
+    left: -10px;
+}
+
+.like:after {
+    top: -10px;
+}
+
+.dontLike {
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+    background: black;
+}
+
+.dontLike:before,
+.dontLike:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+}
+
+.dontLike:before,
+.dontLike:after {
+    content: "";
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: black;
+    position: absolute;
+}
+
+.dontLike:before {
+    top: 0;
+    left: -10px;
+}
+
+.dontLike:after {
+    top: -10px;
+}
+
+
+.CommetWriter{
+    width: 100%;
+}
+.wirterContent{
+    width: 90%;
+}
+.CommetWriter{
+    width: 100%;
+}
+
+.iconContent{
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    margin-right: 15px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-size: contain;
+}
+.edit{
+    background-image: url(../../../images/iconos/svg/edit.svg);
+}
+
+.deleat{
+    background-image: url(../../../images/iconos/svg/basura.svg);
+}
+
+.cancel{
+    background-image: url(../../../images/iconos/svg/multiply-1.svg);
+}
+
+.updater{
+    margin-bottom: 15px;
+    padding: 15px 15px 15px 15px;
+}

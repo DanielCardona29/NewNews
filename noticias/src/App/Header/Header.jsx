@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import $ from 'jquery'
-
+import '../../NewControllers/swiped.events';
 
 import '../../Styles/App/Header/Header.scss';
 import Config from './Configuracion.jsx';
-
+import Loader from '../Loader/Loader';
 
 const close = () => {
     swal({
@@ -29,9 +29,6 @@ const redirect = () => {
 
 const Header = (props) => {
     const [Menu, setMenu] = useState(false);
-    const changeState = () => {
-        Menu ? closing() : setMenu(true)
-    }
 
     const closing = () => {
         setTimeout(() => {
@@ -41,6 +38,18 @@ const Header = (props) => {
 
     }
 
+    const button = () => {
+        if(Menu){
+            closing();
+        }else{
+            setMenu(true);
+        }
+    }
+
+
+    
+
+
     //Ocultar o no el menu lateral
     if (!Menu) {
         $('#fuera').css('display', 'none')
@@ -48,7 +57,7 @@ const Header = (props) => {
         $('#fuera').css('display', 'block')
     }
     const style = {
-        backgroundImage: "url(" + props.avatar ||  + ")",
+        backgroundImage: "url(" + props.avatar || + ")",
     }
     const HeaderLogin = (
         <div className="headerContent">
@@ -66,6 +75,13 @@ const Header = (props) => {
                                         </div>
                                         {props.userName}</Link>
                                 </div>
+
+                            </div>
+                        }else{
+                            return <div className="infoContent">
+                                <div className="userName">
+                                    <Loader little={true} />
+                                </div>
                             </div>
                         }
                     })()
@@ -79,8 +95,9 @@ const Header = (props) => {
                 </div>
 
                 <div className="infoContent">
+
                     <div className="icon">
-                        <div className="config buttonAction" onClick={() => changeState()}></div>
+                        <div className="config buttonAction" onClick={() => button()}></div>
                     </div>
                 </div>
 
@@ -90,9 +107,9 @@ const Header = (props) => {
                 {(() => {
                     if (Menu) {
                         return <Config
-                            close={close}
                             state={Menu}
-                            changeState={changeState}
+                            closer={() => setMenu(false)}
+                            close={() => close()}
                         />
                     }
                 })()}
@@ -112,6 +129,9 @@ const Header = (props) => {
     );
 
     if (props.token) {
+        document.addEventListener('swiped-right', () => setMenu(true))
+        document.addEventListener('swiped-left', () => closing())
+
         return HeaderLogin
     } else {
         return noLoginUser;

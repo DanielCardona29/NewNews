@@ -10,7 +10,6 @@ import Footer from '../App/Footer/Footer.jsx';
 import MainController from '../NewControllers/main.controller';
 import AvatarUser from '../App/Avatar/Avatar.jsx';
 import Info from '../App/userInfo/UserInfo.jsx';
-import Content from '../App/userInfo/Content.jsx'
 import NewsController from '../NewControllers/news.controller.js';
 import NewsCardsInfo from '../App/userInfo/NewsCardsInfo.jsx'
 import UserController from '../NewControllers/user.controller';
@@ -38,7 +37,8 @@ class UserInfo extends React.Component {
                 ...this.state.info,
                 avatar: avatar
             }
-        })
+        });
+        return true
     }
 
     async componentDidMount() {
@@ -74,7 +74,7 @@ class UserInfo extends React.Component {
             <div className="container-fluid">
                 <div className="wrapper">
 
-                    <Header userName={this.state.user} token={this.state.token} />
+                    <Header userName={this.state.info.user} token={this.state.token} />
                     <div className="container" >
                         <div className="container-fluid userinfo" >
                             <div className="avatar">
@@ -82,14 +82,6 @@ class UserInfo extends React.Component {
                             </div>
                             <div className="userContent">
                                 <Info info={this.state.info} />
-                            </div>
-
-                            <div className="Cotenido">
-                                <Content
-
-                                    NES={this.usernewsWrited || false}
-                                    oscurecer={this.state.oscurecer}
-                                />
                             </div>
 
                             {

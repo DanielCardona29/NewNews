@@ -6,8 +6,8 @@ import axios from 'axios';
 export default class UserController {
     constructor() {
         this.url = config.serverURL;
-        this.CLOUDINARY_UPLOAD_PRESET = 'uukb6zly';
-        this.CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/dx7chtz6f/image/upload`;
+        this.CLOUDINARY_UPLOAD_PRESET = config.CLOUDINARY_UPLOAD_PRESET;
+        this.CLOUDINARY_URL = config.CLOUDINARY_URL;
     }
 
     ///Cambiar la contraseña
@@ -52,7 +52,6 @@ export default class UserController {
             }
         });
         const res = await consulta.json();
-        console.log(res);
         return res
     }
 
@@ -82,7 +81,6 @@ export default class UserController {
     };
 
     //Obtener todas las noticias que ha escrito un usuario
-
     async news() {
 
         const consulta = await fetch(`${this.url}/user/news`, {

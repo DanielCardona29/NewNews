@@ -29,7 +29,6 @@ export default class MainController {
     async tokenValidate() {
         const _token = sessionStorage.getItem('__token');
         const consulta = await this.Consulta('auth/tokenValidation', _token, 'POST');
-        console.log(consulta);
         if (!consulta.value) {
             swal({
                 text: consulta.message,

@@ -139,7 +139,7 @@ class NewWriter extends React.Component {
                     })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }
 
     //Este carga la imagen a la api
@@ -273,7 +273,6 @@ class NewWriter extends React.Component {
         const id = localStorage.getItem('isEditing');
         if (id) {
             const result = await this.NewsController.findNew(id);
-            console.log(result);
             if (result) {
                 //Enviamos nuestra consulta al estado
 

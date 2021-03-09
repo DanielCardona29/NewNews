@@ -5,7 +5,7 @@ import '../../Styles/App/Avatar/AvatarSpected.scss';
 import AvatarController from '../../NewControllers/avatar.controller.js';
 import AvatarCreator from './AvatarCreator.jsx'
 import UserController from '../../NewControllers/user.controller';
-
+import Loader from '../Loader/Loader';
 
 class AvatarUser extends React.Component {
     constructor(props) {
@@ -42,14 +42,23 @@ class AvatarUser extends React.Component {
         })
 
     };
-
-
+    renderAvatar() {
+        if (this.props.avatar) {
+            return <img src={this.props.avatar} className="img img-circle" alt="Avatar" />
+        }
+        else {
+            return <Loader />       
+        }
+    }
 
     render() {
         const AvatarImage = (
             <div className="Content" onMouseOver={() => this.AvatarController.showButtons()} onMouseOut={() => this.AvatarController.hiddenButtons()}>
                 <div className="avatar" >
-                    <img src={this.props.avatar} className="img img-circle" alt="Avatar" />
+                    {
+                        this.renderAvatar()
+                    }
+
                 </div>
                 <AvatarCreator
                     visualice={this.state.visualice}
